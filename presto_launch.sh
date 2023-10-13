@@ -199,7 +199,7 @@ if ! command -v git &> /dev/null; then
 fi
 
 # Check if the presto directory exists
-if [ ! -d "~/presto" ]; then
+if [ ! -d ~/presto ]; then
   echo "The presto directory does not exist, cloning the Git repo..."
   git_pull_clone
 fi
