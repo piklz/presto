@@ -13,7 +13,7 @@
 </tr>
 </tbody>
 </table>
-        
+# !! CURRENTLY TESTING am adding code for pi5 tests in future and you have to tweak your mount paths in your pi ill have some details tuts o nthis too in this readme soon        
 ## Requirements
 
 We want that 64bit armv8/AArch64 architecture goodness ]
