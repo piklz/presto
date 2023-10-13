@@ -196,29 +196,29 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 
 #gets remote repo changes of branch otherwise local repo has no way of knowiung if its diff and so git status command will incrreclty show up to date
 if  is_command git ; then
- git fetch
+
+  git fetch
+
+  if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
+
+    #delete .outofdate if it does exist
+    [ -f .outofdate ] && rm .outofdate	
+    echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
+
+  else
+
+    echo -e "${INFO} ${COL_LIGHT_GREEN}   presto update is available${COL_LIGHT_GREEN} ✓${clear}"
+
+    if [ ! -f .outofdate ]; then
+      whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
+      touch .outofdate
+    fi
+  fi
+
 else
  # Git is not installed, install it now
  sudo apt install git
 fi
-
-if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
-
-	#delete .outofdate if it does exist
-	[ -f .outofdate ] && rm .outofdate	
-	echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
-
-else
-
- 	echo -e "${INFO} ${COL_LIGHT_GREEN}   presto update is available${COL_LIGHT_GREEN} ✓${clear}"
-
-	if [ ! -f .outofdate ]; then
-		whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
-		touch .outofdate
-	fi
-fi
-
-
 
 
 
