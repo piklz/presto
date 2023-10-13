@@ -1,5 +1,5 @@
 # Perfectly Rationalized  Engine for Superior Tidiness and Organization 
-<p><a><img title="presto" src="https://user-images.githubusercontent.com/2213075/131692830-820487a7-c830-446c-bf96-58520db6e5d9.jpg" alt="presto logo" height="300" align="left" /> </a></p>
+<p><a><img title="presto" src="" alt="presto logo" height="300" align="left" /> </a></p>
 <p><img title="presto" src="https://media.tenor.com/bCAFrsFLh1sAAAAC/dnd-dnd-cartoon.gif" alt="presto" height="100" align="right"/></p>
 <table style="border-collapse: collapse; width: 100%;" border="0">
 <tbody>
