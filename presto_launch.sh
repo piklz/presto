@@ -186,7 +186,6 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 
 
 
-#===========
 #new test check install git update loop
 
 # Check if the script has been run before
@@ -202,7 +201,6 @@ if [ ! -d ~/presto ]; then
   echo "The presto directory does not exist, cloning the Git repo..."
   git_pull_clone
 fi
-
 
 
 # All criteria met, check for updates
@@ -222,9 +220,6 @@ else
   echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
   echo "** ALL up=to=date ** "
 fi
-  
-  #===========
-
 
 
 
