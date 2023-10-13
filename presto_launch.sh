@@ -196,13 +196,13 @@ if [ ! -f ".outofdate" ]; then
   if ! command -v git &> /dev/null; then
     echo "Git is not installed, installing it now..."
     sudo apt install git
+  else
+    # Clone the git repo
+    echo "Cloning the git repo..."
+    git_pull_clone
+    # Create a file to indicate that the script has been run
+    touch ".outofdate"
   fi
-
-  # Clone the git repo
-  echo "Cloning the git repo..."
-  git_pull_clone
-  # Create a file to indicate that the script has been run
-  touch ".outofdate"
 else
   # Script has been run before, update the git repo
   echo "Updating the git repo..."
