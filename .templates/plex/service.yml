@@ -1,0 +1,37 @@
+  plex:
+    image: ghcr.io/linuxserver/plex:latest
+    #image: ghcr.io/linuxserver/plex:bionic
+    container_name: plex
+    #network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - TZ='Europe/London'
+      #- PLEX_CLAIM= optional to claim a new server add here claim-++++++++++++
+      - ADVERTISE_IP=http://192.168.1.30:32400/
+      
+    ports:
+      - '32400:32400'
+      - '3005:3005'
+      - '8324:8324'
+      - '32469:32469'
+      - '1900:1900/udp'
+      - '32410:32410/udp'
+      - '32412:32412/udp'
+      - '32413:32413/udp'
+      - '32414:32414/udp'
+    volumes:
+      - ./volumes/plex:/config
+      #- ./media/tvshows:/tv
+      #- ./media/movies:/movies
+      # modify below to match your setups folder choices
+      - /media/YOUR-USB-DRIVE-PATH/data:/data
+      - /media/YOUR-USB-DRIVE-PATH/DOWNLOADS/transcode:/data/transcode
+      - /media/YOUR-USB-DRIVE-PATH/TV:/data/tvshows      
+      - /media/YOUR-USB-DRIVE-PATH/MOVIES:/data/movies
+      - /media/YOUR-USB-DRIVE-PATH/MUSIC:/data/music
+      - /media/YOUR-USB-DRIVE-PATH/AUDIOBOOKS:/data/audiobooks
+      - /opt/vc/lib:/opt/vc/lib #optional
+    restart: unless-stopped

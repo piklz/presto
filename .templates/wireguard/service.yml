@@ -1,0 +1,73 @@
+
+#---------------------------------------------------------------------#
+#     WireGuard VPN service and UI                                    #
+#---------------------------------------------------------------------#
+  #this is my prefered yml to launch the wireguard vpn
+  #dependant on pihole and with added ui to configure wg + set static ips for all apps in stack
+
+  # WireGuard VPN service
+  wireguard:
+    depends_on: [pihole]
+    image: linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    dns:
+      - 172.19.0.3 # internal pihole address we need to talk with for adblocking tomfoolery
+    volumes:
+      - ./volumes/wireguard/config:/config
+    ports:
+      # Port for WireGuard-UI
+      - "5000:5000"
+      # Port of the WireGuard VPN server
+      - "51820:51820/udp"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      #- PEERS=5
+      - PEERDNS=172.19.0.3 # ip of pihole container  #PEERDNS=auto
+      - INTERNAL_SUBNET=172.20.0.0 #optional internal subnet vpn
+      - ALLOWEDIPS=172.20.0.0/24 # ,[..] or 0.0.0.0/0
+      #- SERVERURL=my.ddns.net #optional - For use with DDNS (Uncomment to use) you can add this in the cli>      #- PEERS=
+      
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+
+    restart: always
+
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.5 # internal address of wireguard
+
+
+
+  # WireGuard-UI service
+  wireguard-ui:
+    image: ngoduykhanh/wireguard-ui:latest
+    container_name: wireguard-ui
+    depends_on:
+      - wireguard
+    cap_add:
+      - NET_ADMIN
+    # Use the network of the 'wireguard' service
+    # This enables to show active clients in the status page
+    network_mode: service:wireguard
+    environment:
+      - SENDGRID_API_KEY
+      - EMAIL_FROM_ADDRESS
+      - EMAIL_FROM_NAME
+      - SESSION_SECRET
+      - WGUI_USERNAME=admin
+      - WGUI_PASSWORD=password
+      - WG_CONF_TEMPLATE
+      - WGUI_MANAGE_START=true
+      - WGUI_MANAGE_RESTART=true
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
+    volumes:
+      - ./volumes/wireguard/db:/app/db
+      - ./volumes/wireguard/config:/etc/wireguard

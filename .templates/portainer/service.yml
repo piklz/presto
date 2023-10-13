@@ -1,0 +1,21 @@
+    
+  
+#---------------------------------------------------------------------#
+#    portainer - A frontend UI to manage your docker containers.         #
+#---------------------------------------------------------------------#
+  
+  
+  
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/portainer/data:/data
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.6

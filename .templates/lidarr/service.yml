@@ -1,0 +1,15 @@
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./volumes/lidarr/config:/config
+      #modify below paths to your setups folders choices in portainer + pi/linux mounted drives in 'fstab
+      - /media/USB_PLEX_14TB/MUSIC:/music
+      - /media/USB_PLEX_14TB/DOWNLOADS:/downloads
+    ports:
+      - 8686:8686
