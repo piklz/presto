@@ -208,6 +208,7 @@ fi
 if [ ! -f ".outofdate" ]; then
   echo "The script_run file does not exist, creating it now..."
   touch ".outofdate"
+  
 else
   # All criteria met, check for updates
   echo "Checking for updates..."
@@ -216,9 +217,10 @@ else
   # Check if there are any updates available
   if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
     echo "There are updates available for the Git repo..."
-
+    touch ".outofdate"
     # Pull the latest updates
     do_update #pulls origin update
+
   else
     #delete .outofdate if it does exist
 	  [ -f .outofdate ] && rm .outofdate	
