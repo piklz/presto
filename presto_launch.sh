@@ -199,7 +199,7 @@ if  is_command git ; then
  git fetch
 else
  # Git is not installed, install it now
- sudo apt get install git
+ sudo apt install git
 fi
 
 if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
