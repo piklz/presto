@@ -184,44 +184,64 @@ do_update() {
 
 echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 
-#--- eg: git fetch origin main (or develop might add this as arg for user)
 
-#gets remote repo changes of branch otherwise local repo has no way of knowiung if its diff and so git status command will incrreclty show up to date
-if ! command -v git &> /dev/null; then
- 
-  echo -e "installing git "
-  sudo apt install git
 
+
+#===========
+
+#new test check install git update loop
+
+# Check if the script has been run before
+if [ ! -f ".outofdate" ]; then
+  # Script has not been run before, check for git installation
+  if ! command -v git &> /dev/null; then
+    echo "Git is not installed, installing it now..."
+    sudo apt install git
+  fi
+
+  # Clone the git repo
+  echo "Cloning the git repo..."
+  git_pull_clone
+  # Create a file to indicate that the script has been run
+  touch ".outofdate"
 else
+  # Script has been run before, update the git repo
+  echo "Updating the git repo..."
 
-    if [ -d "~/presto" ]; then
-      # Git repo folder exists, do not clone
-      echo "Git repo folder exists"
-    else
-      # Git repo folder does not exist, clone
-      git_pull_clone
-    fi
+  # Make sure the script_run file is back in place
+  touch ".outofdate"
 
-    #general fetch for update check
-    git fetch
+  # Fetch the latest updates
+  git fetch
 
-    if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
+  # Check if there are any updates available
+  if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
 
-      #delete .outofdate if it does exist
-      [ -f .outofdate ] && rm .outofdate	
-      echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
+    echo "There are updates available for the git repo..."
+    echo -e "${INFO} ${COL_LIGHT_GREEN}   PRESTO update is available${COL_LIGHT_GREEN} ✓${clear}"
 
-    else
-
-      echo -e "${INFO} ${COL_LIGHT_GREEN}   PRESTO update is available${COL_LIGHT_GREEN} ✓${clear}"
-
-      if [ ! -f .outofdate ]; then
+    if [ ! -f .outofdate ]; then
         whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
         touch .outofdate
-      fi
-
     fi
+
+    # Pull the latest updates
+    do_update
+  else
+    #delete .outofdate if it does exist
+    [ -f .outofdate ] && rm .outofdate	
+    echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
+    echo "All Good! PRESTO up-to-date"
+  fi
 fi
+
+
+
+
+#===========
+
+
+
 
 
 
