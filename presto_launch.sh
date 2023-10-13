@@ -177,27 +177,6 @@ do_update() {
 
 
 
-#if using CURL from shell : CHECK first IF GIT INSTALLED FIRST or folder for repo exists too IF NOT, INSTALL GIT AND THEN INSTALL PRESTO
-
-if [ -x "$(command -v git)" ]  ; then
-  echo -e "git is already installed"
-  echo -e "checking repo presto exists.."
-  # Git is installed, check if a git repo folder exists
-  if [ -d "~/presto" ]; then
-    # Git repo folder exists, do not clone
-    echo -e "folder exists "
-    echo "Git repo folder exists"
-  else
-    # Git repo folder does not exist, clone
-    echo -e "pulling presto > "
-    git_pull_clone
-  fi
-else
-  # Git is not installed, install it now
-  sudo apt get install git
-fi
-
-
 
 
 
