@@ -187,7 +187,6 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 
 
 #===========
-
 #new test check install git update loop
 
 # Check if the script has been run before
