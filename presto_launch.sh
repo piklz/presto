@@ -179,14 +179,6 @@ do_update() {
 
 
 
-
-
-
-
-
-
-
-
 #-----------------------------------------------------------------
 # presto GIT updates user check outofdate file
 
@@ -195,7 +187,7 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 #--- eg: git fetch origin main (or develop might add this as arg for user)
 
 #gets remote repo changes of branch otherwise local repo has no way of knowiung if its diff and so git status command will incrreclty show up to date
-if is_command git ; then
+if [is_command git] ; then
 
   # Git is not installed, install it now
   sudo apt install git
@@ -215,9 +207,10 @@ else
     echo -e "${INFO} ${COL_LIGHT_GREEN}   presto update is available${COL_LIGHT_GREEN} ✓${clear}"
 
     if [ ! -f .outofdate ]; then
-    whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
-    touch .outofdate
+      whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
+      touch .outofdate
     fi
+
   fi
 
 fi
