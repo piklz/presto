@@ -191,42 +191,39 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 #new test check install git update loop
 
 # Check if the script has been run before
+# Check if git is installed
+
+if ! command -v git &> /dev/null; then
+  echo "Git is not installed, installing it now..."
+  sudo apt install git
+fi
+
+# Check if the presto directory exists
+if [ ! -d "~/presto" ]; then
+  echo "The presto directory does not exist, cloning the Git repo..."
+  git_pull_clone
+fi
+
+# Check if the script_run file exists
 if [ ! -f ".outofdate" ]; then
-  # Script has not been run before, check for git installation
-  if ! command -v git &> /dev/null; then
-    echo "Git is not installed, installing it now..."
-    sudo apt install git
-  else
-    # Clone the git repo
-    echo "Cloning the git repo..."
-    git_pull_clone
-    # Create a file to indicate that the script has been run
-    touch ".outofdate"
-  fi
-else
-  # Script has been run before, update the git repo
-  echo "Updating the git repo..."
-
-  # Make sure the script_run file is back in place
+  echo "The script_run file does not exist, creating it now..."
   touch ".outofdate"
-
-  # Fetch the latest updates
+else
+  # All criteria met, check for updates
+  echo "Checking for updates..."
   git fetch
 
   # Check if there are any updates available
   if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
+    echo "There are updates available for the Git repo..."
 
-    echo "There are updates available for the git repo..."
-    echo -e "${INFO} ${COL_LIGHT_GREEN}   PRESTO update is available${COL_LIGHT_GREEN} ✓${clear}"
-
-    
     # Pull the latest updates
-    do_update
+    do_update #pulls origin update
   else
     #delete .outofdate if it does exist
-    [ -f .outofdate ] && rm .outofdate	
-    echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
-    echo "All Good! PRESTO up-to-date"
+	  [ -f .outofdate ] && rm .outofdate	
+	  echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
+    echo "** ALL up=to=date ** "
   fi
 fi
 
