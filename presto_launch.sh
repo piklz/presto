@@ -194,25 +194,24 @@ if ! command -v git &> /dev/null; then
 
 else
 
-  git fetch
+    git fetch
 
-  if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
+    if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
 
-    #delete .outofdate if it does exist
-    [ -f .outofdate ] && rm .outofdate	
-    echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
+      #delete .outofdate if it does exist
+      [ -f .outofdate ] && rm .outofdate	
+      echo -e "${INFO} ${COL_LIGHT_GREEN}    presto Git local/repo is up-to-date${clear}"
 
-  else
+    else
 
-    echo -e "${INFO} ${COL_LIGHT_GREEN}   presto update is available${COL_LIGHT_GREEN} ✓${clear}"
+      echo -e "${INFO} ${COL_LIGHT_GREEN}   PRESTO update is available${COL_LIGHT_GREEN} ✓${clear}"
 
-    if [ ! -f .outofdate ]; then
-      whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
-      touch .outofdate
+      if [ ! -f .outofdate ]; then
+        whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
+        touch .outofdate
+      fi
+
     fi
-
-  fi
-
 fi
 
 
