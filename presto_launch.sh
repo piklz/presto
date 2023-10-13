@@ -215,8 +215,8 @@ else
     echo -e "${INFO} ${COL_LIGHT_GREEN}   presto update is available${COL_LIGHT_GREEN} ✓${clear}"
 
     if [ ! -f .outofdate ]; then
-      whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
-      touch .outofdate
+    whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
+    touch .outofdate
     fi
   fi
 
