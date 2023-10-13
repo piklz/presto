@@ -218,6 +218,9 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 #gets remote repo changes of branch otherwise local repo has no way of knowiung if its diff and so git status command will incrreclty show up to date
 if is_command git ]  ; then
   git fetch
+else
+ # Git is not installed, install it now
+  sudo apt get install git
 fi
 
 if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
