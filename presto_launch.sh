@@ -219,11 +219,7 @@ else
     echo "There are updates available for the git repo..."
     echo -e "${INFO} ${COL_LIGHT_GREEN}   PRESTO update is available${COL_LIGHT_GREEN} ✓${clear}"
 
-    if [ ! -f .outofdate ]; then
-        whiptail --title "Project update" --msgbox "presto update is available \nYou will not be reminded again until your next update" 8 78
-        touch .outofdate
-    fi
-
+    
     # Pull the latest updates
     do_update
   else
