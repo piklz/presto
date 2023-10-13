@@ -204,29 +204,25 @@ if [ ! -d ~/presto ]; then
   git_pull_clone
 fi
 
-# Check if the script_run file exists
-if [ ! -f ".outofdate" ]; then
-  echo "The script_run file does not exist, creating it now..."
+
+
+# All criteria met, check for updates
+echo "Checking for updates..."
+git fetch
+
+# Check if there are any updates available
+if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
+  echo "There are updates available for the Git repo..."
   touch ".outofdate"
-  
+  # Pull the latest updates
+  do_update #pulls origin update
+
 else
-  # All criteria met, check for updates
-  echo "Checking for updates..."
-  git fetch
-
-  # Check if there are any updates available
-  if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
-    echo "There are updates available for the Git repo..."
-    touch ".outofdate"
-    # Pull the latest updates
-    do_update #pulls origin update
-
-  else
-    #delete .outofdate if it does exist
-	  [ -f .outofdate ] && rm .outofdate	
-	  echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
-    echo "** ALL up=to=date ** "
-  fi
+  #delete .outofdate if it does exist
+  [ -f .outofdate ] && rm .outofdate	
+  echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
+  echo "** ALL up=to=date ** "
+fi
 fi
 
 
