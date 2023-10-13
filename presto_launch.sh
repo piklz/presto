@@ -187,9 +187,9 @@ echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 #--- eg: git fetch origin main (or develop might add this as arg for user)
 
 #gets remote repo changes of branch otherwise local repo has no way of knowiung if its diff and so git status command will incrreclty show up to date
-if [ -x "$(command -v git)" ] ; then
-
-  # Git is not installed, install it now
+if ! command -v git &> /dev/null; then
+ 
+  echo -e "installing git "
   sudo apt install git
 
 else
