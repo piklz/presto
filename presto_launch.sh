@@ -200,7 +200,7 @@ else
     else
       # Git repo folder does not exist, clone
       git_pull_clone
-    
+    fi
 
     #general fetch for update check
     git fetch
