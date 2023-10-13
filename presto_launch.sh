@@ -222,8 +222,6 @@ else
   [ -f .outofdate ] && rm .outofdate	
   echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
   echo "** ALL up=to=date ** "
-fi
-
 
 
 
