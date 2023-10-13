@@ -194,6 +194,15 @@ if ! command -v git &> /dev/null; then
 
 else
 
+    if [ -d ".git" ]; then
+      # Git repo folder exists, do not clone
+      echo "Git repo folder exists"
+    else
+      # Git repo folder does not exist, clone
+      git_pull_clone
+    fi
+
+    #general fetch for update check
     git fetch
 
     if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
