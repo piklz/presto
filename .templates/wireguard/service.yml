@@ -12,7 +12,7 @@
     container_name: wireguard
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE
+      #- SYS_MODULE
     dns:
       - 172.19.0.3 # internal pihole address we need to talk with for adblocking tomfoolery
     volumes:
