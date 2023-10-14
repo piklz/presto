@@ -744,7 +744,7 @@ do_build_stack_menu() {
               name: "pihole-dns"
               driver: bridge
               ipam:
-                driver: default
+                #driver: default
                 config:
                   - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc
                     #gateway: 172.19.0.1 " >> docker-compose.yml
@@ -781,11 +781,11 @@ do_build_stack_menu() {
 
 
     
-		echo "docker-compose successfully created"
-		echo -e "run \e[104;1mdocker-compose up -d\e[0m to start the stack"
+		echo "docker compose yml successfully created"
+		echo -e "run \e[104;1mdocker-compose up -d or 'presto_up'\e[0m to start the stack"
 		
 		if [ "$INTERACTIVE" = True ]; then
-                        whiptail --msgbox "[presto] Build Stack FINISHED !RUN 'docker-compose up -d'to start the stack in terminal" 20 60 2
+                        whiptail --msgbox "[presto] Build Stack FINISHED !RUN 'docker-compose up -d' or 'presto_upto' start the stack in terminal" 20 60 2
 
                 fi
 
