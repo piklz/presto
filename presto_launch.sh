@@ -164,8 +164,8 @@ do_update() {
 
 	echo "Pulling latest project file from Github.com ---------------------------------------------"
 	git pull origin main
-	echo "git status ------------------------------------------------------------------------------"
-	git status
+	echo "run : git status to see local changes----------------------------------------------------"
+	#git status
 
 
 
