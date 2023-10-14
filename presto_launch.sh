@@ -146,14 +146,12 @@ is_command() {
 # do a check on docker-compose updates and install via .sh  in scripts dir
 
 do_compose_update() {
-   if [dpkg --search docker-compose-plugin  | grep -q "docker-compose-plugin"]; then
-      echo "Docker Compose plugin is installed"
-   else
-      echo -e "\e[33;1m   Docker Compose not installed yet.\e[0m"
-      #echo -e "\e[33;1m   -  > calling update.sh ...\e[0m"
+   
+      echo -e "\e[33;1m   Docker Compose updae run script .\e[0m"
+      
       ${presto_INSTALL_DIR}/scripts/update_compose.sh
-      #echo "Docker Compose plugin is not installed"
-   fi
+      
+ 
 }
 
 
