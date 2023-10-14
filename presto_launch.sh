@@ -146,16 +146,14 @@ is_command() {
 # do a check on docker-compose updates and install via .sh  in scripts dir
 
 do_compose_update() {
-
-if is_command docker-compose; then
-		 ${presto_INSTALL_DIR}/scripts/update_compose.sh
-	else
-		echo -e "     "
-		echo -e "\e[33;1m   Docker-compose not installed yet.\e[0m"
-		echo -e "\e[32;1m   Install it first then update if needed.\e[0m"
-		echo -e "     "
-	fi
-
+   if [dpkg --search docker-compose-plugin  | grep -q "docker-compose-plugin"]; then
+      echo "Docker Compose plugin is installed"
+   else
+      echo -e "\e[33;1m   Docker Compose not installed yet.\e[0m"
+      #echo -e "\e[33;1m   -  > calling update.sh ...\e[0m"
+      ${presto_INSTALL_DIR}/scripts/update_compose.sh
+      #echo "Docker Compose plugin is not installed"
+   fi
 }
 
 
@@ -530,7 +528,7 @@ do_start_stack() {
 if [ -e /home/pi/presto/scripts/start.sh ]; then
 	# shellcheck disable=SC1091
  	source "${presto_INSTALL_DIR}/scripts/start.sh"
-#	show_ascii_berry
+
 	local str="running docker start script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi
@@ -548,7 +546,7 @@ do_stop_stack(){
 if [ -e /home/pi/presto/scripts/stop.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/stop.sh"
-#       show_ascii_berry
+
         local str="running Docker Stop script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi
@@ -566,7 +564,6 @@ do_update_stack(){
 if [ -e /home/pi/presto/scripts/update.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/update.sh"
-#       show_ascii_berry
         local str="running Docker update stack script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi
@@ -586,7 +583,6 @@ do_restart_stack(){
 if [ -e /home/pi/presto/scripts/restart.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/restart.sh"
-#       show_ascii_berry
         local str="running Docker restart script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi
@@ -622,7 +618,6 @@ do_prune_images_stack(){
 if [ -e /home/pi/presto/scripts/prune-images.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/prune-images.sh"
-#       show_ascii_berry
         local str="running Docker prune-images script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi

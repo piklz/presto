@@ -4,7 +4,7 @@
 #    portainer - A frontend UI to manage your docker containers.         #
 #---------------------------------------------------------------------#
   
-  
+
   
   portainer:
     container_name: portainer

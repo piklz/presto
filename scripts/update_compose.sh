@@ -1,28 +1,34 @@
-#!/bin/bash
-DCV=$(docker compose version)
+#!/usr/bin/env bash
 
-echo  ""
-echo  -e "\e[32;1m Current: $DCV \e[0m"
+if command -v docker &> /dev/null && [[ $(docker compose version | grep "Docker Compose version v2" -c) -eq 1 ]]; then
 
-echo  -e "\e[33;1m    Stopping Docker compose plugin \e[0m"
-docker compose down
+  echo -e  "\n\e[32;1m Docker Compose plugin is installed we can UPDATE"
 
-echo  -e "\e[33;1m    Removing Docker-compose\e[0m"
-sudo apt-get remove docker-compose-plugin -y &> /dev/null
+  DCV=$(docker compose version)
 
-#echo  -e "\e[33;1m    Getting Python3\e[0m"
-#sudo apt-get install libffi-dev libssl-dev -y &> /dev/null
-#sudo apt-get install python3-dev -y &> /dev/null
-#sudo apt-get install python3 python3-pip -y &> /dev/null
+  echo  ""
+  echo  -e "\e[32;1m Current: $DCV \e[0m"
 
-echo  -e "\e[33;1m    Installing new Docker-compose-plugin v2 \e[0m"
-#sudo pip3 install docker-compose  &> /dev/null  #deprecated in future?lets use apt way docker suggests of compose v2 
-sudo apt-get install -y docker-compose-plugin &> /dev/null
+  echo  -e "\e[33;1m    Stopping Docker compose plugin v2 \e[0m"
+  docker compose down
 
-echo  -e "\e[33;1m    Starting stack up again\e[0m"
-docker compose up -d
+  echo  -e "\e[33;1m    Removing Docker Compose v2 \e[0m"
+  #sudo apt remove docker-compose-plugin -y &> /dev/null
 
-#DCV=$(docker-compose --version)
-DCV=$(docker compose version)
-echo  -e "\e[32;1m Updated current plugin version: $DCV\e[0m"
-echo  ""
+  echo  -e "\e[33;1m    UPDATING  Installing new Docker-compose-plugin v2 \e[0m"
+
+  sudo apt install -y docker-compose-plugin &> /dev/null
+
+  echo  -e "\e[33;1m    Starting PRESTO compose stack up again\e[0m"
+  docker compose up -d
+
+  DCV=$(docker compose version)
+  echo  -e "\e[32;1m     new: $DCV\e[0m"
+  echo  ""
+
+else
+  echo -e "\n\e[32;1m Docker Compose plugin NOT installed LETS INSTALL IT NOW" 
+  sudo apt install -y docker-compose-plugin #&> /dev/null
+  DCV=$(docker compose version)
+  echo  -e "\e[32;1m Current: $DCV \e[0m"
+fi
