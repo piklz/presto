@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# updates reinstalls if needed
 if command -v docker &> /dev/null && [[ $(docker compose version | grep "Docker Compose version v2" -c) -eq 1 ]]; then
 
   echo -e  "\n\e[32;1m Docker Compose plugin is installed we can UPDATE"
