@@ -673,8 +673,7 @@ do_dockersystem_install(){
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 }
 
-<<'END_COMMENT'
-do_dockersystem_install() {
+do_dockersystem_installOLD() {
 
 #sudo apt update && sudo apt upgrade -y ;;
 
@@ -701,7 +700,6 @@ if is_command docker-compose; then
 		echo -e "\e[32;1m    Docker-compose-plugin v2 Installed\e[0m"
 		echo -e "     "
 fi
-END_COMMENT
 
 
 
