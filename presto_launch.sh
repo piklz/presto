@@ -649,7 +649,7 @@ fi
   elif [ $RET -eq 0 ]; then
     case "$FUN" in
       S1\ *) do_dockersystem_install ;;
-      S2\ *) do_build_stack ;;
+      S2\ *) do_build_stack_menu ;;
       S3\ *) do_install_prestobashwelcome ;;
       *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
     esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
