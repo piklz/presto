@@ -12,3 +12,4 @@
         ipv4_address: 172.19.0.11
   volumes:
     ./volumes/uptime-kuma:    
+    
