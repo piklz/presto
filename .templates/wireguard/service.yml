@@ -40,34 +40,3 @@
     networks:
       private_network:
         ipv4_address: 172.19.0.5 # internal address of wireguard
-
-
-
-  # WireGuard-UI service
-  wireguard-ui:
-    image: ngoduykhanh/wireguard-ui:latest
-    container_name: wireguard-ui
-    depends_on:
-      - wireguard
-    cap_add:
-      - NET_ADMIN
-    # Use the network of the 'wireguard' service
-    # This enables to show active clients in the status page
-    network_mode: service:wireguard
-    environment:
-      - SENDGRID_API_KEY
-      - EMAIL_FROM_ADDRESS
-      - EMAIL_FROM_NAME
-      - SESSION_SECRET
-      - WGUI_USERNAME=admin
-      - WGUI_PASSWORD=password
-      - WG_CONF_TEMPLATE
-      - WGUI_MANAGE_START=true
-      - WGUI_MANAGE_RESTART=true
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
-    volumes:
-      - ./volumes/wireguard/db:/app/db
-      - ./volumes/wireguard/config:/etc/wireguard
