@@ -368,7 +368,7 @@ declare -A cont_array=(
 	[homarr]="Homarr Nice frontend dashboard info similar to heimdall"
   [wireguard]="wireguard vpn + ui for config"
   [pihole]="pi-hole adblocker!"
-  [uptimekuma]="system health monitor"
+  [uptimekuma]="uptime-kuma system health monitor"
 
 	
 )
