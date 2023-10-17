@@ -368,6 +368,7 @@ declare -A cont_array=(
 	[homarr]="Homarr Nice frontend dashboard info similar to heimdall"
   [wireguard]="wireguard vpn + ui for config"
   [pihole]="pi-hole adblocker!"
+  [uptimekuma]="system health monitor"
 
 	
 )
@@ -391,6 +392,7 @@ declare -a armhf_keys=(
  	"homarr"
   "wireguard"
   "pihole"
+  "uptimekuma"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
