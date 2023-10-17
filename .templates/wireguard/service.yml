@@ -1,6 +1,6 @@
 
 #---------------------------------------------------------------------#
-#     WireGuard VPN service and UI                                    #
+#     WireGuard VPN service                                 #
 #---------------------------------------------------------------------#
   #this is my prefered yml to launch the wireguard vpn
   #dependant on pihole and with added ui to configure wg + set static ips for all apps in stack
@@ -33,6 +33,7 @@
       #- SERVERURL=my.ddns.net #optional - For use with DDNS (Uncomment to use) you can add this in the cli>      #- PEERS=
       
     sysctls:
+      - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
 
     restart: always
