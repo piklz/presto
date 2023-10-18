@@ -172,9 +172,6 @@ do_update() {
 }
 
 
-
-
-
 #-----------------------------------------------------------------
 # presto GIT updates user check outofdate file
 
@@ -200,7 +197,7 @@ fi
 
 # All criteria met, check for updates
 echo "Checking for updates..."
-git fetch
+git fetch  #?do i need this really
 
 # Check if there are any updates available
 if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
