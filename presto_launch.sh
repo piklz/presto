@@ -216,7 +216,6 @@ fi
 
 
 
-
 is_pi () {
   ARCH=$(dpkg --print-architecture)
   if [ "$ARCH" = "armhf" ] || [ "$ARCH" = "arm64" ] ; then
