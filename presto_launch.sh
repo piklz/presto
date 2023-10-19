@@ -153,7 +153,7 @@ do_compose_update() {
 }
 
 
-#pull git hub origin project changes
+#pull git hub origin project changes LOL
 
 do_update() {
 
