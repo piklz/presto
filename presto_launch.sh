@@ -26,7 +26,6 @@
 presto_VERSION='1.0.6'
 
 
-
 INTERACTIVE=True
 
 #usefull for bash updates alias changes etc in functions...
