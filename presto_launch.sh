@@ -154,7 +154,6 @@ do_compose_update() {
 
 
 
-
 #pull git hub origin project changes
 
 do_update() {
