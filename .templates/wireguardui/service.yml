@@ -27,5 +27,5 @@
       options:
         max-size: 50m
     volumes:
-      - ./volumes/wireguard-ui/db:/app/db
-      - ./volumes/wireguard-ui/config:/etc/wireguard
+      - ./volumes/wireguard/db:/app/db
+      - ./volumes/wireguard/config:/etc/wireguard
