@@ -152,6 +152,37 @@ DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 OVER="\\r\\033[K"
 
 
+function check_git_and_presto() {
+  # Check if Git is installed.
+  if [[ ! $(command -v git) ]]; then
+    # Git is not installed.
+    # Show a whiptail splash screen and ask the user if they want to install it.
+    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 2)
+
+    # If the user clicks "Yes", install Git.
+    if [[ $whiptail_return == 0 ]]; then
+      sudo apt install git
+    fi
+  else
+    # Git is installed.
+
+    # Check if the `~/presto` directory exists.
+    if [[ ! -d ~/presto ]]; then
+      # The `~/presto` directory does not exist.
+      # Clone the `piklz/presto.git` repository from GitHub.
+      git clone https://github.com/piklz/presto.git ~/presto
+    else
+      # The `~/presto` directory already exists.
+      echo "The `~/presto` directory already exists."
+    fi
+  fi
+}
+
+
+#lets run the main event 
+check_git_and_presto
+
+
 do_update() {
 
         echo "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
