@@ -159,7 +159,7 @@ do_update() {
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
-
+        return 0
 }
 
 
