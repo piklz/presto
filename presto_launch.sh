@@ -197,7 +197,7 @@ else
         if [ ! -f .outofdate ]; then
                 whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
                 touch .outofdate
-                do_update
+                #do_update if need auto UPDATE UNCOMMENT THIS
         fi
 fi
 
