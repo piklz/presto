@@ -31,30 +31,13 @@ INTERACTIVE=True
 #usefull for bash updates alias changes etc in functions...
 ASK_TO_REBOOT=0
 
-CONFIG=/boot/config.txt
+#CONFIG=/boot/config.txt
 
 USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')}
 INIT="$(ps --no-headers -o comm 1)"
 
 
-
-presto_INSTALL_DIR="/home/pi/presto"
-
 sys_arch=$(uname -m)
-
-
-git_pull_clone(){
-
-        echo -e "GIT cloning PRESTO now:\n"
-        #TEST develop
-        git clone -b main https://github.com/piklz/presto ~/presto
-
-        #git clone https://github.com/piklz/presto ~/presto
-        
-        
-
-}
-
 
 
 
@@ -82,26 +65,7 @@ cyan='\033[0;36m'
 # Clear the color after that
 clear='\033[0m'
 
-# Examples to print out in terminal 
-: <<'END_COMMENT'
-echo -e "The color is: ${red}red${clear}!"
-echo -e "The color is: ${green}green${clear}!"
-echo -e "The color is: ${yellow}yellow${clear}!"
-echo -e "The color is: ${blue}blue${clear}!"
-echo -e "The color is: ${magenta}magenta${clear}!"
-echo -e "The color is: ${cyan}cyan${clear}!"
-END_COMMENT
 
-# Set these values so the installer can still run in color
-COL_NC='\e[0m' # No Color
-COL_LIGHT_GREEN='\e[1;32m'
-COL_LIGHT_RED='\e[1;31m'
-TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
-CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-INFO="[i]"
-# shellcheck disable=SC2034
-DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
-OVER="\\r\\033[K"
 
 
 
@@ -153,19 +117,6 @@ do_compose_update() {
 }
 
 
-#pull git hub origin project changes LOL
-
-do_update() {
-
-
-	echo "Pulling latest project file from Github.com ---------------------------------------------"
-	git pull origin main
-	echo "run : git status to see local changes----------------------------------------------------"
-	#git status
-
-
-
-}
 
 
 #-----------------------------------------------------------------
@@ -189,23 +140,69 @@ if [ ! -d ~/presto ]; then
   git_pull_clone
 fi
 
+presto_INSTALL_DIR="/home/pi/presto"
 
-# All criteria met, check for updates
-echo "Checking for updates..."
-git fetch  #?do i need this really
 
-# Check if there are any updates available
-if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
-  echo "There are updates available for the Git repo..."
-  touch ".outofdate"
-  # Pull the latest updates
-  do_update #pulls origin update
+# Set these values so the installer can still run in color
+COL_NC='\e[0m' # No Color
+COL_LIGHT_GREEN='\e[1;32m'
+COL_GREEN='\e[0;3m'
+COL_LIGHT_RED='\e[1;31m'
+TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
+CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
+INFO="[i]"
+# shellcheck disable=SC2034
+DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
+OVER="\\r\\033[K"
+
+
+do_update() {
+
+        echo "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
+        git pull origin main
+        echo "${INFO} ${COL_LIGHT_GREEN} git status ----------------------------------------------------------->        [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
+        #git status
+
+}
+
+
+git_pull_clone(){
+
+        echo -e "GIT cloning PRESTO now:\n"
+        #TEST develop
+        git clone -b main https://github.com/piklz/presto ~/presto
+
+        #git clone https://github.com/piklz/presto ~/presto
+}
+
+
+git fetch
+
+
+echo -e "\033[1;37mlooking for PRESTO Git updates\n \e[0m"
+
+
+
+git fetch
+
+
+if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
+
+
+        #delete .outofdate if it does exist
+        [ -f .outofdate ] && rm .outofdate      
+        echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
 
 else
-  #delete .outofdate if it does exist
-  [ -f .outofdate ] && rm .outofdate	
-  echo -e "${INFO} ${COL_LIGHT_GREEN}    PRESTO Git local/repo is up-to-date${clear}"
-  echo "** ALL up=to=date ** "
+
+        echo -e "${INFO} ${COL_LIGHT_GREEN}update is available${COL_GREEN} ✓${clear}"
+
+
+
+        if [ ! -f .outofdate ]; then
+                whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be remind>                touch .outofdate
+                do_update
+        fi
 fi
 
 
