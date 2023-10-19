@@ -208,7 +208,7 @@ if [[ $(git rev-parse HEAD) != $(git rev-parse --verify origin/main) ]]; then
 else
   #delete .outofdate if it does exist
   [ -f .outofdate ] && rm .outofdate	
-  echo -e "${INFO} ${COL_LIGHT_GREEN}    PUMA Git local/repo is up-to-date${clear}"
+  echo -e "${INFO} ${COL_LIGHT_GREEN}    PRESTO Git local/repo is up-to-date${clear}"
   echo "** ALL up=to=date ** "
 fi
 
