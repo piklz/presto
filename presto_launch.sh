@@ -119,10 +119,6 @@ do_compose_update() {
 
 
 
-#-----------------------------------------------------------------
-# presto GIT updates user check outofdate file
-
-echo -e "\033[1;37m       looking for presto Git updates\e[0m"
 
 
 #new test check install git update loop
@@ -167,7 +163,7 @@ do_update() {
 }
 
 
-git_pull_clone(){
+git_pull_clone() {
 
         echo -e "GIT cloning PRESTO now:\n"
         #TEST develop
@@ -176,8 +172,6 @@ git_pull_clone(){
         #git clone https://github.com/piklz/presto ~/presto
 }
 
-
-git fetch
 
 
 echo -e "\033[1;37mlooking for PRESTO Git updates\n \e[0m"
