@@ -23,7 +23,7 @@
 ##################################################################################################
 #lets gooooooooo
 
-presto_VERSION='1.0.6' #lol3
+presto_VERSION='1.0.7' #monkey
 
 
 INTERACTIVE=True
