@@ -160,7 +160,8 @@ do_update() {
 
         echo "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
         git pull origin main
-        echo "${INFO} ${COL_LIGHT_GREEN} git status ----------------------------------------------------------->        [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
+        echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
+        [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
 
 }
@@ -200,7 +201,8 @@ else
 
 
         if [ ! -f .outofdate ]; then
-                whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be remind>                touch .outofdate
+                whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
+                touch .outofdate
                 do_update
         fi
 fi
