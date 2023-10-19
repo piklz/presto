@@ -1097,17 +1097,7 @@ if [ "$INTERACTIVE" = True ]; then
 	      "7 Update Docker-Compose " "Update Dockers compose system" \
         "8 About presto" "Information about this configuration tool" \
         3>&1 1>&2 2>&3)
-        else
-      FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto_launch.sh)" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
-        "1 Install" "Install Docker+Docker-compose" \
-        "2 Build Docker Stack  " "build compose stack of apps list! " \
-        "3 Commands" "useful Docker commands" \
-        "4 Extra tools" "useful extras tools settings for pi" \
-        "5 Backing up" "Configure Google Drive Backup|Restore of presto!" \
-        "6 Update presto" "Update presto tools to the latest version (via github)" \
-	      "7 Update Docker-Compose " "Update Dockers compose system" \
-        "8 About presto" "Information about this configuration tool" \
-        3>&1 1>&2 2>&3)
+      
     fi
     RET=$?
     if [ $RET -eq 1 ]; then
