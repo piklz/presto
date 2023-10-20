@@ -695,40 +695,7 @@ do_dockersystem_install(){
   do_finish
 }
 
-do_dockersystem_installOLD() {
 
-#sudo apt update && sudo apt upgrade -y ;;
-
-if is_command docker; then
-	echo -e "\n"
-	echo -e "\e[30;48;5;82m    Docker already installed\e[0m"
-	echo -e "\033[1;37m	   Docker already installed\e[0m"
-else
-  	echo -e "     "
-		echo -e "\e[33;1m    Installing Docker - one moment please *aprox few mins \e[0m"
-	  curl -fsSL https://get.docker.com -o get-docker.sh &> /dev/null
-    sudo sh ./get-docker.sh &> /dev/null
-    
-
-		echo -e "\e[32;1m    Docker is Installed!\e[0m"
-
-fi
-
-if is_command docker-compose; then
-		echo -e "\e[30;48;5;82m   Docker-compose already installed\e[0m"
-	else
-		echo -e "\e[33;1m    Installing docker-compose-plugin v2- one moment\e[0m"
-	  #sudo apt install -y docker-compose &> /dev/null
-    sudo apt-get install -y docker-compose-plugin &> /dev/null
-		echo -e "\e[32;1m    Docker-compose-plugin v2 Installed\e[0m"
-		echo -e "     "
-fi
-
-
-
-	
-
-}
 
 
 
