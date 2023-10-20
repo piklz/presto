@@ -157,7 +157,7 @@ function check_git_and_presto() {
     else
       # The ~/presto directory already exists.
       echo -e "The ~/presto directory already exists."
-      echo -e "${INFO}${COL_LIGHT_GREEN} Fetching PRESTO Git updates\n \e[0m"
+      echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n \e[0m"
       git fetch
     fi
   fi
