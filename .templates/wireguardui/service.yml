@@ -6,6 +6,7 @@
     container_name: wireguard-ui
     depends_on:
       - wireguard
+    restart: always  
     cap_add:
       - NET_ADMIN
     # Use the network of the 'wireguard' service
@@ -29,3 +30,4 @@
     volumes:
       - ./volumes/wireguard/db:/app/db
       - ./volumes/wireguard/config:/etc/wireguard
+      
