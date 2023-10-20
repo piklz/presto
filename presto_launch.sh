@@ -1090,6 +1090,5 @@ if [ "$INTERACTIVE" = True ]; then
   done
 fi
 
-
 #lets run the main event 
 check_git_and_presto
