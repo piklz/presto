@@ -125,12 +125,10 @@ do_compose_update() {
       echo -e "\e[33;1m${INFO} Docker Compose update running ... .\e[0m"
       
       ${presto_INSTALL_DIR}/scripts/update_compose.sh
-      
  
 }
 
-# check git and clone presto if needed usually on first run on clean rasp os
-function check_git_and_presto() {
+function check_git_and_presto() { # check git and clone presto if needed usually on first run on clean rasp os
   echo -e "${INFO} check and presto starting up>"
   # Check if Git is installed.
   if [[ ! $(command -v git) ]]; then
@@ -144,9 +142,9 @@ function check_git_and_presto() {
       sudo apt install git
     fi
   else
-    # Git is installed.
-    echo -e "${INFO} git already installed continue..to local repo check"
-    # Check if the `~/presto` directory exists.
+      # Git is installed.
+      echo -e "${INFO} git already installed continue..to local repo check"
+      # Check if the `~/presto` directory exists.
     if [[ ! -d ~/presto ]]; then
       # The `~/presto` directory does not exist.
       # Clone the `piklz/presto.git` repository from GitHub.
@@ -169,9 +167,9 @@ function check_git_and_presto() {
         echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
 
         if [ ! -f .outofdate ]; then
-              whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
-              touch .outofdate
-              #do_update if need auto UPDATE UNCOMMENT THIS
+          whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
+          touch .outofdate
+          #do_update if need auto UPDATE UNCOMMENT THIS
         fi
 
       fi
