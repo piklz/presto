@@ -31,7 +31,7 @@ INTERACTIVE=True
 #usefull for bash updates alias changes docker installs etc in functions...
 ASK_TO_REBOOT=0
 
-#CONFIG=/boot/config.txt
+#CONFIG=/boot/config.txtecho
 
 USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')}
 INIT="$(ps --no-headers -o comm 1)"
@@ -132,26 +132,7 @@ do_compose_update() {
 
 
 
-
-
-#new test check install git update loop
-# Check if the script has been run before
-# Check if git is installed
-
-if ! command -v git &> /dev/null; then
-  echo "Git is not installed, installing it now..."
-  sudo apt install git
-fi
-
-# Check if the presto directory exists
-if [ ! -d ~/presto ]; then
-  echo -e "${CROSS} The presto directory does not exist, cloning the Git repo..."
-  git_pull_clone
-fi
-
-
-
-
+# check git and clone presto if needed usually on first run on clean rasp os
 
 function check_git_and_presto() {
   # Check if Git is installed.
@@ -703,7 +684,7 @@ do_dockersystem_install(){
   ASK_TO_REBOOT=1
 
         if [ "$INTERACTIVE" = True ]; then
-             whiptail --msgbox "presto recommends a reboot now" 20 60 2
+             whiptail --msgbox "PRESTO recommends a reboot now\n" 20 60 2
         fi
         
 
