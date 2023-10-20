@@ -184,7 +184,8 @@ function check_git_and_presto() {
 
   fi
 }
-
+#lets run the main event 
+check_git_and_presto
 
 
 do_update() {
@@ -1037,9 +1038,6 @@ fi
 }
 
 
-
-#lets run the main event 
-check_git_and_presto
 
 
 
