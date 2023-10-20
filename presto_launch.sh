@@ -179,7 +179,7 @@ function check_git_and_presto() {
     fi
 
   fi
-}
+  }
 #lets run the main event 
 check_git_and_presto
 
