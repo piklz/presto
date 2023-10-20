@@ -105,6 +105,7 @@ function check_git_and_presto()
       echo -e "${INFO} Installing git now via apt"
       sudo apt install git
     fi
+
   else
       # Git is installed.
       echo -e "${INFO} git already installed continue..to local repo check"
@@ -131,9 +132,9 @@ function check_git_and_presto()
         echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
 
         if [ ! -f .outofdate ]; then
-          whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
-          touch .outofdate
-          #do_update if need auto UPDATE UNCOMMENT THIS
+            whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
+            touch .outofdate
+            #do_update if need auto UPDATE UNCOMMENT THIS
         fi
 
       fi
