@@ -90,9 +90,8 @@ do_compose_update() {
  
 }
 
-
-function check_git_and_presto() 
-{ # check git and clone presto if needed usually on first run on clean rasp os
+# check git and clone presto if needed usually on first run on clean rasp os
+check_git_and_presto(){ 
   echo -e "${INFO} check and presto starting up>"
   # Check if Git is installed.
   if [[ ! $(command -v git) ]]; then
@@ -143,8 +142,7 @@ function check_git_and_presto()
 
   fi
 }
-  
-#lets run the main event 
+
 check_git_and_presto
 
 
