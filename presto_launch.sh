@@ -80,6 +80,9 @@ clear='\033[0m'
 
 
 
+#lets run the main event 
+check_git_and_presto
+
 
 
 # 'is [app] installed?' returns 1 or 0   for if-then loops 
@@ -186,8 +189,7 @@ function check_git_and_presto() {
 }
 
 
-#lets run the main event 
-check_git_and_presto
+
 
 
 do_update() {
