@@ -157,8 +157,30 @@ function check_git_and_presto() {
     else
       # The ~/presto directory already exists.
       echo -e "The ~/presto directory already exists."
+
       echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n \e[0m"
+      #
       git fetch
+      
+      if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
+
+
+        #delete .outofdate if it does exist
+        [ -f .outofdate ] && rm .outofdate      
+        echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
+
+      else
+
+        echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
+
+
+
+        if [ ! -f .outofdate ]; then
+                whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
+                touch .outofdate
+                #do_update if need auto UPDATE UNCOMMENT THIS
+        fi
+      fi
     fi
   fi
 }
@@ -179,39 +201,9 @@ do_update() {
 }
 
 
-git_pull_clone() {
-
-        echo -e "${INFO} GIT cloning PRESTO now:\n"
-        #TEST develop
-        git clone -b main https://github.com/piklz/presto ~/presto
-
-        #git clone https://github.com/piklz/presto ~/presto
-}
 
 
 
-
-
-
-if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
-
-
-        #delete .outofdate if it does exist
-        [ -f .outofdate ] && rm .outofdate      
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
-
-else
-
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
-
-
-
-        if [ ! -f .outofdate ]; then
-                whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
-                touch .outofdate
-                #do_update if need auto UPDATE UNCOMMENT THIS
-        fi
-fi
 
 
 
