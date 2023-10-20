@@ -1038,6 +1038,10 @@ fi
 
 
 
+#lets run the main event 
+check_git_and_presto
+
+
 
 # MAIN MENU presto First Dialog Starts Here
 # Interactive use loop
@@ -1086,6 +1090,3 @@ if [ "$INTERACTIVE" = True ]; then
     fi
   done
 fi
-
-#lets run the main event 
-check_git_and_presto
