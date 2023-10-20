@@ -129,8 +129,6 @@ do_compose_update() {
  
 }
 
-
-
 # check git and clone presto if needed usually on first run on clean rasp os
 function check_git_and_presto() {
   echo -e "${INFO} check and presto starting up>"
@@ -157,8 +155,7 @@ function check_git_and_presto() {
       # The ~/presto directory already exists.
       echo -e "The ~/presto directory already exists."
 
-      echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n \e[0m"
-      #
+      echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
       git fetch
       
       if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
@@ -170,8 +167,6 @@ function check_git_and_presto() {
       else
 
         echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
-
-
 
         if [ ! -f .outofdate ]; then
               whiptail --title "Project update" --msgbox "PRESTO update is available \nYou will not be reminded again until your next update" 8 78
