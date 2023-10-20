@@ -675,11 +675,11 @@ fi
 
 do_dockersystem_install(){
   # Add Docker's official GPG key:
-  sudo apt-get update
+  sudo apt-get update -y
   sudo apt-get install ca-certificates curl gnupg
   sudo install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --yes --dearmor -o /etc/apt/keyrings/docker.gpg
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg -y
 
   # Add the repository to Apt sources:
   echo \
@@ -692,8 +692,10 @@ do_dockersystem_install(){
   #install part
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
   #Create the docker group.
+  echo -e "${INFO} Adding group user docker now }"
   sudo groupadd docker
   #Add your user to the docker group.
+  echo -e "${INFO} Adding ${USER} to docker grp now }"
   sudo usermod -aG docker $USER &> /dev/null
 
 
