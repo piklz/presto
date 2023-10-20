@@ -131,9 +131,7 @@ do_compose_update() {
 
 
 
-
 # check git and clone presto if needed usually on first run on clean rasp os
-
 function check_git_and_presto() {
   # Check if Git is installed.
   if [[ ! $(command -v git) ]]; then
@@ -163,7 +161,6 @@ function check_git_and_presto() {
       git fetch
       
       if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
-
 
         #delete .outofdate if it does exist
         [ -f .outofdate ] && rm .outofdate      
