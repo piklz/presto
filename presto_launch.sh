@@ -64,7 +64,6 @@ COL_LIGHT_RED='\e[1;31m'
 TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
 CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="[i]"
-# shellcheck disable=SC2034
 DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 OVER="\\r\\033[K"
 
@@ -81,43 +80,6 @@ clear='\033[0m'
 
 
 
-
-# 'is [app] installed?' returns 1 or 0   for if-then loops 
-is_installed() {
-  if [ "$(dpkg -l "$1" 2> /dev/null | tail -n 1 | cut -d ' ' -f 1)" != "ii" ]; then
-    return 1
-  else
-    return 0
-  fi
-}
-
-
-
-
-#debian ver
-
-deb_ver () {
-  ver=`cat /etc/debian_version | cut -d . -f 1`
-  echo $ver
-}
-
-
-
-#'is it a command?' helper for if-then returns 1 or 0
-
-is_command() {
-    # Checks to see if the given command (passed as a string argument) exists on the system.
-    # The function returns 0 (success) if the command exists, and 1 if it doesn't.
-    local check_command="$1"
-
-    command -v "${check_command}" >/dev/null 2>&1
-}
-
-
-
-
-
-
 # do a check on docker-compose updates and install via .sh  in scripts dir
 
 do_compose_update() {
@@ -128,7 +90,9 @@ do_compose_update() {
  
 }
 
-function check_git_and_presto() { # check git and clone presto if needed usually on first run on clean rasp os
+
+function check_git_and_presto() 
+{ # check git and clone presto if needed usually on first run on clean rasp os
   echo -e "${INFO} check and presto starting up>"
   # Check if Git is installed.
   if [[ ! $(command -v git) ]]; then
