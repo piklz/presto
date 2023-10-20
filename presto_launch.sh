@@ -96,9 +96,9 @@ function check_git_and_presto()
   echo -e "${INFO} check and presto starting up>"
   # Check if Git is installed.
   if [[ ! $(command -v git) ]]; then
-      # Git is not installed.
-      # Show a whiptail splash screen and ask the user if they want to install it.
-      whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 2)
+    # Git is not installed.
+    # Show a whiptail splash screen and ask the user if they want to install it.
+    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 2)
 
     # If the user clicks "Yes", install Git.
     if [[ $whiptail_return == 0 ]]; then
@@ -142,7 +142,7 @@ function check_git_and_presto()
     fi
 
   fi
-  }
+}
   
 #lets run the main event 
 check_git_and_presto
