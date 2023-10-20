@@ -157,6 +157,8 @@ function check_git_and_presto() {
     else
       # The ~/presto directory already exists.
       echo -e "The ~/presto directory already exists."
+      echo -e "${INFO}${COL_LIGHT_GREEN} Fetching PRESTO Git updates\n \e[0m"
+      git fetch
     fi
   fi
 }
@@ -188,11 +190,7 @@ git_pull_clone() {
 
 
 
-echo -e "${INFO}${COL_LIGHT_GREEN} Fetching PRESTO Git updates\n \e[0m"
 
-
-
-git fetch
 
 
 if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
