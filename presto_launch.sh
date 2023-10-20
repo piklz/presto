@@ -23,12 +23,12 @@
 ##################################################################################################
 #lets gooooooooo
 
-presto_VERSION='1.0.7' #monkey
+presto_VERSION='1.0.8' #bull
 
 
 INTERACTIVE=True
 
-#usefull for bash updates alias changes etc in functions...
+#usefull for bash updates alias changes docker installs etc in functions...
 ASK_TO_REBOOT=0
 
 #CONFIG=/boot/config.txt
@@ -39,6 +39,7 @@ INIT="$(ps --no-headers -o comm 1)"
 
 sys_arch=$(uname -m)
 
+presto_INSTALL_DIR="/home/pi/presto"
 
 
 
@@ -54,6 +55,18 @@ timezones() {
 
 }
 
+
+# Set these values so the installer can still run in color
+COL_NC='\e[0m' # No Color
+COL_LIGHT_GREEN='\e[1;32m'
+COL_GREEN='\e[0;3m'
+COL_LIGHT_RED='\e[1;31m'
+TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
+CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
+INFO="[i]"
+# shellcheck disable=SC2034
+DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
+OVER="\\r\\033[K"
 
 # Color variables
 red='\033[0;31m'
@@ -109,7 +122,7 @@ is_command() {
 
 do_compose_update() {
    
-      echo -e "\e[33;1m   Docker Compose updae run script .\e[0m"
+      echo -e "\e[33;1m${INFO} Docker Compose update running ... .\e[0m"
       
       ${presto_INSTALL_DIR}/scripts/update_compose.sh
       
@@ -132,24 +145,12 @@ fi
 
 # Check if the presto directory exists
 if [ ! -d ~/presto ]; then
-  echo "The presto directory does not exist, cloning the Git repo..."
+  echo -e "${CROSS} The presto directory does not exist, cloning the Git repo..."
   git_pull_clone
 fi
 
-presto_INSTALL_DIR="/home/pi/presto"
 
 
-# Set these values so the installer can still run in color
-COL_NC='\e[0m' # No Color
-COL_LIGHT_GREEN='\e[1;32m'
-COL_GREEN='\e[0;3m'
-COL_LIGHT_RED='\e[1;31m'
-TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
-CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-INFO="[i]"
-# shellcheck disable=SC2034
-DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
-OVER="\\r\\033[K"
 
 
 function check_git_and_presto() {
@@ -185,7 +186,7 @@ check_git_and_presto
 
 do_update() {
 
-        echo "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
+        echo -e "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
         git pull origin main
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
@@ -196,7 +197,7 @@ do_update() {
 
 git_pull_clone() {
 
-        echo -e "GIT cloning PRESTO now:\n"
+        echo -e "${INFO} GIT cloning PRESTO now:\n"
         #TEST develop
         git clone -b main https://github.com/piklz/presto ~/presto
 
@@ -205,7 +206,7 @@ git_pull_clone() {
 
 
 
-echo -e "\033[1;37mlooking for PRESTO Git updates\n \e[0m"
+echo -e "${INFO}${COL_LIGHT_GREEN} Fetching PRESTO Git updates\n \e[0m"
 
 
 
@@ -221,7 +222,7 @@ if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
 
 else
 
-        echo -e "${INFO} ${COL_LIGHT_GREEN}update is available${COL_GREEN} ✓${clear}"
+        echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
 
 
 
@@ -348,7 +349,7 @@ do_finish() {
     whiptail --yesno "Would you like to reboot now?" 20 60 2
     if [ $? -eq 0 ]; then # yes
       sync
-      sudo reboot
+      sudo reboot now
     fi
   fi
   exit 0
@@ -368,17 +369,17 @@ declare -A cont_array=(
 	[sonarr]="Sonarr > for your Tv "
 	[radarr]="Radarr > for your film "
 	[lidarr]="Lidarr > for your music "
-	[jackett]="Jackett > grabber of torrents indexers for radarr lidaar sonar etc"
+	[jackett]="Jackett > indexer of torrents for radarr/sonar/*arr etc"
 	[qbittorrent]="qBittorrent > Torrent Client"
 	[jellyfin]="JellyFin > Media manager no license needed"
 	[plex]="Plex > Media manager"
 	[tautulli]="tautulli > plex stats grapher"
 	[overseerr]="overseerr > plex movie/tv requester"
-	[heimdall]="heimdall > all in one web launcher for all your *arr apps "
+	[heimdall]="heimdall > Nice frontend dashboard for all your *arr apps "
 	[homeassistant]="Home-Assistant > automate home devices ,hue,lifx,google"
 	[motioneye]="motioneye > free security cam"
 	[rpimonitor]="rpi-monitor > raspberry-sys gui stats"
-	[homarr]="Homarr > Nice frontend dashboard info similar to heimdall maybe better!try this first"
+	[homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
   [wireguard]="wireguard > your own free vpn "
   [wireguardui]="A wireguard UI > for wireguard config"
   [pihole]="pi-hole >  adblocker!"
@@ -498,7 +499,7 @@ do_bash_aliases() {
 	touch ~/.bash_aliases
 		if [ $(grep -c 'presto' ~/.bash_aliases) -eq 0 ]; then
 			echo ". ~/presto/.presto_bash_aliases" >>~/.bash_aliases
-			echo "Created presto aliases(presto/.presto_bash_aliases)!"
+			echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
 			if [ "$INTERACTIVE" = True ]; then
 				whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,\
         presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,\
@@ -517,7 +518,7 @@ do_bash_aliases() {
 		if [ "$INTERACTIVE" = True ]; then
                                 whiptail --msgbox "presto aliases will be ready after a reboot" 20 60 2
                                 fi
-		echo "presto aliases will be ready after a reboot"
+		echo -e "${INFO} PRESTO aliases will be ready after a reboot/logout"
 
 }
 
@@ -684,10 +685,30 @@ do_dockersystem_install(){
     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
   sudo apt-get update
 
   #install part
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+  #Create the docker group.
+  sudo groupadd docker
+  #Add your user to the docker group.
+  sudo usermod -aG docker $USER &> /dev/null
+
+
+
+  ASK_TO_REBOOT=1
+
+        if [ "$INTERACTIVE" = True ]; then
+             whiptail --msgbox "presto recommends a reboot now" 20 60 2
+        fi
+        
+
+  #echo "presto needs a reboot now "
+  local str="PRESTO recommends a restart now"
+  printf "\\n  %b %s..." "${INFO}" "${str}"
+
+  do_finish
 }
 
 do_dockersystem_installOLD() {
@@ -703,7 +724,8 @@ else
 		echo -e "\e[33;1m    Installing Docker - one moment please *aprox few mins \e[0m"
 	  curl -fsSL https://get.docker.com -o get-docker.sh &> /dev/null
     sudo sh ./get-docker.sh &> /dev/null
-	  sudo usermod -aG docker $USER &> /dev/null
+    
+
 		echo -e "\e[32;1m    Docker is Installed!\e[0m"
 
 fi
@@ -720,18 +742,7 @@ fi
 
 
 
-	ASK_TO_REBOOT=1
-
-        if [ "$INTERACTIVE" = True ]; then
-             whiptail --msgbox "presto recommends a reboot now" 20 60 2
-        fi
-        
-
-  echo "presto needs a reboot now "
-  local str="presto recommends a restart now"
-  printf "\\n  %b %s..." "${INFO}" "${str}"
-
-  do_finish
+	
 
 }
 
