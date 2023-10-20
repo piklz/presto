@@ -80,9 +80,6 @@ clear='\033[0m'
 
 
 
-#lets run the main event 
-check_git_and_presto
-
 
 
 # 'is [app] installed?' returns 1 or 0   for if-then loops 
@@ -187,7 +184,7 @@ function check_git_and_presto() {
       fi
 
     fi
-    
+
   fi
 }
 
@@ -1092,3 +1089,7 @@ if [ "$INTERACTIVE" = True ]; then
     fi
   done
 fi
+
+
+#lets run the main event 
+check_git_and_presto
