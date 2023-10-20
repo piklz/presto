@@ -174,7 +174,7 @@ function check_git_and_presto() {
       git clone -b main https://github.com/piklz/presto ~/presto
     else
       # The `~/presto` directory already exists.
-      echo -e "The `~/presto` directory already exists."
+      echo -e "The ~/presto directory already exists."
     fi
   fi
 }
