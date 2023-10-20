@@ -162,11 +162,12 @@ function check_git_and_presto() {
 
     # If the user clicks "Yes", install Git.
     if [[ $whiptail_return == 0 ]]; then
+      echo -e "${INFO} Installing git now via apt"
       sudo apt install git
     fi
   else
     # Git is installed.
-
+    echo -e "${INFO} git already installed continue..to local repo check"
     # Check if the `~/presto` directory exists.
     if [[ ! -d ~/presto ]]; then
       # The `~/presto` directory does not exist.
