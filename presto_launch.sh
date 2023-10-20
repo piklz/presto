@@ -136,13 +136,10 @@ function check_git_and_presto()
             touch .outofdate
             #do_update if need auto UPDATE UNCOMMENT THIS
         fi
-
-      fi
-
-    fi
-
-  fi
-  }
+        fi
+        fi
+        fi
+        }
   
  #lets run the main event 
  check_git_and_presto
