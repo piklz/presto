@@ -148,9 +148,7 @@ check_git_and_presto
 
 do_update() {
         echo -e "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
-        #push into dir first
-        pushd ~/presto
-        
+                
         #lets grab latest repo
         git pull origin main
 
