@@ -97,7 +97,7 @@ check_git_and_presto(){
   if [[ ! $(command -v git) ]]; then
     # Git is not installed.
     # Show a whiptail splash screen and ask the user if they want to install it.
-    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 2)
+    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
 
     # If the user clicks "Yes", install Git.
     if [[ $whiptail_return == 0 ]]; then
