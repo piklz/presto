@@ -102,7 +102,7 @@ check_git_and_presto(){
     # If the user clicks "Yes", install Git.
     if [[ $whiptail_return == 0 ]]; then
       echo -e "${INFO} Installing git now via apt"
-      sudo apt install git
+      #sudo apt install git
     fi
 
   else
