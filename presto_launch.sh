@@ -112,6 +112,7 @@ check_git_and_presto(){
     if [[ ! -d ~/presto ]]; then
       # The `~/presto` directory does not exist.
       # Clone the `piklz/presto.git` repository from GitHub.
+      pushd ~/presto
       git clone -b main https://github.com/piklz/presto ~/presto
     else
       # The ~/presto directory already exists.
