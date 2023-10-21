@@ -952,7 +952,7 @@ do_backups_menu() {
 
 do_about() {
   whiptail --msgbox "\
-HELLO presto USER : This tool provides a straightforward way of doing initial
+HELLO presto $USER : This tool provides a straightforward way of doing initial
 configuration of the Raspberry Pi for MEDIA AWESOMENESS!. Although it can be run
 at any time, some of the options may have difficulties if
 you have heavily customised your installation.
