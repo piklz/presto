@@ -620,13 +620,15 @@ do_dockersystem_install(){
 
   #install part
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+  
   #Create the docker group.
   echo -e "${INFO} Adding group user docker now }"
   sudo groupadd docker
+
   #Add your user to the docker group.
   echo -e "${INFO} Adding ${USER} to docker grp now }"
   sudo usermod -aG docker $USER &> /dev/null
-
+  echo -e "${INFO}    Docker is Installed! for $USER${TICK}"
 
 
   ASK_TO_REBOOT=1
@@ -1008,13 +1010,13 @@ fi
 
 
 if [ "$INTERACTIVE" = True ]; then
-  #[ -e $CONFIG ] || touch $CONFIG
+  [ -e $CONFIG ] || touch $CONFIG
   calc_wt_size
-  #while [ "$USER" = "root" ] || [ -z "$USER" ]; do
-  #  if ! USER=$(whiptail --inputbox "presto could not determine the default user.\\n\\nWhat user should these settings apply to?" 20 60 pi 3>&1 1>&2 2>&3); then
-  #    return 0
-  #  fi
-  #done
+  while [ "$USER" = "root" ] || [ -z "$USER" ]; do
+    if ! USER=$(whiptail --inputbox "presto could not determine the default user.\\n\\nWhat user should these settings apply to?" 20 60 pi 3>&1 1>&2 2>&3); then
+      return 0
+    fi
+  done
   while true; do
     if is_pi ; then
       FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' <  /proc/device-tree/model) presto VERSION: ${presto_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
