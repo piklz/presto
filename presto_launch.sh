@@ -102,7 +102,7 @@ check_git_and_presto(){
     # If the user clicks "Yes", install Git.
     if [[ $whiptail_return == 0 ]]; then
       echo -e "${INFO} Installing git now via apt"
-      #sudo apt install git
+      sudo apt install git
     fi
 
   else
@@ -153,7 +153,7 @@ do_update() {
         
         #lets grab latest repo
         git pull origin main
-        
+
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
