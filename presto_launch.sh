@@ -112,7 +112,6 @@ check_git_and_presto(){
     if [[ ! -d ~/presto ]]; then
       # The `~/presto` directory does not exist.
       # Clone the `piklz/presto.git` repository from GitHub.
-      pushd ~/presto
       git clone -b main https://github.com/piklz/presto ~/presto
     else
       # The ~/presto directory already exists.
@@ -149,7 +148,12 @@ check_git_and_presto
 
 do_update() {
         echo -e "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
+        #push into dir first
+        pushd ~/presto
+        
+        #lets grab latest repo
         git pull origin main
+        
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
