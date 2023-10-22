@@ -26,8 +26,8 @@
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PEERS=2
-      - PEERDNS=auto # ip of pihole container  #PEERDNS=auto
+      #- PEERS=2
+      - PEERDNS=10.252.1.1 # ip of pihole container  #PEERDNS=auto
       - INTERNAL_SUBNET=10.252.1.0 #optional internal subnet vpn
       - ALLOWEDIPS=172.19.0.0/24 # ,[..] or 0.0.0.0/0
       #- SERVERURL=my.ddns.net #optional - For use with DDNS (Uncomment to use) you can add this in the cli>      #- PEERS=
