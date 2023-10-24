@@ -8,7 +8,7 @@ build/
 #my stuff
 .bashrc
 .bash_history
-
+healthcheck.sh
 /services/
 /volumes/
 /backups/
