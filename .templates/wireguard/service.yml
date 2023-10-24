@@ -37,12 +37,6 @@
       - net.ipv4.conf.all.src_valid_mark=1
 
     restart: always
-    
-    healthcheck:
-      test: ["CMD", "~/presto/scripts/healthcheck.sh"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
     networks:
       private_network:
