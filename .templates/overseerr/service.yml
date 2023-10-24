@@ -1,3 +1,8 @@
+  
+#---------------------------------------------------------------------#
+#     OVERSEER UI   for /*arrs                                        #
+#---------------------------------------------------------------------#  
+
   overseerr:
     image: lscr.io/linuxserver/overseerr
     container_name: overseerr

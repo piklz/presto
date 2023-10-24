@@ -1,3 +1,8 @@
+  
+#---------------------------------------------------------------------#
+#     qbitorrent                                                      #
+#---------------------------------------------------------------------#  
+  
   qbittorrent:
     image: linuxserver/qbittorrent
     container_name: qbittorrent

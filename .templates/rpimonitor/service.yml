@@ -1,9 +1,7 @@
 
-
 #---------------------------------------------------------------------#
 #    rpi-monitor - A raspberry pi visual monitoring web server .      #
 #---------------------------------------------------------------------# 
-  
   
   rpi-monitor:
     image: "michaelmiklis/rpi-monitor:latest"

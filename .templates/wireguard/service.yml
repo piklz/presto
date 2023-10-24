@@ -2,7 +2,6 @@
 #---------------------------------------------------------------------#
 #     WireGuard VPN service                                           #
 #---------------------------------------------------------------------#
-  #this is my prefered yml to launch the wireguard vpn
   #dependant on pihole and with added ui to configure wg + set static ips for all apps in stack
 
   # WireGuard VPN service
@@ -26,7 +25,7 @@
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      #- PEERS=2
+      #- PEERS=2 #not so important as we use W-UI to config this but can be enabled if not using W-UI
       - PEERDNS=10.252.1.1 # ip of pihole container  #PEERDNS=auto
       - INTERNAL_SUBNET=10.252.1.0 #optional internal subnet vpn
       - ALLOWEDIPS=172.19.0.0/24 # ,[..] or 0.0.0.0/0

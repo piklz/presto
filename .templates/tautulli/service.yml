@@ -2,6 +2,7 @@
 #---------------------------------------------------------------------#
 #     Tautilli plex info service                                      #
 #---------------------------------------------------------------------#
+ 
   tautulli:
     image: tautulli/tautulli
     container_name: tautulli

@@ -2,6 +2,7 @@
 #---------------------------------------------------------------------#
 #     UPTIME_KUMA monitoring service                                  #
 #---------------------------------------------------------------------#
+  
   uptime-kuma:
     image: louislam/uptime-kuma:1
     container_name: uptime-kuma

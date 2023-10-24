@@ -2,7 +2,7 @@
 #---------------------------------------------------------------------#
 #     WireGuard UI                                                    #
 #---------------------------------------------------------------------#
-# WireGuard-UI service
+
   wireguard-ui:
     image: ngoduykhanh/wireguard-ui:latest
     container_name: wireguard-ui
