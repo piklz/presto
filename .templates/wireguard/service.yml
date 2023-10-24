@@ -1,6 +1,6 @@
 
 #---------------------------------------------------------------------#
-#     WireGuard VPN service                                 #
+#     WireGuard VPN service                                           #
 #---------------------------------------------------------------------#
   #this is my prefered yml to launch the wireguard vpn
   #dependant on pihole and with added ui to configure wg + set static ips for all apps in stack
@@ -37,6 +37,12 @@
       - net.ipv4.conf.all.src_valid_mark=1
 
     restart: always
+    
+    healthcheck:
+      test: ["CMD", "~/presto/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
     networks:
       private_network:

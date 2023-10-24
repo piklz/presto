@@ -1,11 +1,16 @@
 
-
+#---------------------------------------------------------------------#
+#     WireGuard UI                                                    #
+#---------------------------------------------------------------------#
 # WireGuard-UI service
   wireguard-ui:
     image: ngoduykhanh/wireguard-ui:latest
     container_name: wireguard-ui
+    #depends_on:
+    #  - wireguard
     depends_on:
-      - wireguard
+      wireguard:
+        condition: service_healthy
     restart: always  
     cap_add:
       - NET_ADMIN
