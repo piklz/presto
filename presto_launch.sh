@@ -136,6 +136,7 @@ check_git_and_presto(){
   fi
 }
 
+#RUN
 check_git_and_presto
 
 
@@ -154,7 +155,16 @@ do_update() {
 
 
 
+#grab timezones if env exists with service
+timezones() {
 
+	env_file=$1
+	TZ=$(cat /etc/timezone)
+
+	#test TimeZone=
+	[ $(grep -c "TZ=" $env_file) -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" $env_file
+
+}
 
 
 
@@ -234,16 +244,6 @@ get_pi_type() {
 
 
 
-#grab timezones if env exists with service
-timezones() {
-
-	env_file=$1
-	TZ=$(cat /etc/timezone)
-
-	#test TimeZone=
-	[ $(grep -c "TZ=" $env_file) -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" $env_file
-
-}
 
 
 # terminal size height 
@@ -303,12 +303,10 @@ declare -A cont_array=(
 	[motioneye]="motioneye > free security cam"
 	[rpimonitor]="rpi-monitor > raspberry-sys gui stats"
 	[homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
-  [wireguard]="wireguard > your own free vpn "
-  [wireguardui]="A wireguard UI > for wireguard config"
+  [wireguard]="Wireguard > your own free vpn"
+  [wireguardui]="Wireguard UI > for wireguard config"
   [pihole]="pi-hole >  adblocker!"
-  [uptimekuma]="uptime-kuma all your base system health monitor"
-
-	
+  [uptimekuma]="uptime-kuma all your base system health monitor"	
 )
 
 # CONTAINER keys
@@ -335,9 +333,6 @@ declare -a armhf_keys=(
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
-
-
-
 
 
 
@@ -389,7 +384,6 @@ function yml_builder() {
 	cat $service >>docker-compose.yml
   
 }
-
 
 
 
@@ -674,7 +668,7 @@ do_build_stack_menu() {
 		#set the ACL for the stack
 		#docker_setfacl
 
-		# store last sellection
+		# store last selection
 		[ -f ./services/selection.txt ] && rm ./services/selection.txt
 		#first run service directory wont exist
 		[ -d ./services ] || mkdir services
