@@ -21,17 +21,19 @@
 #github		: https://github.com/piklz/presto.git
 #web		  : https://github.com/piklz/presto.git
 ##################################################################################################
+
 #lets gooooooooo
 
-presto_VERSION='1.0.8' #bull
+presto_VERSION='1.0.9' 
 
 
 INTERACTIVE=True
 
-#usefull for bash updates alias changes docker installs etc in functions...
+#usefull for bash updates alias 
+# changes docker installs etc in functions...
+
 ASK_TO_REBOOT=0
 
-#CONFIG=/boot/config.txtecho
 
 USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')}
 INIT="$(ps --no-headers -o comm 1)"
@@ -42,18 +44,9 @@ sys_arch=$(uname -m)
 presto_INSTALL_DIR="/home/pi/presto"
 
 
+#================================================================================================
 
-# timezones
 
-timezones() {
-
-	env_file=$1
-	TZ=$(cat /etc/timezone)
-
-	#test TimeZone=
-	[ $(grep -c "TZ=" $env_file) -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" $env_file
-
-}
 
 
 # Set these values so the installer can still run in color
@@ -241,7 +234,7 @@ get_pi_type() {
 
 
 
-#timezones
+#grab timezones if env exists with service
 timezones() {
 
 	env_file=$1
@@ -395,21 +388,7 @@ function yml_builder() {
 	echo "" >>docker-compose.yml
 	cat $service >>docker-compose.yml
 
-	#test for post build
-	if [ -f ./.templates/$1/build.sh ]; then
-		chmod +x ./.templates/$1/build.sh
-		bash ./.templates/$1/build.sh
-	fi
 
-	#test for directoryfix.sh
-	if [ -f ./.templates/$1/directoryfix.sh ]; then
-		chmod +x ./.templates/$1/directoryfix.sh
-		echo "...Running directoryfix.sh on $1"
-		bash ./.templates/$1/directoryfix.sh
-	fi
-
-	#make sure terminal.sh is executable
-	[ -f ./services/$1/terminal.sh ] && chmod +x ./services/$1/terminal.sh
 
 }
 
