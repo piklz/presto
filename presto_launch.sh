@@ -387,14 +387,8 @@ function yml_builder() {
 	#add new line then append service
 	echo "" >>docker-compose.yml
 	cat $service >>docker-compose.yml
-
-
-
+  
 }
-
-
-
-
 
 
 
@@ -703,7 +697,6 @@ do_build_stack_menu() {
 				done
 			fi
 		fi
-
 
     
 		echo "docker compose yml successfully created"
