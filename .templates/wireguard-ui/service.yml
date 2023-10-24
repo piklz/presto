@@ -10,7 +10,7 @@
     #  - wireguard
     depends_on:
       wireguard:
-        condition: service_completed_successfully
+        condition: service_started
     restart: always  
     cap_add:
       - NET_ADMIN
