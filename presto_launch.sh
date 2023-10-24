@@ -304,7 +304,7 @@ declare -A cont_array=(
 	[rpimonitor]="rpi-monitor > raspberry-sys gui stats"
 	[homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
   [wireguard]="Wireguard > your own free vpn"
-  [wireguardui]="Wireguard UI > for wireguard config"
+  [wireguard-ui]="Wireguard UI > for wireguard config"
   [pihole]="pi-hole >  adblocker!"
   [uptimekuma]="uptime-kuma all your base system health monitor"	
 )
@@ -327,7 +327,7 @@ declare -a armhf_keys=(
 	"rpimonitor"
  	"homarr"
   "wireguard"
-  "wireguardui"
+  "wireguard-ui"
   "pihole"
   "uptimekuma"
 )
