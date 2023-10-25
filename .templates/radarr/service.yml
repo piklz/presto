@@ -18,4 +18,7 @@
       - /media/YOUR-USB-DRIVE-PATH/DOWNLOADS:/downloads
     ports:
       - 7878:7878
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.30  
     restart: unless-stopped

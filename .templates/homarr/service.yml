@@ -13,3 +13,6 @@
       - ./volumes/homarr/icons:/app/public/icons
     ports:
       - 7575:7575
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.21  

@@ -18,3 +18,6 @@
       - /media/USB_PLEX_14TB/DOWNLOADS:/downloads
     ports:
       - 8686:8686
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.24  

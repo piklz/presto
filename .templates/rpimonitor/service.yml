@@ -28,4 +28,4 @@
       - 8888:8888
     networks:
       private_network:
-        ipv4_address: 172.19.0.9  
+        ipv4_address: 172.19.0.31  

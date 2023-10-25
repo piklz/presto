@@ -15,4 +15,4 @@
       - ./volumes/portainer/data:/data
     networks:
       private_network:
-        ipv4_address: 172.19.0.6
+        ipv4_address: 172.19.0.28

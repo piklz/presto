@@ -15,4 +15,7 @@
       - TZ=UTC
     ports:
       - 8181:8181
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.33  
  

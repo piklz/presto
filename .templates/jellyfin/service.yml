@@ -22,6 +22,9 @@
       - 8920:8920 #optional
       - 7359:7359/udp #optional
       #- 1900:1900/udp #optional
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.23  
     restart: unless-stopped 
     devices:
       - /dev/dri:/dev/dri #optional

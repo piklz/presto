@@ -20,4 +20,7 @@
       - 6881:6881/udp
       - 15080:15080
       - 1080:1080
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.29
     restart: unless-stopped

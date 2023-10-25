@@ -14,4 +14,7 @@
       - ./volumes/overseerr/config:/config
     ports:
       - 5055:5055
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.25  
     restart: unless-stopped
