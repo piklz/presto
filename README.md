@@ -20,27 +20,28 @@
 We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
 - All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
 
-| Image        |Ports |Name
+| Service | Ports | Description | |
+|---|---|---|---|
+| [Portainer](https://gitlab.com/portainer/portainer) | 9000 | GUI Docker Manager 
+| [Sonarr](https://github.com/sonarr/sonarr)          | 8989 | TV show downloader and organizer 
+| [Radarr](https://github.com/Radarr/Radarr) | 7878 | Movie downloader and organizer 
+| [Lidarr](https://github.com/lidarr/lidarr) | 8686 | Music downloader and organizer 
+| [Jackett](https://github.com/Jackett/Jackett) | 9117 | Torrent indexer
+| [qBittorrent](https://github.com/qbittorrent/qbittorrent) | 15080 | Torrent client
+| [JellyFin](https://github.com/jellyfin/jellyfin) | 8096 | Media server 
+| [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server 
+| [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Plex stats grapher 
+| [Overseerr](https://github.com/sct/overseerr) | 5055 | Plex movie/TV requester
+| [Heimdall](https://github.com/linuxserver/heimdall) | 81 | Nice frontend dashboard for all your *arr apps 
+| [Home Assistant](https://github.com/home-assistant/core) | 8123 | Home automation platform 
+| [MotionEye](https://github.com/ccrisan/motioneye) | 8765 | Free security cam 
+| [rpi-monitor](https://github.com/pi-hole/rpi-monitor) | 8888 | Python script to display Raspberry Pi system statistics 
+| [Homarr](https://github.com/linuxserver/homarr) | 7575 | Dashboard for Docker apps 
+| [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Secure VPN tunnel
+| [WireGuard UI](https://github.com/WireGuard/wireguard-tools/tree/master/wireguard-ui) | 5000 | Web UI for managing WireGuard connections
+| [Pi-hole](https://github.com/pi-hole/pi-hole) | 80 | Ad blocker and network-wide DNS protection 
+| [UptimeKuma](https://github.com/louislam/uptime-kuma) | 3001 | Monitors the uptime and performance of your websites and services 
 
-[portainer]      9000  Portainer      > GUI Docker Manager
-[sonarr]         8989  Sonarr         > for your Tv
-[radarr]         7878  Radarr         > for your film
-[lidarr]         8686  Lidarr         > for your music
-[jackett]        9117  Jackett        > indexer of torrents for radarr/sonar/*arr etc
-[qbittorrent]   15080  qBittorrent    > Torrent Client
-[jellyfin]       8096  JellyFin       > Media manager no license needed
-[plex]          32400  Plex           > Media manager
-[tautulli]       8181  Tautulli       > plex stats grapher +more  awesome!
-[overseerr]      5055  Overseerr      > plex movie/tv requester
-[heimdall]         81  Heimdall       > Nice frontend dashboard for all your *arr apps 
-[homeassistant]  8123  Home-Assistant > automate home devices ,hue,lifx,google
-[motioneye]      8765  Motioneye      > free security cam
-[rpimonitor]     8888  rpi-monitor    > raspberry-sys gui stats
-[homarr]         7575  Homarr         > like heimdall-Nice frontend dashboard !try this first?
-[wireguard]     51820  Wireguard      > your own free vpn
-[wireguard-ui]   5000  Wireguard UI   > for wireguard config
-[pihole]           80  Pi-hole        > No1 adblocker!
-[uptimekuma]     3001  Uptime-kuma    > all your base system health monitor
 due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
 
