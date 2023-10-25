@@ -18,7 +18,7 @@
     environment:
       TZ: 'Europe/London'
       # WEBPASSWORD: 'set a secure password here or it will be random'
-    # Volumes store your data between container upgrades
+    # Volumes store your data between container upgrades or use env file
     env_file:
       - ./services/pihole/pihole.env
     volumes:
