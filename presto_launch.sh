@@ -310,22 +310,22 @@ declare -A cont_array=(
 )
 
 # CONTAINER keys
-declare -a armhf_keys=(
-	"portainer"
-	"sonarr"
-	"radarr"
-	"lidarr"
-	"jackett"
-	"qbittorrent"
-	"jellyfin"
-	"plex"
-	"tautulli"
-	"overseerr"
-	"heimdall"
-	"homeassistant"
-	"motioneye"
-	"rpimonitor"
- 	"homarr"
+declare -a aarch64_keys=(
+  "portainer"
+  "sonarr"
+  "radarr"
+  "lidarr"
+  "jackett"
+  "qbittorrent"
+  "jellyfin"
+  "plex"
+  "tautulli"
+  "overseerr"
+  "heimdall"
+  "homeassistant"
+  "motioneye"
+  "rpimonitor"
+  "homarr"
   "wireguard"
   "wireguard-ui"
   "pihole"
@@ -623,7 +623,7 @@ do_build_stack_menu() {
 
 	#check architecture and display appropriate menu
 	if [ $(echo "$sys_arch" | grep -c "arm") ]; then
-		keylist=("${armhf_keys[@]}")
+		keylist=("${aarch64_keys[@]}")
 	else
 		echo "your architecture is not supported yet"
 		exit
