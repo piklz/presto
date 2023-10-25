@@ -12,4 +12,4 @@
       - ./volumes/homarr/config:/app/data/configs
       - ./volumes/homarr/icons:/app/public/icons
     ports:
-      - '7575:7575'
+      - 7575:7575

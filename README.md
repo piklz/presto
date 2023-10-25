@@ -17,23 +17,31 @@
 
 ## Requirements
 
-We want that 64bit armv8/AArch64 architecture goodness ]
-- All the rpi4's will do (even works on pi3 kinda just depends on how many apps you run at once ) 
+We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
+- All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
 
-| Software | ports |
-| --- | --- |
-|portainer   | 9000 |
-|Sonarr      | 8989 |
-|Radarr      | 7878 |
-|Lidarr      | 8686 |
-|Jackett     | 9117 |
-|qBittorrent | 15080|
-|Overseerr   | 5055 |
-|Tautulli    | 8181 |
-|Plex        | 32400|
-|rpi-monitor | 8888 |
-|homarr      | 7575 |
+| Image        |Ports |Name
 
+[portainer]      9000  Portainer      > GUI Docker Manager
+[sonarr]         8989  Sonarr         > for your Tv
+[radarr]         7878  Radarr         > for your film
+[lidarr]         8686  Lidarr         > for your music
+[jackett]        9117  Jackett        > indexer of torrents for radarr/sonar/*arr etc
+[qbittorrent]   15080  qBittorrent    > Torrent Client
+[jellyfin]       8096  JellyFin       > Media manager no license needed
+[plex]          32400  Plex           > Media manager
+[tautulli]       8181  Tautulli       > plex stats grapher +more  awesome!
+[overseerr]      5055  Overseerr      > plex movie/tv requester
+[heimdall]         81  Heimdall       > Nice frontend dashboard for all your *arr apps 
+[homeassistant]  8123  Home-Assistant > automate home devices ,hue,lifx,google
+[motioneye]      8765  Motioneye      > free security cam
+[rpimonitor]     8888  rpi-monitor    > raspberry-sys gui stats
+[homarr]         7575  Homarr         > like heimdall-Nice frontend dashboard !try this first?
+[wireguard]     51820  Wireguard      > your own free vpn
+[wireguard-ui]   5000  Wireguard UI   > for wireguard config
+[pihole]           80  Pi-hole        > No1 adblocker!
+[uptimekuma]     3001  Uptime-kuma    > all your base system health monitor
+due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
 
 ## Features
