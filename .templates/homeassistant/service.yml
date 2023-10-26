@@ -26,3 +26,6 @@
       - PUID=1000
       - PGID=1000
       - TZ='Europe/London'
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.35
