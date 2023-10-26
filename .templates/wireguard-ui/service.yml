@@ -9,8 +9,8 @@
     #depends_on:
     #  - wireguard
     depends_on:
-      wireguard:
-        condition: service_started
+      - wireguard:
+          condition: service_started
     restart: always  
     cap_add:
       - NET_ADMIN
