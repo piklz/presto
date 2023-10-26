@@ -13,7 +13,7 @@
     volumes:
       - ./volumes/heimdall/config:/config
     ports:
-      - 82:82
+      - 8222:8222
       - 443:443
     networks:
       private_network:
