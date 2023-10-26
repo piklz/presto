@@ -13,7 +13,7 @@
     volumes:
       - ./volumes/heimdall/config:/config
     ports:
-      - 82:80  # <Host Port>:<Container Port>
+      - 82:80  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
       - 443:443
     networks:
       private_network:
