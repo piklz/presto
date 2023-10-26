@@ -9,9 +9,8 @@
     #depends_on:
     #  - wireguard
     depends_on:
-      - wireguard:
-          condition: service_started
-    restart: always  
+      wireguard:
+        condition: service_started     
     cap_add:
       - NET_ADMIN
     # Use the network of the 'wireguard' service
@@ -32,6 +31,9 @@
       driver: json-file
       options:
         max-size: 50m
+
+    restart: unless-stopped
+    
     volumes:
       - ./volumes/wireguard/db:/app/db
       - ./volumes/wireguard/config:/etc/wireguard
