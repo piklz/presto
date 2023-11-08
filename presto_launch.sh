@@ -143,9 +143,12 @@ check_git_and_presto
 do_update() {
         echo -e "${INFO} ${COL_LIGHT_GREEN} Pulling latest project file from Github"
                 
-        #lets grab latest repo
+        # lets grab latest MAIN repo
         git pull origin main
 
+        # to be sure lets fix execute bits on the scripts
+        find scripts/ -name '*.sh' -type f -exec chmod +x {} +
+        
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
@@ -513,7 +516,7 @@ do_prune_volumes_stack(){
 if [ -e /home/pi/presto/scripts/prune-volumes.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/prune-volumes.sh"
-										#     show_ascii_berry
+										
         local str="running Docker prune-volumes script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 fi
