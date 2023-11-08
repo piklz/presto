@@ -997,7 +997,6 @@ if [ "$INTERACTIVE" = True ]; then
         "6 Update presto" "Update presto tools to the latest version (via github)" \
 	      "7 Update Docker-Compose " "Update Dockers compose system" \
         "8 About presto" "Information about this configuration tool" \
-        --default 6
         3>&1 1>&2 2>&3)
       
     fi
