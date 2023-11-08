@@ -148,7 +148,7 @@ do_update() {
 
         # to be sure lets fix execute bits on the scripts
         find scripts/ -name '*.sh' -type f -exec chmod +x {} +
-        
+
         #echo "${INFO} ${COL_LIGHT_GREEN} git status ------------------------------------------------------------------------------"
         [ -f .outofdate ] && rm .outofdate       #rm tmp check cos we are uptodate now
         #git status
@@ -997,6 +997,7 @@ if [ "$INTERACTIVE" = True ]; then
         "6 Update presto" "Update presto tools to the latest version (via github)" \
 	      "7 Update Docker-Compose " "Update Dockers compose system" \
         "8 About presto" "Information about this configuration tool" \
+        --default-item 6
         3>&1 1>&2 2>&3)
       
     fi
