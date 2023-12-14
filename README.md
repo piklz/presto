@@ -131,34 +131,34 @@ Netmanager is the new kid on the block so this is where you would manage your ne
 
 so lets display a list of available network interfaces.
 
-<code>sudo nmcli -p connection show
+<code>sudo nmcli -p connection show</code>
 
 heres some useful commands to set your pi to static on wired conn(eth0 or ethernet connection)
 
-<code>sudo nmcli c mod "Wired connection 1" ipv4.addresses 192.168.1.100/24 ipv4.method manual
+<code>sudo nmcli c mod "Wired connection 1" ipv4.addresses 192.168.1.100/24 ipv4.method manual</code>
 
-<code>sudo nmcli con mod "Wired connection 1" ipv4.gateway 192.168.1.254
+<code>sudo nmcli con mod "Wired connection 1" ipv4.gateway 192.168.1.254</code>
 
-<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "1.1.1.1"
+<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "1.1.1.1"</code>
 
 
 If you want to use multiple DNS servers, you can add them separated by commas; eg. to use Google's DNS servers (1.1.1.1 we used earlier is cloudflare), use the following.
 
-<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8,8.8.4.4"
+<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8,8.8.4.4"</code>
 
 
 
 ## samba and usb external related setups(plex etc)
 
 we need samba installed if you like to play with your plex movie folders(or any other system files) on you phone secondary computers
-<code>sudo apt install samba 
+<code>sudo apt install samba </code>
 
 To share the folder, we need to tell samba where it is. Open up the samba configuration file:
 
-<code>sudo nano /etc/samba/smb.conf
+<code>sudo nano /etc/samba/smb.conf</code>
 At the end of the file, add the following to share the folder, giving the remote user read/write permissions:
 
-<code
+```js
 [pishare]
 path = /shared
 writeable = yes
@@ -166,14 +166,14 @@ browseable = yes
 create mask = 0777
 directory mask = 0777
 public = no
-/code>
+```
 
 Now we want to set a Samba password, which can be the same as your standard password:
 
-<code>sudo smbpasswd -a pi
+<code>sudo smbpasswd -a pi</code>
 Finally restart the samba service for the changes to take effect:
 
-<code>sudo systemctl restart smbd
+<code>sudo systemctl restart smbd</code>
 
 Now you should be able to visit (via your phones folder manager or other app) using for example your local pi's ip 192.168.1.*** and 445 for port  and your login + password
 
