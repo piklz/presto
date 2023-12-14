@@ -158,6 +158,7 @@ To share the folder, we need to tell samba where it is. Open up the samba config
 <code>sudo nano /etc/samba/smb.conf
 At the end of the file, add the following to share the folder, giving the remote user read/write permissions:
 
+<code
 [pishare]
 path = /shared
 writeable = yes
@@ -165,7 +166,7 @@ browseable = yes
 create mask = 0777
 directory mask = 0777
 public = no
-
+/code>
 
 Now we want to set a Samba password, which can be the same as your standard password:
 
