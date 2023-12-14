@@ -126,10 +126,52 @@ output = str(update_out)
 
 ## FAQ
 
+##Bookworm related changes (2023 updates)
+Netmanager is the new kid on the block so this is where you would manage your network configs ( like static eth0 ip wifi deactivate etc)
+
+so lets display a list of available network interfaces.
+
+<code>sudo nmcli -p connection show
+
+heres some useful commands to set your pi to static on wired conn(eth0 or ethernet connection)
+
+<code>sudo nmcli c mod "Wired connection 1" ipv4.addresses 192.168.1.100/24 ipv4.method manual
+
+<code>sudo nmcli con mod "Wired connection 1" ipv4.gateway 192.168.1.254
+
+<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "1.1.1.1"
 
 
+If you want to use multiple DNS servers, you can add them separated by commas; eg. to use Google's DNS servers (1.1.1.1 we used earlier is cloudflare), use the following.
+<code>sudo nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8,8.8.4.4"
+
+##samba and usb external related setups(plex etc)
+
+we need samba installed if you like to play with your plex movie folders(or any other system files) on you phone secondary computers
+<code>sudo apt install samba 
+
+To share the folder, we need to tell samba where it is. Open up the samba configuration file:
+
+<code>sudo nano /etc/samba/smb.conf
+At the end of the file, add the following to share the folder, giving the remote user read/write permissions:
+
+[pishare]
+path = /shared
+writeable = yes
+browseable = yes
+create mask = 0777
+directory mask = 0777
+public = no
 
 
+Now we want to set a Samba password, which can be the same as your standard password:
+
+<code>sudo smbpasswd -a pi
+Finally restart the samba service for the changes to take effect:
+
+<code>sudo systemctl restart smbd
+
+Now you should be able to visit (via your phones folder manager or other app) using for example your local pi's ip 192.168.1.*** and 445 for port  and your login + password
 
 
 ## GOOGLE DRIVE BACKUP FROM HEADLESS PI ! instructions
