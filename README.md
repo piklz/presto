@@ -126,7 +126,7 @@ output = str(update_out)
 
 ## FAQ
 
-##Bookworm related changes (2023 updates)
+## Bookworm related changes (2023 updates)
 Netmanager is the new kid on the block so this is where you would manage your network configs ( like static eth0 ip wifi deactivate etc)
 
 so lets display a list of available network interfaces.
@@ -143,9 +143,12 @@ heres some useful commands to set your pi to static on wired conn(eth0 or ethern
 
 
 If you want to use multiple DNS servers, you can add them separated by commas; eg. to use Google's DNS servers (1.1.1.1 we used earlier is cloudflare), use the following.
+
 <code>sudo nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8,8.8.4.4"
 
-##samba and usb external related setups(plex etc)
+
+
+## samba and usb external related setups(plex etc)
 
 we need samba installed if you like to play with your plex movie folders(or any other system files) on you phone secondary computers
 <code>sudo apt install samba 
