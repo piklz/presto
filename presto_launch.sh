@@ -362,11 +362,11 @@ function yml_builder() {
 
 			"full")
 				echo "...pulled full $1 from template"
-    				rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
+    				#rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
 				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
 				;;
 			"env")
-   				rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
+   				#rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
 				echo "...pulled $1 excluding env file"
 				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
 				;;
@@ -669,16 +669,17 @@ do_build_stack_menu() {
 		touch docker-compose.yml
 		#echo "version: '3'" >docker-compose.yml #newer docker commpose does not care for this 
 	
-	echo "networks:" >> docker-compose.yml
-	echo "  private_network:" >> docker-compose.yml
-	echo "    name: \"pihole-dns\"" >> docker-compose.yml
-	echo "    driver: bridge" >> docker-compose.yml
-	echo "    ipam:" >> docker-compose.yml
-	echo "      config:" >> docker-compose.yml
-	echo "        - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc" >> docker-compose.yml
-	echo "          #gateway: 172.19.0.1" >> docker-compose.yml
+	echo "networks:
+	            private_network:
+	              name: "pihole-dns"
+	              driver: bridge
+	              ipam:
+	                #driver: default
+	                config:
+	                  - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc
+	                    #gateway: 172.19.0.1 " >docker-compose.yml
 	
-	echo "services:" >>docker-compose.yml
+	echo "services:" >docker-compose.yml
        
 
 		#set the ACL for the stack
