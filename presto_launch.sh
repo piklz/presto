@@ -345,8 +345,6 @@ function yml_builder() {
 
 	service="services/$1/service.yml"
  
-	# Remove the selection entry for this container before generating configs
- 	 [ -f ./services/selection.txt ] && sed -i "/^$1/d" ./services/selection.txt
 
 	[ -d ./services/ ] || mkdir ./services/
  
@@ -385,6 +383,11 @@ function yml_builder() {
 
 	#if an env file exists check for timezone
 	[ -f "./services/$1/$1.env" ] && timezones ./services/$1/$1.env
+ 
+ 	 # Append the service only if it's not already in the docker-compose.yml file
+	if ! grep -q "services:$1:" docker-compose.yml; then
+	  cat $service >>docker-compose.yml
+	fi
 
 	#add new line then append service
 	echo "" >>docker-compose.yml
