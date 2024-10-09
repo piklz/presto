@@ -362,9 +362,11 @@ function yml_builder() {
 
 			"full")
 				echo "...pulled full $1 from template"
+    				rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
 				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
 				;;
 			"env")
+   				rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
 				echo "...pulled $1 excluding env file"
 				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
 				;;
@@ -384,15 +386,14 @@ function yml_builder() {
 	#if an env file exists check for timezone
 	[ -f "./services/$1/$1.env" ] && timezones ./services/$1/$1.env
  
- 	echo "" >>docker-compose.yml
- 	 # Append the service only if it's not already in the docker-compose.yml file
+ 	# Append the service only if it's not already in the docker-compose.yml file
 	if ! grep -q "services:$1:" docker-compose.yml; then
 	  cat $service >>docker-compose.yml
 	fi
-
+ 	
 	#add new line then append service
-	#echo "" >>docker-compose.yml
-	#cat $service >>docker-compose.yml
+	echo "" >>docker-compose.yml
+	cat $service >>docker-compose.yml
   
 }
 
