@@ -384,14 +384,15 @@ function yml_builder() {
 	#if an env file exists check for timezone
 	[ -f "./services/$1/$1.env" ] && timezones ./services/$1/$1.env
  
+ 	echo "" >>docker-compose.yml
  	 # Append the service only if it's not already in the docker-compose.yml file
 	if ! grep -q "services:$1:" docker-compose.yml; then
 	  cat $service >>docker-compose.yml
 	fi
 
 	#add new line then append service
-	echo "" >>docker-compose.yml
-	cat $service >>docker-compose.yml
+	#echo "" >>docker-compose.yml
+	#cat $service >>docker-compose.yml
   
 }
 
