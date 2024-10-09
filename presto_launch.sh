@@ -653,7 +653,7 @@ do_build_stack_menu() {
 	#if no container is selected then dont overwrite the docker-compose.yml file
 	if [ -n "$container_selection" ]; then
 		touch docker-compose.yml
-		echo "version: '3'" >docker-compose.yml
+		#echo "version: '3'" >docker-compose.yml #newer docker commpose does not care for this 
 
     echo "networks:
             private_network:
