@@ -181,13 +181,13 @@ is_pi () {
   fi
 }
 
-
-if is_pi ; then
-  PREFIX=`cat /proc/device-tree/chosen/os_prefix`
-  CMDLINE=/boot/"$PREFIX"cmdline.txt
-else
-  CMDLINE=/proc/cmdline
-fi
+#not sure this is failign and prob dont need it on new pi bookworms
+#if is_pi ; then
+ # PREFIX=`cat /proc/device-tree/chosen/os_prefix`
+#  CMDLINE=/boot/"$PREFIX"cmdline.txt
+#else
+ # CMDLINE=/proc/cmdline
+#fi
 
 
 
