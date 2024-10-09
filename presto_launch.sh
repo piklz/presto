@@ -668,17 +668,17 @@ do_build_stack_menu() {
 	if [ -n "$container_selection" ]; then
 		touch docker-compose.yml
 		#echo "version: '3'" >docker-compose.yml #newer docker commpose does not care for this 
-	echo "networks:
-	            private_network:
-	              name: "pihole-dns"
-	              driver: bridge
-	              ipam:
-	                #driver: default
-	                config:
-	                  - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc
-	                    #gateway: 172.19.0.1 " >docker-compose.yml
 	
-	echo "services:" >docker-compose.yml
+	echo "networks:" >> docker-compose.yml
+	echo "  private_network:" >> docker-compose.yml
+	echo "    name: \"pihole-dns\"" >> docker-compose.yml
+	echo "    driver: bridge" >> docker-compose.yml
+	echo "    ipam:" >> docker-compose.yml
+	echo "      config:" >> docker-compose.yml
+	echo "        - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc" >> docker-compose.yml
+	echo "          #gateway: 172.19.0.1" >> docker-compose.yml
+	
+	echo "services:" >>docker-compose.yml
        
 
 		#set the ACL for the stack
