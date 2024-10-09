@@ -306,10 +306,10 @@ declare -A cont_array=(
 	[motioneye]="motioneye > free security cam"
 	[rpimonitor]="rpi-monitor > raspberry-sys gui stats"
 	[homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
-  [wireguard]="Wireguard > your own free vpn"
-  [wireguard-ui]="Wireguard UI > for wireguard config"
-  [pihole]="pi-hole >  adblocker!"
-  [uptimekuma]="uptime-kuma all your base system health monitor"	
+	[wireguard]="Wireguard > your own free vpn"
+	[wireguard-ui]="Wireguard UI > for wireguard config"
+	[pihole]="pi-hole >  adblocker!"
+	[uptimekuma]="uptime-kuma all your base system health monitor"	
 )
 
 # CONTAINER keys
@@ -694,8 +694,8 @@ do_build_stack_menu() {
 		for container in "${containers[@]}"; do
 			echo "Adding $container container"
 			yml_builder "$container"
-			#echo "$container" >>./services/selection.txt
-   			echo "$container" > ./services/selection.txt  # Overwrite selection file with current container
+			echo "$container" >>./services/selection.txt
+   			#echo "$container" > ./services/selection.txt  # Overwrite selection file with current container
 		done
 
 		# add custom containers
