@@ -678,7 +678,7 @@ do_build_stack_menu() {
 	                  - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc
 	                    #gateway: 172.19.0.1 " >> docker-compose.yml
 	
-	echo "services:" >>docker-compose.yml
+	echo "services:" >docker-compose.yml
        
 
 		#set the ACL for the stack
