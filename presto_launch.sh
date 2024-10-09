@@ -681,7 +681,8 @@ do_build_stack_menu() {
 		for container in "${containers[@]}"; do
 			echo "Adding $container container"
 			yml_builder "$container"
-			echo "$container" >>./services/selection.txt
+			#echo "$container" >>./services/selection.txt
+   			echo "$container" > ./services/selection.txt  # Overwrite selection file with current container
 		done
 
 		# add custom containers
