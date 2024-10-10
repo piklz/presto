@@ -24,7 +24,7 @@
 
 #lets gooooooooo
 
-presto_VERSION='1.0.9' 
+presto_VERSION='1.1.0' 
 
 
 INTERACTIVE=True
@@ -35,18 +35,31 @@ INTERACTIVE=True
 ASK_TO_REBOOT=0
 
 
-USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')}
+#USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')} either work the same checks if sudo user is empty and gets a name  for it if not
+
+if [ -z "${USER}" ]; then
+    USER="$(id -un)"
+fi
+
+
 INIT="$(ps --no-headers -o comm 1)"
 
 
-sys_arch=$(uname -m)
+sys_arch=$(uname -m) #eg. returns aarch64 
 
-presto_INSTALL_DIR="/home/pi/presto"
+
+
+
+presto_INSTALL_DIR="/home/$USER/presto"
+
+# todo maybe.. but generally this is to be on raspian/debian  mainly... /home
+# eg. should return /home/pi/ or diff users name as needed
+# user_home=$(getent passwd "$USER" | cut -d: -f6)
 
 
 #================================================================================================
 
-
+# Function to display a spinner animation and handle termination
 
 
 # Set these values so the installer can still run in color
@@ -455,12 +468,14 @@ do_bash_aliases() {
 
 do_start_stack() {
 
-if [ -e /home/pi/presto/scripts/start.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/start.sh ]; then
 	# shellcheck disable=SC1091
  	source "${presto_INSTALL_DIR}/scripts/start.sh"
 
 	local str="running docker start script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+        sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -473,12 +488,14 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_stop_stack(){
-if [ -e /home/pi/presto/scripts/stop.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/stop.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/stop.sh"
 
         local str="running Docker Stop script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+        sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -491,11 +508,13 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_update_stack(){ 
-if [ -e /home/pi/presto/scripts/update.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/presto/scripts/update.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/update.sh"
         local str="running Docker update stack script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+        sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -510,11 +529,14 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_restart_stack(){
-if [ -e /home/pi/presto/scripts/restart.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/restart.sh ]; then
         # shellcheck disable=SC1091
-        source "${presto_INSTALL_DIR}/scripts/restart.sh"
-        local str="running Docker restart script"
+        
+	source "${presto_INSTALL_DIR}/scripts/restart.sh"
+        local str="Docker restart script Finished. Returning you back to Menu"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+	sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -527,12 +549,13 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_volumes_stack(){
-if [ -e /home/pi/presto/scripts/prune-volumes.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/prune-volumes.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/prune-volumes.sh"
-										
         local str="running Docker prune-volumes script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+        sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -545,11 +568,14 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_images_stack(){
-if [ -e /home/pi/presto/scripts/prune-images.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/prune-images.sh ]; then
         # shellcheck disable=SC1091
         source "${presto_INSTALL_DIR}/scripts/prune-images.sh"
+	
         local str="running Docker prune-images script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
+	wait
+        sleep 3
 fi
 #: <<'END_COMMENT'
 if [ "$INTERACTIVE" = True ]; then
@@ -948,7 +974,7 @@ $(dpkg -s raspi-config 2> /dev/null | grep Version)\
 
 
 do_install_prestobashwelcome() {
-if grep -Fxq ". /home/pi/presto-tools/scripts/presto_bashwelcome.sh" /home/pi/.bashrc ; then
+if grep -Fxq ". /home/$USER/presto-tools/scripts/presto_bashwelcome.sh" /home/$USER/.bashrc ; then
     # code if found
 	echo "Found presto Welcome login link in bashrc no changes needed -continue check if prestotools git installed.."
 
@@ -959,8 +985,8 @@ else
 
 
 	#bashwelcome add to bash.rc here
-	echo  "#presto-tools Added: presto_bash_welcome scripty" >> /home/pi/.bashrc
-	echo ". /home/pi/presto-tools/scripts/presto_bashwelcome.sh" >> /home/pi/.bashrc
+	echo  "#presto-tools Added: presto_bash_welcome scripty" >> /home/$USER/.bashrc
+	echo ". /home/$USER/presto-tools/scripts/presto_bashwelcome.sh" >> /home/$USER/.bashrc
 fi 
 
 #lets check if there already / git clone it and run it
