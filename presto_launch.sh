@@ -322,7 +322,8 @@ declare -A cont_array=(
 	[wireguard]="Wireguard > your own free vpn"
 	[wireguard-ui]="Wireguard UI > for wireguard config"
 	[pihole]="pi-hole >  adblocker!"
-	[uptimekuma]="uptime-kuma all your base system health monitor"	
+	[uptimekuma]="uptime-kuma all your base system health monitor"
+  [syncthing]="syncthing the sync tools you always wanted webui easy to use "	
 )
 
 # CONTAINER keys
@@ -346,6 +347,7 @@ declare -a aarch64_keys=(
   "wireguard-ui"
   "pihole"
   "uptimekuma"
+  "syncthing"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
