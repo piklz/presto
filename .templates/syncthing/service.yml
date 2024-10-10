@@ -13,8 +13,8 @@
       - TZ=Europe/London
     volumes:
       - ./volumes/syncthing/config:/config
-      - /32GBUSB/data1:/data1
-      - /32GBUSB/data2:/data2
+      - /32GUSB/data1:/data1
+      - /32GUSB/data2:/data2
     ports:
       - 8384:8384
       - 22000:22000/tcp
