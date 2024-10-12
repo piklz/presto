@@ -3,47 +3,46 @@
 #     WireGuard UI                                                    #
 #---------------------------------------------------------------------#
 
-   wireguard:
-    depends_on: [pihole]
-    image: linuxserver/wireguard:latest
-    container_name: wireguard
+wireguard-ui:
+
+    image: ngoduykhanh/wireguard-ui:latest
+    container_name: wireguard-ui
+
+    depends_on:
+      wireguard:
+        condition: service_healthy
     cap_add:
       - NET_ADMIN
-      #- SYS_MODULE
-    dns:
-      - 172.19.0.3 # internal pihole address we need to talk with for adblocking tomfoolery
-    volumes:
-      - ./volumes/wireguard/config:/config
-      - /lib/modules:/lib/modules
-    ports:
-      # Port for WireGuard-UI
-      - "5000:5000"
-      # Port of the WireGuard VPN server
-      - "51820:51820/udp"
+    # Use the network of the 'wireguard' service
+    # This enables to show active clients in the status page
+    network_mode: service:wireguard
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - PEERS=1 #i have this here to make the ui work or web wont boot cos it doesnt see it in the config dir?i dunno its all nonsense .could symlink too i guess
-      #- PEERS=2 #not so important as we use W-UI to config this but can be enabled if not using W-UI
-      - PEERDNS=172.19.0.3 ##10.252.1.1 # ip of pihole container  #PEERDNS=auto
-      - INTERNAL_SUBNET=10.252.1.0 #optional internal subnet vpn
-      - ALLOWEDIPS=172.19.0.0/24 # ,[..] or 0.0.0.0/0
-      #- SERVERURL=my.ddns.net #optional - For use with DDNS (Uncomment to use) most ppl will use this if they want to acsses from outside thier home for free
+      - SENDGRID_API_KEY
+      - EMAIL_FROM_ADDRESS
+      - EMAIL_FROM_NAME
+      - SESSION_SECRET
+      - WGUI_USERNAME=admin
+      - WGUI_PASSWORD=password
+      - WG_CONF_TEMPLATE
+      - WGUI_MANAGE_START=true
+      - WGUI_MANAGE_RESTART=true
+      - WGUI_SERVER_INTERFACE_ADDRESSES
+      - WGUI_DNS=172.19.0.3 #to pointto the pihole or 1.1.1.1 if not going via pihole ip
+      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=192.168.1.0/24
+      - WGUI_ENDPOINT_ADDRESS=192.168.1.51 #or your public domain name  www.funnydomainname.com:51820
+      - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg_confs/wg0.conf # this is the missing link -add this here & the ui will find the new path 'wg_confs as set in this compose  paths and over write  wg_conf file!
+      - WGUI_SERVER_POST_UP_SCRIPT=iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE   # change wlan0 to match your own interface eg eth+ etc
+      - WGUI_SERVER_POST_DOWN_SCRIPT=iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o wlan0 -j MASQUERADE #
 
-    sysctls:
-      - net.ipv4.ip_forward=1
-      - net.ipv4.conf.all.src_valid_mark=1
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
 
-    restart: always
+    restart: unless-stopped
 
-    healthcheck:
-            test: stat /etc/passwd || exit 1
-            interval: 20s
-            timeout: 60s
-            start_period: 15s
-
-    networks:
-      private_network:
-        ipv4_address: 172.19.0.5 # internal address of wireguard
+    volumes:
+      - ./volumes/wireguard-ui/db:/app/db
+     # - ./volumes/wireguard/config/wg_confs:/etc/wireguard
+      - ./volumes/wireguard/config/wg_confs:/etc/wireguard/wg_confs
       
