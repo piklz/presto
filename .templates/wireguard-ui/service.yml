@@ -3,7 +3,7 @@
 #     WireGuard UI                                                    #
 #---------------------------------------------------------------------#
 
-wireguard-ui:
+   wireguard-ui:
 
     image: ngoduykhanh/wireguard-ui:latest
     container_name: wireguard-ui
