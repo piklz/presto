@@ -3,7 +3,7 @@
 #     WireGuard UI                                                    #
 #---------------------------------------------------------------------#
 
-   wireguard-ui:
+  wireguard-ui:
 
     image: ngoduykhanh/wireguard-ui:latest
     container_name: wireguard-ui
@@ -45,4 +45,3 @@
       - ./volumes/wireguard-ui/db:/app/db
      # - ./volumes/wireguard/config/wg_confs:/etc/wireguard
       - ./volumes/wireguard/config/wg_confs:/etc/wireguard/wg_confs
-      
