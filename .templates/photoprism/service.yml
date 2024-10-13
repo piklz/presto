@@ -119,10 +119,10 @@
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
       #- "~/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
-      "./volumes/Pictures:/photoprism/originals"
+      - "./volumes/Pictures:/photoprism/originals"
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      "./volumes/storage:/photoprism/storage"
+      - "./volumes/storage:/photoprism/storage"
       #- "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
   ## MariaDB Database Server (recommended)
