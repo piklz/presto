@@ -324,7 +324,7 @@ declare -A cont_array=(
 	[pihole]="pi-hole >  adblocker!"
 	[uptimekuma]="uptime-kuma all your base system health monitor"
   [syncthing]="syncthing the sync tools you always wanted webui easy to use "	
-  [photoprism]=" your own google photos library! with ai tensor for tagging "	
+  [photoprism]=" your own google photos ! with ai tensor for tagging "	
 
 )
 
