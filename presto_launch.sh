@@ -323,8 +323,8 @@ declare -A cont_array=(
 	[wireguardui]="Wireguard-UI > web portal for for wireguard vpn config"
 	[pihole]="pi-hole >  adblocker!"
 	[uptimekuma]="uptime-kuma all your base system health monitor"
-  [syncthing]="syncthing the sync tools you always wanted webui easy to use "	
-  [photoprism]=" your own google photos ! with ai tensor for tagging "	
+  [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "	
+  [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "	
 
 )
 
