@@ -325,10 +325,9 @@ declare -A cont_array=(
 	[uptimekuma]="uptime-kuma all your base system health monitor"
   [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "	
   [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "	
-
+  [immich]="Immich  > your own google photos ! with ai-tensor for tagging alt"	
 )
 
-# CONTAINER keys
 declare -a aarch64_keys=(
   "portainer"
   "sonarr"
@@ -351,6 +350,7 @@ declare -a aarch64_keys=(
   "uptimekuma"
   "syncthing"
   "photoprism"
+  "immich"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
