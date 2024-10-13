@@ -125,7 +125,7 @@
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./volumes/photoprism/storage:/photoprism/storage"
       #- "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
-  networks:
+    networks:
       private_network:
         ipv4_address: 172.19.0.37
         
