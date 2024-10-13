@@ -32,7 +32,7 @@ We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is
 | [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server 
 | [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Plex stats grapher 
 | [Overseerr](https://github.com/sct/overseerr) | 5055 | Plex movie/TV requester
-| [Heimdall](https://github.com/linuxserver/heimdall) | 81 | Nice frontend dashboard for all your *arr apps 
+| [Heimdall](https://github.com/linuxserver/heimdall) | 82 | Nice frontend dashboard for all your *arr apps 
 | [Home Assistant](https://github.com/home-assistant/core) | 8123 | Home automation platform 
 | [MotionEye](https://github.com/ccrisan/motioneye) | 8765 | Free security cam 
 | [rpi-monitor](https://github.com/pi-hole/rpi-monitor) | 8888 | Python script to display Raspberry Pi system statistics 
