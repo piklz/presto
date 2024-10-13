@@ -1,3 +1,10 @@
+
+#---------------------------------------------------------------------#
+#     PHOTOPRISM                                                      #
+#---------------------------------------------------------------------#
+
+
+
 # Example Docker Compose config file for PhotoPrism (Raspberry Pi 3/4 and other ARM64-based devices)
 #
 # Note:
@@ -153,6 +160,6 @@
   #     - "/var/run/docker.sock:/var/run/docker.sock"
   #     - "~/.docker/config.json:/config.json" # optional, for authentication if you have a Docker Hub account
 
-  networks:
+    networks:
       private_network:
         ipv4_address: 172.19.0.36
