@@ -43,7 +43,7 @@
   photoprism:
     ## Use photoprism/photoprism:preview-arm64 for testing preview builds:
     image: photoprism/photoprism:arm64
-    
+    container_name: photoprism
     platform: "linux/arm64"
     ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
     ## If the service gets stuck in a restart loop, this points to a memory, filesystem, network, or database issue:
@@ -125,7 +125,10 @@
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./volumes/photoprism/storage:/photoprism/storage"
       #- "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
-
+  networks:
+      private_network:
+        ipv4_address: 172.19.0.37
+        
   ## MariaDB Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
   mariadb:
