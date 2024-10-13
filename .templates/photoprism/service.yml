@@ -43,6 +43,7 @@
   photoprism:
     ## Use photoprism/photoprism:preview-arm64 for testing preview builds:
     image: photoprism/photoprism:arm64
+    
     platform: "linux/arm64"
     ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
     ## If the service gets stuck in a restart loop, this points to a memory, filesystem, network, or database issue:
