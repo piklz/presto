@@ -43,5 +43,4 @@
 
     volumes:
       - ./volumes/wireguard-ui/db:/app/db
-     # - ./volumes/wireguard/config/wg_confs:/etc/wireguard
       - ./volumes/wireguard/config/wg_confs:/etc/wireguard/wg_confs
