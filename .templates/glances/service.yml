@@ -1,18 +1,20 @@
   
 #---------------------------------------------------------------------#
-#     GLANCES                                                     #
+#     GLANCES                                                         #
 #---------------------------------------------------------------------#  
   glances:
     image: nicolargo/glances:latest
     container_name: glances
     restart: always
+    privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/os-release:/etc/os-release:ro
+      - ./volumes/glances/glances.conf:/glances/conf/glances.conf
     environment:
       - PUID=1000
       - PGID=1000
-      - GLANCES_OPT="-w"
+      #- GLANCES_OPT="-w"
     ports:
       - 61208-61209:61208-61209
     networks:
