@@ -1,10 +1,10 @@
   
 #---------------------------------------------------------------------#
-#     HA UI                                                     #
+#     HomeAssistant                                                   #
 #---------------------------------------------------------------------#   
   
   homeassistant:
-    image: homeassistant/raspberrypi4-homeassistant:stable
+    image: homeassistant/home-assistant
     container_name: homeassistant
     restart: always
     privileged: true
