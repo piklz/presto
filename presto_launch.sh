@@ -325,7 +325,7 @@ declare -A cont_array=(
 	[uptimekuma]="uptime-kuma all your base system health monitor"
   [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "	
   [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "	
-  [immich]="Immich  > your own google photos ! with ai-tensor for tagging alt"	
+  [glances]="Glances  > An eye on your system"	
 )
 
 declare -a aarch64_keys=(
@@ -350,7 +350,7 @@ declare -a aarch64_keys=(
   "uptimekuma"
   "syncthing"
   "photoprism"
-  "immich"
+  "glances"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
@@ -666,7 +666,7 @@ do_dockersystem_install(){
 do_build_stack_menu() {
 
 	title=$'Container Selection'
-	message=$'Use the [SPACEBAR] to select which containers you would like to use'
+	message=$'Use the [SPACEBAR] to select which containers you would like to use then tab for OK|skip'
 	entry_options=()
 
 	#check architecture and display appropriate menu
