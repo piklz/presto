@@ -379,24 +379,23 @@ function yml_builder() {
 			case $service_overwrite in
 
 			"full")
-				echo "...pulled full $1 from template"
-    				#rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
-				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
-				;;
+          echo "...pulled full $1 from template"
+              #rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
+          rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
+          ;;
 			"env")
-   				#rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
-				echo "...pulled $1 excluding env file"
-				rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
-				;;
+          echo "...pulled $1 from github local excluding env/conf files"
+          rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
+          ;;
 			"none")
-				echo "...$1 service not overwritten"
-				;;
+          echo "...$1 service files not overwritten"
+          ;;
 
 			esac
 
 		else
 			mkdir ./services/$1
-			echo "...pulled full $1 from template"
+			echo "...pulled full $1 from template Dir"
 			rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
 		fi
 
@@ -414,18 +413,9 @@ function yml_builder() {
  
  	
  	
-	#add new line then append service
-	#echo "" >>docker-compose.yml
-	#cat $service >>docker-compose.yml
-  
-}
 
 
 
-
-#FUNC command docker bash stuff here
-
-#: <<'END_COMMENT'
 
 do_bash_aliases() {
 	touch ~/.bash_aliases
