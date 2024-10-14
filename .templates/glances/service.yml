@@ -17,7 +17,7 @@
       #- GLANCES_OPT="-w"
       - "GLANCES_OPT=-C /glances/conf/glances.conf -w"
     ports:
-      - 61208-61209:61208-61209
+      - 61208:61208
     networks:
       private_network:
         ipv4_address: 172.19.0.39
