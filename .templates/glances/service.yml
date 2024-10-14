@@ -3,20 +3,21 @@
 #     GLANCES                                                         #
 #---------------------------------------------------------------------#  
   glances:
-    image: nicolargo/glances:latest
+    image: nicolargo/glances:latest-full
     container_name: glances
     restart: always
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/os-release:/etc/os-release:ro
-      - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
+      #- /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro #RHEL?
       - ./volumes/glances/glances.conf:/glances/conf/glances.conf
     environment:
+      - TZ=Europe/London
       - PUID=1000
       - PGID=1000
-      #- GLANCES_OPT="-w"
-      - "GLANCES_OPT=-C /glances/conf/glances.conf -w"
+      - GLANCES_OPT=-w
+      #- GLANCES_OPT=-C /glances/conf/glances.conf -w
     ports:
       - "61208-61209:61208-61209"
     networks:
