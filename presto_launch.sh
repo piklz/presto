@@ -379,17 +379,17 @@ function yml_builder() {
 			case $service_overwrite in
 
 			"full")
-          echo "...pulled full $1 from template"
-              #rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
-          rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
-          ;;
+        echo "...pulled full $1 from template"
+            #rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
+        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
+        ;;
 			"env")
-          echo "...pulled $1 from github local excluding env/conf files"
-          rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
-          ;;
+        echo "...pulled $1 from github local excluding env/conf files"
+        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
+        ;;
 			"none")
-          echo "...$1 service files not overwritten"
-          ;;
+        echo "...$1 service files not overwritten"
+        ;;
 
 			esac
 
