@@ -10,6 +10,7 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/os-release:/etc/os-release:ro
+      - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
       - ./volumes/glances/glances.conf:/glances/conf/glances.conf
     environment:
       - PUID=1000
@@ -17,7 +18,7 @@
       #- GLANCES_OPT="-w"
       - "GLANCES_OPT=-C /glances/conf/glances.conf -w"
     ports:
-      - 61208:61208
+      - "61208-61209:61208-61209"
     networks:
       private_network:
         ipv4_address: 172.19.0.39
