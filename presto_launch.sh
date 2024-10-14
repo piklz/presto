@@ -412,7 +412,7 @@ function yml_builder() {
 	fi
  
  	
- 	
+}
 
 
 
@@ -444,7 +444,6 @@ do_bash_aliases() {
 
 }
 
-#END_COMMENT
 
 
 
