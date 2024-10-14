@@ -15,6 +15,7 @@
       - PUID=1000
       - PGID=1000
       #- GLANCES_OPT="-w"
+      - "GLANCES_OPT=-C /glances/conf/glances.conf -w"
     ports:
       - 61208-61209:61208-61209
     networks:
