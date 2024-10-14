@@ -899,11 +899,12 @@ if [ $(grep -c swappiness /etc/sysctl.conf) -eq 0 ]; then
 
 do_log2ram(){
 
-if [ ! -d ~/log2ram ]; then
-			git clone https://github.com/azlux/log2ram.git ~/log2ram
-			chmod +x ~/log2ram/install.sh
-			pushd ~/log2ram && sudo ./install.sh
-			popd
+if [ ! -d ~/log2ram-master ]; then
+			curl -L https://github.com/azlux/log2ram/archive/master.tar.gz | tar zxf -
+      cd log2ram-master
+      chmod +x install.sh && sudo ./install.sh
+      cd ..
+      rm -r log2ram-master
 		else
 			echo "log2ram already installed"
 		fi
@@ -918,9 +919,9 @@ do_extratools_menu() {
 #echo -e "${red} extra scripts  here "
 
 FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto-config)" --menu "Performance Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
-    "P1 swap" "set useful bash cmd aliases" \
-    "P2 swappiness" "runs Docker start.sh in /scripts" \
-    "P3 log2ram" "runs Docker stop.sh in /scripts" \
+    "P1 swap" "disable your swap file - if u have plenty ram" \
+    "P2 swappiness" "set swappiness to 0 - if you have plenty ram" \
+    "P3 log2ram" "installs log2ram (to save your ssd/nvme constant writes)" \
      3>&1 1>&2 2>&3)
   RET=$?
   if [ $RET -eq 1 ]; then
