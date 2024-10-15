@@ -326,6 +326,7 @@ declare -A cont_array=(
   [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "	
   [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "	
   [glances]="Glances  > An eye on your system"	
+  [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
 )
 
 declare -a aarch64_keys=(
@@ -351,6 +352,7 @@ declare -a aarch64_keys=(
   "syncthing"
   "photoprism"
   "glances"
+  "prowlarr"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
