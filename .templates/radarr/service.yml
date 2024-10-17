@@ -18,6 +18,12 @@
       - /media/YOUR-USB-DRIVE-PATH/DOWNLOADS:/downloads
     ports:
       - 7878:7878
+    labels:
+      - homepage.group=MEDIA
+      - homepage.name=Radarr
+      - homepage.icon=radarr.png
+      - homepage.href=http://192.168.1.51:8989
+      - homepage.description=movie radarr    
     networks:
       private_network:
         ipv4_address: 172.19.0.30  
