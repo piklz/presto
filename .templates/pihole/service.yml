@@ -24,6 +24,12 @@
     #  - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
 
     restart: always
+    labels:
+    - homepage.group=Media
+    - homepage.name=pi-hole
+    - homepage.icon=pi-hole.png
+    - homepage.href=http://192.168.1.51:80/admin
+    - homepage.description=ad blocker
     networks:
       private_network:
         ipv4_address: 172.19.0.3
