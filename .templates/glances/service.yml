@@ -26,6 +26,7 @@
       - homepage.name=glances
       - homepage.icon=glances.png
       - homepage.href=http://192.168.1.51:61208  
+      - homepage.description=system info top hub
     networks:
       private_network:
         ipv4_address: 172.19.0.39
