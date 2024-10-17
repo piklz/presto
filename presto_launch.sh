@@ -326,6 +326,7 @@ declare -A cont_array=(
   [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "	
   [glances]="Glances  > An eye on your system"	
   [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
+  [homepage]="Homepage > customizable application dashboard"
 )
 
 declare -a aarch64_keys=(
@@ -351,6 +352,7 @@ declare -a aarch64_keys=(
   "photoprism"
   "glances"
   "prowlarr"
+  "homepage"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
