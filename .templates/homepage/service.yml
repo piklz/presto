@@ -15,6 +15,7 @@
         - ./volumes/homepage/config:/app/config # Make sure your local config directory exists
         - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
       restart: unless-stopped
+
       networks:
-      private_network:
-        ipv4_address: 172.19.0.42
+        private_network:
+          ipv4_address: 172.19.0.42
