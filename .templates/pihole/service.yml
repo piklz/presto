@@ -25,11 +25,11 @@
 
     restart: always
     labels:
-    - homepage.group=Media
-    - homepage.name=pi-hole
-    - homepage.icon=pi-hole.png
-    - homepage.href=http://192.168.1.51:80/admin
-    - homepage.description=ad blocker
+      - homepage.group=NETWORK
+      - homepage.name=pi-hole
+      - homepage.icon=pi-hole.png
+      - homepage.href=http://192.168.1.51
+      - homepage.description=ad blocker
     networks:
       private_network:
         ipv4_address: 172.19.0.3
