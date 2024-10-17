@@ -730,7 +730,7 @@ do_build_stack_menu() {
 		fi
 
     
-		echo "docker compose yml successfully created"
+		echo "docker-compose.yml successfully created"
 		echo -e "run \e[104;1mdocker-compose up -d or 'presto_up'\e[0m to start the stack"
 		
 		if [ "$INTERACTIVE" = True ]; then
