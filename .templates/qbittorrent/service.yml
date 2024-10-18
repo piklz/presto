@@ -27,6 +27,6 @@
     labels:
       - homepage.group=MEDIA
       - homepage.name=qbittorrent
-      - homepage.icon=pqbittorrent.png
+      - homepage.icon=qbittorrent.png
       - homepage.href=http://192.168.1.51:6881
       - homepage.description= Torrent Downloader
