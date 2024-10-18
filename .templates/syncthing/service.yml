@@ -24,3 +24,9 @@
       private_network:
         ipv4_address: 172.19.0.35    
     restart: unless-stopped
+    labels:
+      - homepage.group=MEDIA
+      - homepage.name=syncthing
+      - homepage.icon=jellyfin.png
+      - homepage.href=http://192.168.1.51:8384
+      - homepage.description=syncthing backup

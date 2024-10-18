@@ -18,4 +18,5 @@
     networks:
       private_network:
         ipv4_address: 172.19.0.33  
+    
  

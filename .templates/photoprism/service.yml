@@ -125,6 +125,13 @@
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./volumes/photoprism/storage:/photoprism/storage"
       #- "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+    
+    labels:
+      - homepage.group=MEDIA
+      - homepage.name=photoprism
+      - homepage.icon=photoprism.png
+      - homepage.href=http://192.168.1.51:2342
+      - homepage.description= Photo library
     networks:
       private_network:
         ipv4_address: 172.19.0.37
