@@ -15,7 +15,7 @@
     volumes:
       - ./volumes/jellyfin/config:/config
       - /media/YOUR-USB-DRIVE-PATH/TV:/data/tvshows
-      - /media/YOUR-USB-DRIVE-PATH/MOVIES:/data/movies
+      - /media/32GUSB/MOVIES:/data/movies
       - /media/YOUR-USB-DRIVE-PATH/MUSIC:/data/music
       - /opt/vc/lib:/opt/vc/lib #optional
     ports:
