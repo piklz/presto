@@ -39,4 +39,4 @@
       #- /dev/vchiq:/dev/vchiq #optional
       #- /dev/video10:/dev/video10 #optional
       #- /dev/video11:/dev/video11 #optional
-      - /dev/video20:/dev/video20 #optional
+      - /dev/video20:/dev/video20 #optional findin your pi 'ls /dev/vid*' an replace values here for hw support
