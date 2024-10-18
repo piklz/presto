@@ -13,6 +13,12 @@
       - ./volumes/homarr/icons:/app/public/icons
     ports:
       - 7575:7575
+    labels:
+      - homepage.group=NETWORK
+      - homepage.name=homarr
+      - homepage.icon=homarr.png
+      - homepage.href=http://192.168.1.51:7575
+      - homepage.description=Server Dashboard
     networks:
       private_network:
         ipv4_address: 172.19.0.21  

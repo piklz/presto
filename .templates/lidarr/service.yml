@@ -18,6 +18,12 @@
       - /media/USB_PLEX_14TB/DOWNLOADS:/downloads
     ports:
       - 8686:8686
+    labels:
+      - homepage.group=MEDIA
+      - homepage.name=lidarr
+      - homepage.icon=lidarr.png
+      - homepage.href=http://192.168.1.51:8686
+      - homepage.description=song manager  
     networks:
       private_network:
         ipv4_address: 172.19.0.24  

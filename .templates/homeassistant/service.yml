@@ -27,7 +27,13 @@
       - PGID=1000
       - TZ='Europe/London'
     ports:
-      - 8123:8123  
+      - 8123:8123
+    labels:
+      - homepage.group=NETWORK
+      - homepage.name=homeassistant
+      - homepage.icon=homeassistant.png
+      - homepage.href=http://192.168.1.51:8123
+      - homepage.description=Home Assistant
     networks:
       private_network:
         ipv4_address: 172.19.0.40
