@@ -11,6 +11,7 @@
       - PGID=1000
       - TZ=UTC
       - UMASK_SET=<022> #optional
+      - JELLYFIN_PublishedServerUrl=http://192.168.1.51 #optional
     volumes:
       - ./volumes/jellyfin/config:/config
       - /media/YOUR-USB-DRIVE-PATH/TV:/data/tvshows
@@ -35,7 +36,7 @@
     devices:
       - /dev/dri:/dev/dri #optional
       #- /dev/vcsm:/dev/vcsm #optional
-      - /dev/vchiq:/dev/vchiq #optional
+      #- /dev/vchiq:/dev/vchiq #optional
       - /dev/video10:/dev/video10 #optional
       - /dev/video11:/dev/video11 #optional
       - /dev/video12:/dev/video12 #optional
