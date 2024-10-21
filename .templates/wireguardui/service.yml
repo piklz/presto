@@ -31,8 +31,8 @@
       - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=192.168.1.0/24
       - WGUI_ENDPOINT_ADDRESS=192.168.1.51 #or your public domain name  www.funnydomainname.com:51820
       - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg_confs/wg0.conf # this is the missing link -add this here & the ui will find the new path 'wg_confs as set in this compose  paths and over write  wg_conf file!
-      - WGUI_SERVER_POST_UP_SCRIPT=iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE   # change wlan0 to match your own interface eg eth+ etc
-      - WGUI_SERVER_POST_DOWN_SCRIPT=iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o wlan0 -j MASQUERADE #
+      - WGUI_SERVER_POST_UP_SCRIPT=iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE   # change wlan0 to match your own interface eg eth+ etc
+      - WGUI_SERVER_POST_DOWN_SCRIPT=iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE #
 
     logging:
       driver: json-file
