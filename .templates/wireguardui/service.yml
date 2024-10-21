@@ -40,6 +40,13 @@
         max-size: 50m
 
     restart: unless-stopped
+    labels:
+      - homepage.group=NETWORK
+      - homepage.name=wireguard-ui
+      - homepage.icon=wireguard.png
+      - homepage.href=http://192.168.1.30:5000
+      - homepage.description= wireguard  ui
+    
 
     volumes:
       - ./volumes/wireguard-ui/db:/app/db
