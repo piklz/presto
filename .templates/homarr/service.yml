@@ -17,7 +17,7 @@
       - homepage.group=NETWORK
       - homepage.name=homarr
       - homepage.icon=homarr.png
-      - homepage.href=http://192.168.1.51:7575
+      - homepage.href=http://192.168.1.30:7575
       - homepage.description=Server Dashboard
     networks:
       private_network:

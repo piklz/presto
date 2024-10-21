@@ -28,7 +28,7 @@
       - homepage.group=NETWORK
       - homepage.name=pi-hole
       - homepage.icon=pi-hole.png
-      - homepage.href=http://192.168.1.51:80/admin
+      - homepage.href=http://192.168.1.30:80/admin
       - homepage.description=ad blocker
     networks:
       private_network:

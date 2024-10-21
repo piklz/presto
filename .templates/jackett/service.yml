@@ -23,7 +23,7 @@
       - homepage.group=MEDIA
       - homepage.name=jackett
       - homepage.icon=jackett.png
-      - homepage.href=http://192.168.1.51:9117      
+      - homepage.href=http://192.168.1.30:9117      
       - homepage.description= Torrent indexer 
     networks:
       private_network:

@@ -22,7 +22,7 @@
       - homepage.group=MEDIA
       - homepage.name=Radarr
       - homepage.icon=radarr.png
-      - homepage.href=http://192.168.1.51:8989
+      - homepage.href=http://192.168.1.30:8989
       - homepage.description=movie radarr    
     networks:
       private_network:

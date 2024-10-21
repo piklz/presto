@@ -32,7 +32,7 @@
       - homepage.group=NETWORK
       - homepage.name=home-assistant
       - homepage.icon=home-assistant.png
-      - homepage.href=http://192.168.1.51:8123
+      - homepage.href=http://192.168.1.30:8123
       - homepage.description=Home Assistant
     networks:
       private_network:

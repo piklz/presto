@@ -47,5 +47,5 @@
       - homepage.group=MEDIA
       - homepage.name=plex
       - homepage.icon=plex.png
-      - homepage.href=http://192.168.1.51:32400
+      - homepage.href=http://192.168.1.30:32400
       - homepage.description=media server/player
