@@ -12,7 +12,7 @@
       - "53:53/tcp"
       - "53:53/udp"
       #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
-      - "8080:80/tcp"
+      - "80:80/tcp"
     # Volumes store your data between container upgrades or use env file
     env_file:
       - ./services/pihole/pihole.env
