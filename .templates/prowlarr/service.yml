@@ -20,5 +20,7 @@
       - homepage.icon=prowlarr.png
       - homepage.href=http://192.168.1.30:9696
       - homepage.description= T indexer
-
+      networks:
+        private_network:
+          ipv4_address: 172.19.0.43
       restart: unless-stopped
