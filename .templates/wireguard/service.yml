@@ -27,7 +27,7 @@
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PEERS=1 #i have this to make the ui work or web wont boot cos it doesnt see it in the config dir?i dunno its all nonsense 
+      #- PEERS=1 #i have this to make the ui work or web wont boot cos it doesnt see it in the config dir?i dunno its all nonsense 
       #- PEERS=2 #not so important as we use W-UI to config this but can be enabled if not using W-UI
       - PEERDNS=172.19.0.3 # ip of pihole container  #PEERDNS=auto
       - INTERNAL_SUBNET=10.252.1.0 #optional internal subnet vpn
