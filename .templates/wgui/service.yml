@@ -1,9 +1,9 @@
 
 #---------------------------------------------------------------------#
-#     WireGuard UI                                                    #
+#     WireGuard UI frontend                                           #
 #---------------------------------------------------------------------#
 
-  wireguardui:
+  wgui:
 
     image: ngoduykhanh/wireguard-ui:latest
     container_name: wireguard-ui
@@ -27,8 +27,8 @@
       - WGUI_MANAGE_START=true
       - WGUI_MANAGE_RESTART=true
       - WGUI_SERVER_INTERFACE_ADDRESSES
-      - WGUI_DNS=10.252.1.0 #to point to the pihole or 1.1.1.1 if not going via pihole ip
-      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=192.168.1.0/24
+      - WGUI_DNS=172.19.0.3 #to point to the pihole or 1.1.1.1 if not going via pihole ip
+      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=192.168.1.0/24 , 172.19.0.3/32 
       - WGUI_ENDPOINT_ADDRESS=192.168.1.30 #or your public domain name eg.  www.funnydomainname.com:51820
       - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg_confs/wg0.conf # this is the missing link -add this here & the ui will find the new path 'wg_confs as set in this compose  paths and over write  wg_conf file!
       - WGUI_SERVER_POST_UP_SCRIPT=iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE   # change wlan0 to match your own interface eg eth+ etc
