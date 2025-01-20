@@ -1,0 +1,20 @@
+  
+#---------------------------------------------------------------------#
+#     ITTOOLS UI                                                     #
+#---------------------------------------------------------------------#  
+  
+  it-tools:
+    image: 'corentinth/it-tools:latest'
+    container_name: it-tools
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./volumes/it-tools/config:/config
+    ports:
+      - 8081:81  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.44 
+    restart: unless-stopped

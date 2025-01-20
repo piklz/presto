@@ -194,70 +194,6 @@ is_pi () {
   fi
 }
 
-#not sure this is failign and prob dont need it on new pi bookworms
-#if is_pi ; then
- # PREFIX=`cat /proc/device-tree/chosen/os_prefix`
-#  CMDLINE=/boot/"$PREFIX"cmdline.txt
-#else
- # CMDLINE=/proc/cmdline
-#fi
-
-
-
-
-
-
-
-# tests for Pi 1, 2 and 0 all test for specific boards...
-
-is_pione() {
-  if grep -q "^Revision\s*:\s*00[0-9a-fA-F][0-9a-fA-F]$" /proc/cpuinfo; then
-    return 0
-  elif grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]0[0-36][0-9a-fA-F]$" /proc/cpuinfo ; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-is_pitwo() {
-  grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]04[0-9a-fA-F]$" /proc/cpuinfo
-  return $?
-}
-
-is_pizero() {
-  grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]0[9cC][0-9a-fA-F]$" /proc/cpuinfo
-  return $?
-}
-
-# ...while tests for Pi 3 and 4 just test processor type, so will also find CM3, CM4, Zero 2 etc.
-
-is_pithree() {
-  grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F]2[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]$" /proc/cpuinfo
-  return $?
-}
-
-is_pifour() {
-  grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F]3[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]$" /proc/cpuinfo
-  return $?
-}
-
-get_pi_type() {
-  if is_pione; then
-    echo 1
-  elif is_pitwo; then
-    echo 2
-  elif is_pithree; then
-    echo 3
-  elif is_pifour; then
-    echo 4
-  elif is_pizero; then
-    echo 0
-  else
-    echo -1
-  fi
-}
-
 
 
 
@@ -310,10 +246,10 @@ declare -A cont_array=(
 	[lidarr]="Lidarr > for your music "
 	[jackett]="Jackett > indexer of torrents for radarr/sonar/*arr etc"
 	[qbittorrent]="qBittorrent > Torrent Client"
-	[jellyfin]="JellyFin > Media manager no license needed"
-	[plex]="Plex > Media manager"
+	[jellyfin]="JellyFin > Media manager/player like plex but freee"
+	[plex]="Plex > Media manager/player nice UI not free"
 	[tautulli]="tautulli > plex stats grapher"
-	[overseerr]="overseerr > plex movie/tv requester"
+	[overseerr]="overseerr > plex movie/tv requester nice ui"
 	[heimdall]="heimdall > Nice frontend dashboard for all your *arr apps "
 	[homeassistant]="Home-Assistant > automate home devices ,hue,lifx,google"
 	[motioneye]="motioneye > free security cam"
@@ -327,6 +263,7 @@ declare -A cont_array=(
   [glances]="Glances  > An eye on your system"	
   [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
   [homepage]="Homepage > customizable application dashboard"
+  [ittools]="it-tools > nice IT. tools in one place "
 )
 
 declare -a aarch64_keys=(
@@ -353,6 +290,7 @@ declare -a aarch64_keys=(
   "glances"
   "prowlarr"
   "homepage"
+  "ittools"
 )
 
 #--FINISH add your two item entries per new services added in templates etc----------
