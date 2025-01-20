@@ -13,7 +13,7 @@
     volumes:
       - ./volumes/it-tools/config:/config
     ports:
-      - 8081:81  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
+      - 8282:80  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
     networks:
       private_network:
         ipv4_address: 172.19.0.44 
