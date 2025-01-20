@@ -41,7 +41,7 @@ We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is
 | [WireGuard UI](https://github.com/WireGuard/wireguard-tools/tree/master/wireguard-ui) | 5000 | Web UI for managing WireGuard connections
 | [Pi-hole](https://github.com/pi-hole/pi-hole) | 80 | Ad blocker and network-wide DNS protection 
 | [UptimeKuma](https://github.com/louislam/uptime-kuma) | 3001 | Monitors the uptime and performance of your websites and services 
-| [it-tools]([(https://github.com/CorentinTh/it-tools)) | 8282 | useful scriptlets and tools for the web tech wizards 
+| [it-tools](https://github.com/CorentinTh/it-tools) | 8282 | useful scriptlets and tools for the web tech wizards 
 
 due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
