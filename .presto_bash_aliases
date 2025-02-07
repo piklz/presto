@@ -10,6 +10,7 @@ alias presto_upgrade-pi-sys="sudo apt update -y && sudo apt full-upgrade -y && s
 alias presto_status_usage="docker stats --all "
 alias presto_status_usage2="docker stats --all --format \"table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\""
 alias presto_dusummary="du -h -s -c  *"
+alias presto_engine_update="~/presto-tools/scripts/presto_docker-engine_update.sh"
 
 #my  rsync cp... replacing cp command + added progress bar!
 alias cpv="rsync -ah --info=progress2"
