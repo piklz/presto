@@ -134,7 +134,7 @@
       - homepage.description= Photo library
     networks:
       private_network:
-        ipv4_address: 172.19.0.37
+        ipv4_address: 172.19.0.37 # internal address of photoprism
     restart: unless-stopped
         
   ## MariaDB Database Server (recommended)
@@ -177,4 +177,4 @@
 
     networks:
       private_network:
-        ipv4_address: 172.19.0.36
+        ipv4_address: 172.19.0.36 # internal address of photoprism(mariadb)

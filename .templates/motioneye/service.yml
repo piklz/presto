@@ -23,4 +23,4 @@
       - "/dev/video0:/dev/video0"
     networks:
       private_network:
-        ipv4_address: 172.19.0.38 # internal address of motioneye #
+        ipv4_address: 172.19.0.38 # internal address of motioneye

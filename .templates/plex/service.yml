@@ -27,9 +27,6 @@
       - '32412:32412/udp'
       - '32413:32413/udp'
       - '32414:32414/udp'
-    networks:
-      private_network:
-        ipv4_address: 172.19.0.27  
     volumes:
       - ./volumes/plex:/config
       #- ./media/tvshows:/tv
@@ -49,3 +46,6 @@
       - homepage.icon=plex.png
       - homepage.href=http://192.168.1.30:32400
       - homepage.description=media server/player
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.27 # internal address of plex

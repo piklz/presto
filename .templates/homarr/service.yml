@@ -21,4 +21,4 @@
       - homepage.description=Server Dashboard
     networks:
       private_network:
-        ipv4_address: 172.19.0.21  
+        ipv4_address: 172.19.0.21 # internal address of homarr 
