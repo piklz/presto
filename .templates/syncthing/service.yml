@@ -20,9 +20,6 @@
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
-    networks:
-      private_network:
-        ipv4_address: 172.19.0.35    
     restart: unless-stopped
     labels:
       - homepage.group=MEDIA
@@ -30,3 +27,6 @@
       - homepage.icon=jellyfin.png
       - homepage.href=http://192.168.1.30:8384
       - homepage.description=syncthing backup
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.35 # internal address of wireguard  

@@ -16,5 +16,5 @@
       - 8282:80  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
     networks:
       private_network:
-        ipv4_address: 172.19.0.44 
+        ipv4_address: 172.19.0.44 # internal address of ittools
     restart: unless-stopped

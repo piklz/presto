@@ -36,4 +36,4 @@
       - homepage.description=Home Assistant
     networks:
       private_network:
-        ipv4_address: 172.19.0.40
+        ipv4_address: 172.19.0.40 # internal address of homeassistant 

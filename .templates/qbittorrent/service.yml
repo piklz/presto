@@ -1,6 +1,6 @@
   
 #---------------------------------------------------------------------#
-#     qbitorrent                                                      #
+#     qbittorrent                                                      #
 #---------------------------------------------------------------------#  
   
   qbittorrent:
@@ -20,9 +20,6 @@
       - 6881:6881/udp
       - 15080:15080
       - 1080:1080
-    networks:
-      private_network:
-        ipv4_address: 172.19.0.29
     restart: unless-stopped
     labels:
       - homepage.group=MEDIA
@@ -30,3 +27,6 @@
       - homepage.icon=qbittorrent.png
       - homepage.href=http://192.168.1.30:15080
       - homepage.description= Torrent Downloader
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.29 # internal address of qbittorrent
