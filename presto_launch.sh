@@ -116,7 +116,7 @@ check_compatibility() {
 
 
 
-
+# ---  check we are in the git presto dir fi not 
 
 
 
@@ -336,59 +336,92 @@ declare -a aarch64_keys=(
 
 
 #function copies the template yml file to the local service folder and appends to the docker-compose.yml file
-function yml_builder() {
+yml_builder() {
+    local service_name="$1"
+    local base_dir="${PRESTO_INSTALL_DIR:-/home/$USER/presto}"  # Use PRESTO_INSTALL_DIR or default to ~/presto
+    local services_dir="$base_dir/services"
+    local templates_dir="$base_dir/.templates"
+    local service_dir="$services_dir/$service_name"
+    local service_file="$service_dir/service.yml"
+    local compose_file="$base_dir/docker-compose.yml"
 
-	service="services/$1/service.yml"
- 
+    # Check if base_dir exists, warn if not (likely first run or bad path)
+    if [ ! -d "$base_dir" ]; then
+        echo -e "${CROSS} Presto directory ($base_dir) not found. Ensure script is run after cloning repo or from correct location."
+        if [ "$INTERACTIVE" = True ]; then
+            whiptail --msgbox "Presto directory ($base_dir) not found. Run from within ~/presto or after cloning repo." 20 60
+        fi
+        return 1
+    fi
 
-	[ -d ./services/ ] || mkdir ./services/
- 
+    # Ensure services directory exists
+    [ -d "$services_dir" ] || mkdir -p "$services_dir" || {
+        echo -e "${INFO}${COL_LIGHT_RED} Failed to create $services_dir${COL_NC}"
+        return 1
+    }
 
-		if [ -d ./services/$1 ]; then
-			#directory already exists prompt user to overwrite
-			service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
-				"$1 was already created before, use [SPACEBAR] to select redeployment configuation" 20 78 12 \
-				"none" "Use recent config" "ON" \
-				"env" "Preserve Environment and Config files" "OFF" \
-				"full" "Pull config from template" "OFF" \
-				3>&1 1>&2 2>&3)
+    # Check if service directory already exists and prompt for overwrite options
+    if [ -d "$service_dir" ]; then
+        service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
+            "$service_name was already created before, use [SPACEBAR] to select redeployment configuration" 20 78 12 \
+            "none" "Use recent config" "ON" \
+            "env" "Preserve Environment and Config files" "OFF" \
+            "full" "Pull config from template" "OFF" \
+            3>&1 1>&2 2>&3)
 
-			case $service_overwrite in
+        case "$service_overwrite" in
+            "full")
+                echo "...pulled full $service_name from template"
+                rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' || {
+                    echo -e "${INFO}${COL_LIGHT_RED} Failed to copy full template for $service_name${COL_NC}"
+                    return 1
+                }
+                ;;
+            "env")
+                echo "...pulled $service_name excluding env/conf files"
+                rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' --exclude "$service_name.env" --exclude '*.conf' || {
+                    echo -e "${INFO}${COL_LIGHT_RED} Failed to copy template excluding env/conf for $service_name${COL_NC}"
+                    return 1
+                }
+                ;;
+            "none")
+                echo "...$service_name service files not overwritten"
+                ;;
+        esac
+    else
+        mkdir -p "$service_dir" || {
+            echo -e "${INFO}${COL_LIGHT_RED} Failed to create $service_dir${COL_NC}"
+            return 1
+        }
+        echo "...pulled full $service_name from template Dir"
+        rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' || {
+            echo -e "${INFO}${COL_LIGHT_RED} Failed to copy initial template for $service_name${COL_NC}"
+            return 1
+        }
+    fi
 
-			"full")
-        echo "...pulled full $1 from template"
-            #rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
-        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
-        ;;
-			"env")
-        echo "...pulled $1 from github local excluding env/conf files"
-        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
-        ;;
-			"none")
-        echo "...$1 service files not overwritten"
-        ;;
+    # Update timezone in env file if it exists (assuming timezones function is defined elsewhere)
+    [ -f "$service_dir/$service_name.env" ] && timezones "$service_dir/$service_name.env"
 
-			esac
+    # Ensure docker-compose.yml exists and append a newline
+    touch "$compose_file" || {
+        echo -e "${INFO}${COL_LIGHT_RED} Failed to create/update $compose_file${COL_NC}"
+        return 1
+    }
+    echo "" >> "$compose_file"
 
-		else
-			mkdir ./services/$1
-			echo "...pulled full $1 from template Dir"
-			rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
-		fi
-
-
-	#if an env file exists check for timezone
-	[ -f "./services/$1/$1.env" ] && timezones ./services/$1/$1.env
- 
- 	echo "" >> docker-compose.yml
-  
-        # Append the service only if it's not already in the docker-compose.yml file
-	# AND if it's currently selected
-	if ! grep -q "services:$1:" docker-compose.yml && [[ "${containers[@]}" =~ "$1" ]]; then
-	  cat $service >> docker-compose.yml
-	fi
- 
- 	
+    # Append the service only if it's not already in docker-compose.yml and is currently selected
+    if ! grep -q " $service_name:" "$compose_file" 2>/dev/null && [[ "${containers[*]}" =~ $service_name ]]; then
+        if [ -f "$service_file" ]; then
+            cat "$service_file" >> "$compose_file" || {
+                echo -e "${INFO}${COL_LIGHT_RED} Failed to append $service_name to $compose_file${COL_NC}"
+                return 1
+            }
+        else
+            echo -e "${INFO}${COL_LIGHT_RED} Service file $service_file not found${COL_NC}"
+            return 1
+        fi
+    fi
 }
 
 
