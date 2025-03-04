@@ -27,7 +27,7 @@
 
 PRESTO_VERSION='1.1.0'
 PRESTO_INSTALL_DIR="/home/${USER:-$(id -un)}/presto"
-INTERACTIVE=true
+INTERACTIVE=True
 SUPPORTED_DISTROS=("ubuntu" "linuxmint" "raspbian" "debian")
 SUPPORTED_ARCH="aarch64"
 
