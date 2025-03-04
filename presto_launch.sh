@@ -37,11 +37,11 @@ if [ -z "${USER}" ]; then
 fi
 
 
-INIT="$(ps --no-headers -o comm 1)"
-if [ "$INIT" != "systemd" ]; then
-    echo -e "${CROSS} This script requires systemd as the init system, found: $INIT"
-    exit 1
-fi
+#INIT="$(ps --no-headers -o comm 1)"
+#if [ "$INIT" != "systemd" ]; then
+#    echo -e "${CROSS} This script requires systemd as the init system, found: $INIT"
+#    exit 1
+#fi
 
 ASK_TO_REBOOT=0
 SYS_ARCH=$(uname -m)
