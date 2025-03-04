@@ -603,7 +603,7 @@ if is_pi ; then
       "S3 Install presto Bash Welcome" "creates link to  bash script added info for  '$USER' user" \
       3>&1 1>&2 2>&3)
 fi
-  RET=$?
+RET=$?
   if [ $RET -eq 1 ]; then
     return 0
   elif [ $RET -eq 0 ]; then
@@ -1052,8 +1052,7 @@ if [ "$INTERACTIVE" = True ]; then
         "6 Update presto" "Update presto tools to the latest version (via github)" \
 	      "7 Update Docker-Compose " "Update Dockers compose system" \
         "8 About presto" "Information about this configuration tool" \
-        3>&1 1>&2 2>&3)
-      
+        3>&1 1>&2 2>&3)      
     fi
     RET=$?
     if [ $RET -eq 1 ]; then
