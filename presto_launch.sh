@@ -24,33 +24,30 @@
 
 #lets gooooooooo
 
-presto_VERSION='1.1.0' 
 
+PRESTO_VERSION='1.1.0'
+PRESTO_INSTALL_DIR="/home/${USER:-$(id -un)}/presto"
+INTERACTIVE=true
+SUPPORTED_DISTROS=("ubuntu" "linuxmint" "raspbian" "debian")
+SUPPORTED_ARCH="aarch64"
 
-INTERACTIVE=True
-
-#usefull for bash updates alias 
-# changes docker installs etc in functions...
-
-ASK_TO_REBOOT=0
-
-
-#USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')} either work the same checks if sudo user is empty and gets a name  for it if not
-
+# Ensure script runs with proper user privileges
 if [ -z "${USER}" ]; then
     USER="$(id -un)"
 fi
 
 
 INIT="$(ps --no-headers -o comm 1)"
+if [ "$INIT" != "systemd" ]; then
+    echo -e "${CROSS} This script requires systemd as the init system, found: $INIT"
+    exit 1
+fi
+
+ASK_TO_REBOOT=0
+SYS_ARCH=$(uname -m)
 
 
-sys_arch=$(uname -m) #eg. returns aarch64 
 
-
-
-
-presto_INSTALL_DIR="/home/$USER/presto"
 
 # todo maybe.. but generally this is to be on raspian/debian  mainly... /home
 # eg. should return /home/pi/ or diff users name as needed
@@ -73,15 +70,55 @@ INFO="[i]"
 DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 OVER="\\r\\033[K"
 
-# Color variables
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-blue='\033[0;34m'
-magenta='\033[0;35m'
-cyan='\033[0;36m'
-# Clear the color after that
-clear='\033[0m'
+
+# Compatibility Check
+check_compatibility() {
+    local distro
+    local arch="$SYS_ARCH"
+    
+    if [ -f /etc/os-release ]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release
+        distro="${ID,,}"
+    else
+        print_status "$CROSS" "Cannot determine OS distribution. /etc/os-release not found."
+        exit 1
+    fi
+    
+    local supported=false
+    for supported_distro in "${SUPPORTED_DISTROS[@]}"; do
+        if [[ "$distro" == "$supported_distro" ]]; then
+            supported=true
+            break
+        fi
+    done
+    
+    if ! $supported; then
+        print_status "$CROSS" "Unsupported OS: $distro. Supported OS: ${SUPPORTED_DISTROS[*]}"
+        $INTERACTIVE && whiptail --msgbox "This script supports only Ubuntu, Linux Mint, Raspberry Pi OS, or Debian." 20 60
+        exit 1
+    fi
+    
+    if [[ "$arch" != "$SUPPORTED_ARCH" ]]; then
+        print_status "$CROSS" "Unsupported architecture: $arch. Requires $SUPPORTED_ARCH (ARM64)."
+        $INTERACTIVE && whiptail --msgbox "This script requires an ARM64 (aarch64) architecture." 20 60
+        exit 1
+    fi
+    
+    if [[ "$(getconf LONG_BIT)" != "64" ]]; then
+        print_status "$CROSS" "This script requires a 64-bit OS."
+        $INTERACTIVE && whiptail --msgbox "A 64-bit OS is required." 20 60
+        exit 1
+    fi
+    
+    print_status "$TICK" "System compatibility verified: $distro on $arch (64-bit)"
+}
+
+
+
+
+
+
 
 
 
@@ -92,7 +129,7 @@ do_compose_update() {
    
       echo -e "\e[33;1m${INFO} Docker Compose update running ... .\e[0m"
       
-      ${presto_INSTALL_DIR}/scripts/update_compose.sh
+      ${PRESTO_INSTALL_DIR}/scripts/update_compose.sh
  
 }
 
@@ -402,9 +439,9 @@ do_bash_aliases() {
 
 do_start_stack() {
 
-if [ -e ${presto_INSTALL_DIR}/scripts/start.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/scripts/start.sh ]; then
 	# shellcheck disable=SC1091
- 	source "${presto_INSTALL_DIR}/scripts/start.sh"
+ 	source "${PRESTO_INSTALL_DIR}/scripts/start.sh"
 
 	local str="running docker start script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -422,9 +459,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_stop_stack(){
-if [ -e ${presto_INSTALL_DIR}/scripts/stop.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/scripts/stop.sh ]; then
         # shellcheck disable=SC1091
-        source "${presto_INSTALL_DIR}/scripts/stop.sh"
+        source "${PRESTO_INSTALL_DIR}/scripts/stop.sh"
 
         local str="running Docker Stop script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -442,9 +479,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_update_stack(){ 
-if [ -e ${presto_INSTALL_DIR}/presto/scripts/update.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/presto/scripts/update.sh ]; then
         # shellcheck disable=SC1091
-        source "${presto_INSTALL_DIR}/scripts/update.sh"
+        source "${PRESTO_INSTALL_DIR}/scripts/update.sh"
         local str="running Docker update stack script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -463,10 +500,10 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_restart_stack(){
-if [ -e ${presto_INSTALL_DIR}/scripts/restart.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/scripts/restart.sh ]; then
         # shellcheck disable=SC1091
         
-	source "${presto_INSTALL_DIR}/scripts/restart.sh"
+	source "${PRESTO_INSTALL_DIR}/scripts/restart.sh"
         local str="Docker restart script Finished. Returning you back to Menu"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -483,9 +520,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_volumes_stack(){
-if [ -e ${presto_INSTALL_DIR}/scripts/prune-volumes.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/scripts/prune-volumes.sh ]; then
         # shellcheck disable=SC1091
-        source "${presto_INSTALL_DIR}/scripts/prune-volumes.sh"
+        source "${PRESTO_INSTALL_DIR}/scripts/prune-volumes.sh"
         local str="running Docker prune-volumes script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -502,9 +539,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_images_stack(){
-if [ -e ${presto_INSTALL_DIR}/scripts/prune-images.sh ]; then
+if [ -e ${PRESTO_INSTALL_DIR}/scripts/prune-images.sh ]; then
         # shellcheck disable=SC1091
-        source "${presto_INSTALL_DIR}/scripts/prune-images.sh"
+        source "${PRESTO_INSTALL_DIR}/scripts/prune-images.sh"
 	
         local str="running Docker prune-images script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -599,7 +636,7 @@ do_build_stack_menu() {
 	entry_options=()
 
 	#check architecture and display appropriate menu
-	if [ $(echo "$sys_arch" | grep -c "arm") ]; then
+	if [ $(echo "$SYS_ARCH" | grep -c "arm") ]; then
 		keylist=("${aarch64_keys[@]}")
 	else
 		echo "your architecture is not supported yet"
@@ -750,14 +787,14 @@ do_rclone_install() {
 
 do_backup_gdrive() {
 	
-	source "${presto_INSTALL_DIR}/scripts/rclone_backup.sh"
+	source "${PRESTO_INSTALL_DIR}/scripts/rclone_backup.sh"
 
 
 }
 
 do_restore_gdrive() {
 
-	source "${presto_INSTALL_DIR}/scripts/rclone_restore.sh"
+	source "${PRESTO_INSTALL_DIR}/scripts/rclone_restore.sh"
 
 
 }
@@ -801,7 +838,7 @@ do_swap(){
 		sudo systemctl disable dphys-swapfile
 		#sudo apt-get remove dphys-swapfile
 
-		echo -e "$INFO${green}Swap file has been disabled${clear}"
+		echo -e "$INFO${COL_LIGHT_GREEN}Swap file has been disabled${clear}"
 
     if [ "$INTERACTIVE" = True ]; then
          whiptail --msgbox "[presto] Swap file removed" 20 60 2
@@ -845,7 +882,7 @@ if [ ! -d ~/log2ram-master ]; then
 
 do_extratools_menu() {
 
-#echo -e "${red} extra scripts  here "
+
 
 FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto-config)" --menu "Performance Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
     "P1 swap" "disable your swap file - if u have plenty ram" \
@@ -963,7 +1000,7 @@ if [ "$INTERACTIVE" = True ]; then
   done
   while true; do
     if is_pi ; then
-      FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' <  /proc/device-tree/model) presto VERSION: ${presto_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
+      FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' <  /proc/device-tree/model) presto VERSION: ${PRESTO_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
         "1 Install" "Install Docker+Docker-compose" \
         "2 Build Docker Stack  " "build compose stack of apps list! " \
         "3 Commands" "useful Docker commands" \
