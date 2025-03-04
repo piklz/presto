@@ -24,30 +24,33 @@
 
 #lets gooooooooo
 
+presto_VERSION='1.1.0' 
 
-PRESTO_VERSION='1.1.0'
-PRESTO_INSTALL_DIR="/home/${USER:-$(id -un)}/presto"
+
 INTERACTIVE=True
-SUPPORTED_DISTROS=("ubuntu" "linuxmint" "raspbian" "debian")
-SUPPORTED_ARCH="aarch64"
 
-# Ensure script runs with proper user privileges
+#usefull for bash updates alias 
+# changes docker installs etc in functions...
+
+ASK_TO_REBOOT=0
+
+
+#USER=${SUDO_USER:-$(who -m | awk '{ print $1 }')} either work the same checks if sudo user is empty and gets a name  for it if not
+
 if [ -z "${USER}" ]; then
     USER="$(id -un)"
 fi
 
 
-#INIT="$(ps --no-headers -o comm 1)"
-#if [ "$INIT" != "systemd" ]; then
-#    echo -e "${CROSS} This script requires systemd as the init system, found: $INIT"
-#    exit 1
-#fi
+INIT="$(ps --no-headers -o comm 1)"
 
-ASK_TO_REBOOT=0
-SYS_ARCH=$(uname -m)
+
+sys_arch=$(uname -m) #eg. returns aarch64 
 
 
 
+
+presto_INSTALL_DIR="/home/$USER/presto"
 
 # todo maybe.. but generally this is to be on raspian/debian  mainly... /home
 # eg. should return /home/pi/ or diff users name as needed
@@ -70,55 +73,15 @@ INFO="[i]"
 DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 OVER="\\r\\033[K"
 
-
-# Compatibility Check
-check_compatibility() {
-    local distro
-    local arch="$SYS_ARCH"
-    
-    if [ -f /etc/os-release ]; then
-        # shellcheck disable=SC1091
-        . /etc/os-release
-        distro="${ID,,}"
-    else
-        print_status "$CROSS" "Cannot determine OS distribution. /etc/os-release not found."
-        exit 1
-    fi
-    
-    local supported=false
-    for supported_distro in "${SUPPORTED_DISTROS[@]}"; do
-        if [[ "$distro" == "$supported_distro" ]]; then
-            supported=true
-            break
-        fi
-    done
-    
-    if ! $supported; then
-        print_status "$CROSS" "Unsupported OS: $distro. Supported OS: ${SUPPORTED_DISTROS[*]}"
-        $INTERACTIVE && whiptail --msgbox "This script supports only Ubuntu, Linux Mint, Raspberry Pi OS, or Debian." 20 60
-        exit 1
-    fi
-    
-    if [[ "$arch" != "$SUPPORTED_ARCH" ]]; then
-        print_status "$CROSS" "Unsupported architecture: $arch. Requires $SUPPORTED_ARCH (ARM64)."
-        $INTERACTIVE && whiptail --msgbox "This script requires an ARM64 (aarch64) architecture." 20 60
-        exit 1
-    fi
-    
-    if [[ "$(getconf LONG_BIT)" != "64" ]]; then
-        print_status "$CROSS" "This script requires a 64-bit OS."
-        $INTERACTIVE && whiptail --msgbox "A 64-bit OS is required." 20 60
-        exit 1
-    fi
-    
-    print_status "$TICK" "System compatibility verified: $distro on $arch (64-bit)"
-}
-
-
-
-# ---  check we are in the git presto dir fi not 
-
-
+# Color variables
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+blue='\033[0;34m'
+magenta='\033[0;35m'
+cyan='\033[0;36m'
+# Clear the color after that
+clear='\033[0m'
 
 
 
@@ -129,7 +92,7 @@ do_compose_update() {
    
       echo -e "\e[33;1m${INFO} Docker Compose update running ... .\e[0m"
       
-      ${PRESTO_INSTALL_DIR}/scripts/update_compose.sh
+      ${presto_INSTALL_DIR}/scripts/update_compose.sh
  
 }
 
@@ -336,92 +299,59 @@ declare -a aarch64_keys=(
 
 
 #function copies the template yml file to the local service folder and appends to the docker-compose.yml file
-yml_builder() {
-    local service_name="$1"
-    local base_dir="${PRESTO_INSTALL_DIR:-/home/$USER/presto}"  # Use PRESTO_INSTALL_DIR or default to ~/presto
-    local services_dir="$base_dir/services"
-    local templates_dir="$base_dir/.templates"
-    local service_dir="$services_dir/$service_name"
-    local service_file="$service_dir/service.yml"
-    local compose_file="$base_dir/docker-compose.yml"
+function yml_builder() {
 
-    # Check if base_dir exists, warn if not (likely first run or bad path)
-    if [ ! -d "$base_dir" ]; then
-        echo -e "${CROSS} Presto directory ($base_dir) not found. Ensure script is run after cloning repo or from correct location."
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "Presto directory ($base_dir) not found. Run from within ~/presto or after cloning repo." 20 60
-        fi
-        return 1
-    fi
+	service="services/$1/service.yml"
+ 
 
-    # Ensure services directory exists
-    [ -d "$services_dir" ] || mkdir -p "$services_dir" || {
-        echo -e "${INFO}${COL_LIGHT_RED} Failed to create $services_dir${COL_NC}"
-        return 1
-    }
+	[ -d ./services/ ] || mkdir ./services/
+ 
 
-    # Check if service directory already exists and prompt for overwrite options
-    if [ -d "$service_dir" ]; then
-        service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
-            "$service_name was already created before, use [SPACEBAR] to select redeployment configuration" 20 78 12 \
-            "none" "Use recent config" "ON" \
-            "env" "Preserve Environment and Config files" "OFF" \
-            "full" "Pull config from template" "OFF" \
-            3>&1 1>&2 2>&3)
+		if [ -d ./services/$1 ]; then
+			#directory already exists prompt user to overwrite
+			service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
+				"$1 was already created before, use [SPACEBAR] to select redeployment configuation" 20 78 12 \
+				"none" "Use recent config" "ON" \
+				"env" "Preserve Environment and Config files" "OFF" \
+				"full" "Pull config from template" "OFF" \
+				3>&1 1>&2 2>&3)
 
-        case "$service_overwrite" in
-            "full")
-                echo "...pulled full $service_name from template"
-                rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' || {
-                    echo -e "${INFO}${COL_LIGHT_RED} Failed to copy full template for $service_name${COL_NC}"
-                    return 1
-                }
-                ;;
-            "env")
-                echo "...pulled $service_name excluding env/conf files"
-                rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' --exclude "$service_name.env" --exclude '*.conf' || {
-                    echo -e "${INFO}${COL_LIGHT_RED} Failed to copy template excluding env/conf for $service_name${COL_NC}"
-                    return 1
-                }
-                ;;
-            "none")
-                echo "...$service_name service files not overwritten"
-                ;;
-        esac
-    else
-        mkdir -p "$service_dir" || {
-            echo -e "${INFO}${COL_LIGHT_RED} Failed to create $service_dir${COL_NC}"
-            return 1
-        }
-        echo "...pulled full $service_name from template Dir"
-        rsync -a -q "$templates_dir/$service_name/" "$service_dir/" --exclude 'build.sh' || {
-            echo -e "${INFO}${COL_LIGHT_RED} Failed to copy initial template for $service_name${COL_NC}"
-            return 1
-        }
-    fi
+			case $service_overwrite in
 
-    # Update timezone in env file if it exists (assuming timezones function is defined elsewhere)
-    [ -f "$service_dir/$service_name.env" ] && timezones "$service_dir/$service_name.env"
+			"full")
+        echo "...pulled full $1 from template"
+            #rm -rf ./services/$1/*  # Remove existing files before copying (full overwrite)
+        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
+        ;;
+			"env")
+        echo "...pulled $1 from github local excluding env/conf files"
+        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf'
+        ;;
+			"none")
+        echo "...$1 service files not overwritten"
+        ;;
 
-    # Ensure docker-compose.yml exists and append a newline
-    touch "$compose_file" || {
-        echo -e "${INFO}${COL_LIGHT_RED} Failed to create/update $compose_file${COL_NC}"
-        return 1
-    }
-    echo "" >> "$compose_file"
+			esac
 
-    # Append the service only if it's not already in docker-compose.yml and is currently selected
-    if ! grep -q " $service_name:" "$compose_file" 2>/dev/null && [[ "${containers[*]}" =~ $service_name ]]; then
-        if [ -f "$service_file" ]; then
-            cat "$service_file" >> "$compose_file" || {
-                echo -e "${INFO}${COL_LIGHT_RED} Failed to append $service_name to $compose_file${COL_NC}"
-                return 1
-            }
-        else
-            echo -e "${INFO}${COL_LIGHT_RED} Service file $service_file not found${COL_NC}"
-            return 1
-        fi
-    fi
+		else
+			mkdir ./services/$1
+			echo "...pulled full $1 from template Dir"
+			rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh'
+		fi
+
+
+	#if an env file exists check for timezone
+	[ -f "./services/$1/$1.env" ] && timezones ./services/$1/$1.env
+ 
+ 	echo "" >> docker-compose.yml
+  
+        # Append the service only if it's not already in the docker-compose.yml file
+	# AND if it's currently selected
+	if ! grep -q "services:$1:" docker-compose.yml && [[ "${containers[@]}" =~ "$1" ]]; then
+	  cat $service >> docker-compose.yml
+	fi
+ 
+ 	
 }
 
 
@@ -472,9 +402,9 @@ do_bash_aliases() {
 
 do_start_stack() {
 
-if [ -e ${PRESTO_INSTALL_DIR}/scripts/start.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/start.sh ]; then
 	# shellcheck disable=SC1091
- 	source "${PRESTO_INSTALL_DIR}/scripts/start.sh"
+ 	source "${presto_INSTALL_DIR}/scripts/start.sh"
 
 	local str="running docker start script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -492,9 +422,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_stop_stack(){
-if [ -e ${PRESTO_INSTALL_DIR}/scripts/stop.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/stop.sh ]; then
         # shellcheck disable=SC1091
-        source "${PRESTO_INSTALL_DIR}/scripts/stop.sh"
+        source "${presto_INSTALL_DIR}/scripts/stop.sh"
 
         local str="running Docker Stop script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -512,9 +442,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_update_stack(){ 
-if [ -e ${PRESTO_INSTALL_DIR}/presto/scripts/update.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/presto/scripts/update.sh ]; then
         # shellcheck disable=SC1091
-        source "${PRESTO_INSTALL_DIR}/scripts/update.sh"
+        source "${presto_INSTALL_DIR}/scripts/update.sh"
         local str="running Docker update stack script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -533,10 +463,10 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_restart_stack(){
-if [ -e ${PRESTO_INSTALL_DIR}/scripts/restart.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/restart.sh ]; then
         # shellcheck disable=SC1091
         
-	source "${PRESTO_INSTALL_DIR}/scripts/restart.sh"
+	source "${presto_INSTALL_DIR}/scripts/restart.sh"
         local str="Docker restart script Finished. Returning you back to Menu"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -553,9 +483,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_volumes_stack(){
-if [ -e ${PRESTO_INSTALL_DIR}/scripts/prune-volumes.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/prune-volumes.sh ]; then
         # shellcheck disable=SC1091
-        source "${PRESTO_INSTALL_DIR}/scripts/prune-volumes.sh"
+        source "${presto_INSTALL_DIR}/scripts/prune-volumes.sh"
         local str="running Docker prune-volumes script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
 	wait
@@ -572,9 +502,9 @@ if [ "$INTERACTIVE" = True ]; then
 
 
 do_prune_images_stack(){
-if [ -e ${PRESTO_INSTALL_DIR}/scripts/prune-images.sh ]; then
+if [ -e ${presto_INSTALL_DIR}/scripts/prune-images.sh ]; then
         # shellcheck disable=SC1091
-        source "${PRESTO_INSTALL_DIR}/scripts/prune-images.sh"
+        source "${presto_INSTALL_DIR}/scripts/prune-images.sh"
 	
         local str="running Docker prune-images script"
         printf "\\n  %b %s..." "${INFO}" "${str}"
@@ -663,114 +593,104 @@ do_dockersystem_install(){
 
 
 do_build_stack_menu() {
-    local title="Container Selection"
-    local message="Use [SPACEBAR] to select containers, then TAB to OK/Cancel"
-    local entry_options=()
-    local base_dir="${PRESTO_INSTALL_DIR:-/home/$USER/presto}"
-    local compose_file="$base_dir/docker-compose.yml"
-    local services_dir="$base_dir/services"
 
-    # Debugging: Uncomment to trace paths
-    # echo -e "${INFO} Base dir: $base_dir"
-    # echo -e "${INFO} Compose file: $compose_file"
-    # echo -e "${INFO} Services dir: $services_dir"
+	title=$'Container Selection'
+	message=$'Use the [SPACEBAR] to select which containers you would like to use then tab for OK|skip'
+	entry_options=()
 
-    # Check if base_dir exists
-    if [ ! -d "$base_dir" ]; then
-        echo -e "${CROSS} Presto directory ($base_dir) not found. Ensure repo is cloned."
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "Presto directory ($base_dir) not found. Run after cloning repo." 20 60
-        fi
-        return 1
-    fi
+	#check architecture and display appropriate menu
+	if [ $(echo "$sys_arch" | grep -c "arm") ]; then
+		keylist=("${aarch64_keys[@]}")
+	else
+		echo "your architecture is not supported yet"
+		exit
+	fi
 
-    # Populate container selection options
-    for index in "${aarch64_keys[@]}"; do
-        entry_options+=("$index" "${cont_array[$index]}")
-        if [ -f "$services_dir/selection.txt" ]; then
-            if grep -q "^$index$" "$services_dir/selection.txt" 2>/dev/null; then
-                entry_options+=("ON")
-            else
-                entry_options+=("OFF")
-            fi
-        else
-            entry_options+=("OFF")
-        fi
-    done
+	#loop through the array of descriptions
+	for index in "${keylist[@]}"; do
+		entry_options+=("$index")
+		entry_options+=("${cont_array[$index]}")
 
-    # Debugging: Uncomment to see entry_options
-    # echo -e "${INFO} Entry options: ${entry_options[*]}"
+		#check selection
+		if [ -f ./services/selection.txt ]; then
+			[ $(grep "$index" ./services/selection.txt) ] && entry_options+=("ON") || entry_options+=("OFF")
+		else
+			entry_options+=("OFF")
+		fi
+	done
 
-    container_selection=$(whiptail --title "$title" --notags --separate-output --checklist \
-        "$message" 20 78 12 -- "${entry_options[@]}" 3>&1 1>&2 2>&3)
-    if [ $? -ne 0 ]; then
-        echo -e "${INFO} Container selection cancelled"
-        return 1
-    fi
+	container_selection=$(whiptail --title "$title" --notags --separate-output --checklist \
+		"$message" 20 78 12 -- "${entry_options[@]}" 3>&1 1>&2 2>&3)
 
-    mapfile -t containers <<<"$container_selection"
+	mapfile -t containers <<<"$container_selection"
 
-    if [ -n "$container_selection" ]; then
-        # Initialize docker-compose.yml
-        cat > "$compose_file" <<EOF || {
-            echo -e "${INFO}${COL_LIGHT_RED} Failed to create $compose_file${COL_NC}"
-            return 1
-        }
-networks:
-  private_network:
-    name: "pihole-dns"
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/24
-services:
-EOF
+	#if no container is selected then dont overwrite the docker-compose.yml file
+	if [ -n "$container_selection" ]; then
+		touch docker-compose.yml
+		#echo "version: '3'" >docker-compose.yml #newer docker commpose does not care for this 
+	
+	echo "networks:" > docker-compose.yml
+	echo "  private_network:" >> docker-compose.yml
+	echo "    name: \"pihole-dns\"" >> docker-compose.yml
+	echo "    driver: bridge" >> docker-compose.yml
+	echo "    ipam:" >> docker-compose.yml
+	echo "      config:" >> docker-compose.yml
+	echo "        - subnet: 172.19.0.0/24 #prestos internal docker network pihole to wireguard etc" >> docker-compose.yml
+	echo "          #gateway: 172.19.0.1" >> docker-compose.yml
+	
+	echo "services:" >>docker-compose.yml
+       
 
-        # Ensure services directory exists and reset selection file
-        mkdir -p "$services_dir" || {
-            echo -e "${INFO}${COL_LIGHT_RED} Failed to create $services_dir${COL_NC}"
-            return 1
-        }
-        : > "$services_dir/selection.txt" || {
-            echo -e "${INFO}${COL_LIGHT_RED} Failed to reset $services_dir/selection.txt${COL_NC}"
-            return 1
-        }
+		#set the ACL for the stack
+		#docker_setfacl
 
-        # Build each selected container
-        for container in "${containers[@]}"; do
-            echo -e "${INFO} Adding $container container"
-            yml_builder "$container" || {
-                echo -e "${INFO}${COL_LIGHT_RED} Failed to build $container configuration${COL_NC}"
-                return 1
-            }
-            echo "$container" >> "$services_dir/selection.txt" || {
-                echo -e "${INFO}${COL_LIGHT_RED} Failed to update $services_dir/selection.txt with $container${COL_NC}"
-                return 1
-            }
-        done
+		# store last selection
+		[ -f ./services/selection.txt ] && rm ./services/selection.txt
+		#first run service directory wont exist
+		[ -d ./services ] || mkdir services
+		touch ./services/selection.txt
 
-        # Handle custom containers
-        if [ -f "$services_dir/custom.txt" ] && whiptail --yesno "custom.txt detected. Add these containers?" 20 78; then
-            mapfile -t custom_containers < "$services_dir/custom.txt"
-            for container in "${custom_containers[@]}"; do
-                echo -e "${INFO} Adding custom $container container"
-                yml_builder "$container" || {
-                    echo -e "${INFO}${COL_LIGHT_RED} Failed to build custom $container${COL_NC}"
-                    return 1
-                }
-            done
-        fi
+		#Run yml_builder of all selected containers
+		for container in "${containers[@]}"; do
+			echo "Adding $container container"
+			yml_builder "$container"
+			echo "$container" >>./services/selection.txt
+   			#echo "$container" > ./services/selection.txt  # Overwrite selection file with current container
+		done
 
-        echo -e "${TICK} $compose_file created. Run 'docker-compose up -d' or 'presto_up' from $base_dir to start"
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "[presto] Build Stack FINISHED! Run 'docker-compose up -d' or 'presto_up' from $base_dir to start" 20 60 2
-        fi
-    else
-        echo -e "${INFO} Build cancelled"
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "presto Build stack cancelled" 20 60 2
-        fi
-    fi
+		# add custom containers
+		if [ -f ./services/custom.txt ]; then
+			if (whiptail --title "Custom Container detected" --yesno "custom.txt has been detected do you want to add these containers to the stack?" 20 78); then
+				mapfile -t containers <<<$(cat ./services/custom.txt)
+				for container in "${containers[@]}"; do
+					echo "Adding $container container"
+					yml_builder "$container"
+				done
+			fi
+		fi
+
+    
+		echo "docker-compose.yml successfully created"
+		echo -e "run \e[104;1mdocker-compose up -d or 'presto_up'\e[0m to start the stack"
+		
+		if [ "$INTERACTIVE" = True ]; then
+                        whiptail --msgbox "[presto] Build Stack FINISHED !RUN 'docker-compose up -d' or 'presto_upto' start the stack in terminal" 20 60 2
+
+                fi
+
+	else
+
+		echo "Build cancelled"
+		
+		
+		if [ "$INTERACTIVE" = True ]; then
+            		whiptail --msgbox "presto Build stack cancelled" 20 60 2
+			
+ 	 	fi
+		
+		
+	fi
+
 }
 
 
@@ -830,14 +750,14 @@ do_rclone_install() {
 
 do_backup_gdrive() {
 	
-	source "${PRESTO_INSTALL_DIR}/scripts/rclone_backup.sh"
+	source "${presto_INSTALL_DIR}/scripts/rclone_backup.sh"
 
 
 }
 
 do_restore_gdrive() {
 
-	source "${PRESTO_INSTALL_DIR}/scripts/rclone_restore.sh"
+	source "${presto_INSTALL_DIR}/scripts/rclone_restore.sh"
 
 
 }
@@ -881,7 +801,7 @@ do_swap(){
 		sudo systemctl disable dphys-swapfile
 		#sudo apt-get remove dphys-swapfile
 
-		echo -e "$INFO${COL_LIGHT_GREEN}Swap file has been disabled${clear}"
+		echo -e "$INFO${green}Swap file has been disabled${clear}"
 
     if [ "$INTERACTIVE" = True ]; then
          whiptail --msgbox "[presto] Swap file removed" 20 60 2
@@ -925,7 +845,7 @@ if [ ! -d ~/log2ram-master ]; then
 
 do_extratools_menu() {
 
-
+#echo -e "${red} extra scripts  here "
 
 FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto-config)" --menu "Performance Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
     "P1 swap" "disable your swap file - if u have plenty ram" \
@@ -1043,7 +963,7 @@ if [ "$INTERACTIVE" = True ]; then
   done
   while true; do
     if is_pi ; then
-      FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' <  /proc/device-tree/model) presto VERSION: ${PRESTO_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
+      FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' <  /proc/device-tree/model) presto VERSION: ${presto_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
         "1 Install" "Install Docker+Docker-compose" \
         "2 Build Docker Stack  " "build compose stack of apps list! " \
         "3 Commands" "useful Docker commands" \
