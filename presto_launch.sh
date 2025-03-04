@@ -661,17 +661,23 @@ do_dockersystem_install(){
 
 
 
+
 do_build_stack_menu() {
     local title="Container Selection"
     local message="Use [SPACEBAR] to select containers, then TAB to OK/Cancel"
     local entry_options=()
-    local base_dir="${PRESTO_INSTALL_DIR:-/home/$USER/presto}"  # Match yml_builder's base_dir
+    local base_dir="${PRESTO_INSTALL_DIR:-/home/$USER/presto}"
     local compose_file="$base_dir/docker-compose.yml"
     local services_dir="$base_dir/services"
 
+    # Debugging: Uncomment to trace paths
+    # echo -e "${INFO} Base dir: $base_dir"
+    # echo -e "${INFO} Compose file: $compose_file"
+    # echo -e "${INFO} Services dir: $services_dir"
+
     # Check if base_dir exists
     if [ ! -d "$base_dir" ]; then
-        echo -e "${CROSS} Presto directory ($base_dir) not found. Ensure script is run after cloning repo."
+        echo -e "${CROSS} Presto directory ($base_dir) not found. Ensure repo is cloned."
         if [ "$INTERACTIVE" = True ]; then
             whiptail --msgbox "Presto directory ($base_dir) not found. Run after cloning repo." 20 60
         fi
@@ -682,19 +688,30 @@ do_build_stack_menu() {
     for index in "${aarch64_keys[@]}"; do
         entry_options+=("$index" "${cont_array[$index]}")
         if [ -f "$services_dir/selection.txt" ]; then
-            [ "$(grep -c "$index" "$services_dir/selection.txt")" -gt 0 ] && entry_options+=("ON") || entry_options+=("OFF")
+            if grep -q "^$index$" "$services_dir/selection.txt" 2>/dev/null; then
+                entry_options+=("ON")
+            else
+                entry_options+=("OFF")
+            fi
         else
             entry_options+=("OFF")
         fi
     done
 
+    # Debugging: Uncomment to see entry_options
+    # echo -e "${INFO} Entry options: ${entry_options[*]}"
+
     container_selection=$(whiptail --title "$title" --notags --separate-output --checklist \
         "$message" 20 78 12 -- "${entry_options[@]}" 3>&1 1>&2 2>&3)
+    if [ $? -ne 0 ]; then
+        echo -e "${INFO} Container selection cancelled"
+        return 1
+    fi
 
     mapfile -t containers <<<"$container_selection"
 
     if [ -n "$container_selection" ]; then
-        # Initialize docker-compose.yml with network configuration in the correct location
+        # Initialize docker-compose.yml
         cat > "$compose_file" <<EOF || {
             echo -e "${INFO}${COL_LIGHT_RED} Failed to create $compose_file${COL_NC}"
             return 1
@@ -708,7 +725,7 @@ networks:
         - subnet: 172.19.0.0/24
 services:
 EOF
-        
+
         # Ensure services directory exists and reset selection file
         mkdir -p "$services_dir" || {
             echo -e "${INFO}${COL_LIGHT_RED} Failed to create $services_dir${COL_NC}"
@@ -718,7 +735,7 @@ EOF
             echo -e "${INFO}${COL_LIGHT_RED} Failed to reset $services_dir/selection.txt${COL_NC}"
             return 1
         }
-        
+
         # Build each selected container
         for container in "${containers[@]}"; do
             echo -e "${INFO} Adding $container container"
@@ -731,7 +748,7 @@ EOF
                 return 1
             }
         done
-        
+
         # Handle custom containers
         if [ -f "$services_dir/custom.txt" ] && whiptail --yesno "custom.txt detected. Add these containers?" 20 78; then
             mapfile -t custom_containers < "$services_dir/custom.txt"
@@ -743,7 +760,7 @@ EOF
                 }
             done
         fi
-        
+
         echo -e "${TICK} $compose_file created. Run 'docker-compose up -d' or 'presto_up' from $base_dir to start"
         if [ "$INTERACTIVE" = True ]; then
             whiptail --msgbox "[presto] Build Stack FINISHED! Run 'docker-compose up -d' or 'presto_up' from $base_dir to start" 20 60 2
@@ -755,6 +772,7 @@ EOF
         fi
     fi
 }
+
 
 
 do_rclone_install() {
