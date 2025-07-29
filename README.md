@@ -72,6 +72,13 @@ This document is for the latest presto release and later**.
 <b>Before you start using <h3 class="font-bold md:text-5xl">presto</h3>, set your Raspberry Pi IP address to be static, it will make some things easier later on.
 Static IP address is not absolutely necessary just to try the project and find out if you like it, but i.e. if you would like to properly utilize pihole in your network - you will have to point your router to your RPi IP for DNS resolution.</b>
 
+## one shot install
+- Install Auto install it all vis this command
+  <pre><code>curl -sSL  https://raw.githubusercontent.com/piklz/presto/main/presto_launch.sh | bash</code></pre>
+
+  or follow these steps manually >
+
+
 - install git using a command:
 <pre><code>sudo apt-get install git</code></pre>
 
