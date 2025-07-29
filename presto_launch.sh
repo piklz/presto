@@ -361,7 +361,8 @@ do_bash_aliases() {
 	touch ~/.bash_aliases
 		if [ $(grep -c 'presto' ~/.bash_aliases) -eq 0 ]; then
 			echo ". ~/presto/.presto_bash_aliases" >>~/.bash_aliases
-			echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
+			#echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
+      echo -e "${INFO} Created presto aliases \(presto/.presto_bash_aliases\)!"
 			if [ "$INTERACTIVE" = True ]; then
 				whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,\
         presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,\
