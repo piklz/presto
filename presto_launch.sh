@@ -101,13 +101,8 @@ do_compose_update() {
 }
 
 # check git and clone presto if needed usually on first run on clean rasp os
-check_git_and_presto(){
-  echo -e "${INFO} check and presto starting up>"
 
-  PRESTO_DIR="$HOME/presto"
-
-  # Check for git
-  check_git_and_presto() {
+check_git_and_presto() {
   PRESTO_DIR="$HOME/presto"
 
   echo -e "${INFO} check and presto starting up>"
