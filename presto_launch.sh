@@ -118,14 +118,14 @@ check_git_and_presto(){
   else
       # Git is installed.
       echo -e "${INFO} git already installed continue..to local repo check"
-      # Check if the `~/presto` directory exists.
-    if [[ ! -d ~/presto ]]; then
-      # The `~/presto` directory does not exist.
+      # Check if the `$HOME/presto` directory exists.
+    if [[ ! -d $HOME/presto ]]; then
+      # The `$HOME/presto` directory does not exist.
       # Clone the `piklz/presto.git` repository from GitHub.
-      git clone -b main https://github.com/piklz/presto ~/presto
+      git clone -b main https://github.com/piklz/presto $HOME/presto
     else
-      # The ~/presto directory already exists.
-      echo -e "The ~/presto directory already exists."
+      # The $HOME/presto directory already exists.
+      echo -e "The $HOME/presto directory already exists."
 
       echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
       git fetch
@@ -363,10 +363,10 @@ function yml_builder() {
 
 do_bash_aliases() {
 	touch ~/.bash_aliases
-	mkdir -p ~/presto
-	touch ~/presto/.presto_bash_aliases
+	mkdir -p $HOME/presto
+	touch $HOME/presto/.presto_bash_aliases
 	if ! grep -q 'presto/.presto_bash_aliases' ~/.bash_aliases; then
-    	echo ". ~/presto/.presto_bash_aliases" >>~/.bash_aliases
+    	echo ". $HOME/presto/.presto_bash_aliases" >>~/.bash_aliases
     	echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
 	#echo -e "${INFO} Created presto aliases \(presto/.presto_bash_aliases\)!"
 			if [ "$INTERACTIVE" = True ]; then
@@ -932,12 +932,12 @@ else
 fi 
 
 #lets check if there already / git clone it and run it
-if [ ! -d ~/presto-tools ]; then
+if [ ! -d $HOME/presto-tools ]; then
   echo "GIT cloning the presto-tools now:\n"
-	git clone https://github.com/piklz/presto-tools ~/presto-tools
-	chmod +x ~/presto-tools/scripts/prestotools_install.sh
+	git clone https://github.com/piklz/presto-tools $HOME/presto-tools
+	chmod +x $HOME/presto-tools/scripts/prestotools_install.sh
   echo "running presto-tools install..>:\n"
-	pushd ~/presto-tools/scripts && sudo ./prestotools_install.sh
+	pushd $HOME/presto-tools/scripts && sudo ./prestotools_install.sh
 	popd
 else
 	echo "presto-tools scripts dir already installed - continue"
