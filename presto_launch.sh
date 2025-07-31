@@ -107,6 +107,12 @@ check_git_and_presto(){
   PRESTO_DIR="$HOME/presto"
 
   # Check for git
+  check_git_and_presto() {
+  PRESTO_DIR="$HOME/presto"
+
+  echo -e "${INFO} check and presto starting up>"
+
+  # 1. Ensure git is installed
   if ! command -v git >/dev/null 2>&1; then
     whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
     if [[ $whiptail_return == 0 ]]; then
@@ -118,10 +124,10 @@ check_git_and_presto(){
     fi
   fi
 
-  # Ensure $PRESTO_DIR is a valid git repo
+  # 2. Ensure $PRESTO_DIR is a valid git repo, otherwise safely re-clone
   if [[ ! -d "$PRESTO_DIR/.git" ]]; then
     if [[ -d "$PRESTO_DIR" ]]; then
-      # If we're currently in (or under) $PRESTO_DIR, move out before deleting
+      # If the script is currently in (or under) $PRESTO_DIR, cd to $HOME first!
       if [[ "$PWD" == "$PRESTO_DIR"* ]]; then
         cd "$HOME" || exit 1
       fi
@@ -132,6 +138,7 @@ check_git_and_presto(){
     git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
   fi
 
+  # 3. Move into the repo and check for updates
   cd "$PRESTO_DIR" || { echo "Failed to cd into $PRESTO_DIR"; exit 1; }
   echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
   git fetch
@@ -148,6 +155,9 @@ check_git_and_presto(){
     fi
   fi
 }
+
+
+
 #RUN
 check_git_and_presto
 
