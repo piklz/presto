@@ -101,63 +101,49 @@ do_compose_update() {
 }
 
 # check git and clone presto if needed usually on first run on clean rasp os
-check_git_and_presto(){ 
+check_git_and_presto(){
   echo -e "${INFO} check and presto starting up>"
-  # Check if Git is installed.
-  if [[ ! $(command -v git) ]]; then
-    # Git is not installed.
-    # Show a whiptail splash screen and ask the user if they want to install it.
-    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
 
-    # If the user clicks "Yes", install Git.
+  # Ensure PRESTO_DIR is always set to the user's home
+  PRESTO_DIR="$HOME/presto"
+
+  # 1. Check if git is installed
+  if ! command -v git >/dev/null 2>&1; then
+    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
     if [[ $whiptail_return == 0 ]]; then
       echo -e "${INFO} Installing git now via apt"
-      sudo apt install git
-    fi
-
-  else
-      # Git is installed.
-      echo -e "${INFO} git already installed continue..to local repo check"
-      # Check if the `$HOME/presto` directory exists.
-      PRESTO_DIR="$HOME/presto"
-      if [[ ! -d "$PRESTO_DIR/.git" ]]; then
-	# If the directory exists but isn't a git repo, remove it to avoid errors
-	if [[ -d "$PRESTO_DIR" ]]; then
-	    echo "[i] Removing incomplete or non-git $PRESTO_DIR directory."
-	    rm -rf "$PRESTO_DIR"
-	 fi
-	    echo "[i] Cloning presto repository..."
-	    git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
-      else
-	    echo "[i] presto git repo already present."
-	fi
+      sudo apt update && sudo apt install git -y
     else
-      # The $HOME/presto directory already exists.
-      echo -e "The $HOME/presto directory already exists."
-
-      echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
-      git fetch
-      
-      if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
-
-        #delete .outofdate if it does exist
-        [ -f .outofdate ] && rm .outofdate      
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
-
-      else
-
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
-
-        if [ ! -f .outofdate ]; then
-            whiptail --title "Project update" --msgbox "PRESTO update is available (select option 6 to grab update)\nYou will not be reminded again until your next update" 8 78
-            touch .outofdate
-            #do_update if want to auto UPDATE UNCOMMENT THIS
-        fi
-
-      fi
-
+      echo -e "${CROSS} Git is required. Exiting."
+      exit 1
     fi
+  fi
 
+  # 2. Ensure $PRESTO_DIR is a valid git repo
+  if [[ ! -d "$PRESTO_DIR/.git" ]]; then
+    if [[ -d "$PRESTO_DIR" ]]; then
+      echo "[i] Removing incomplete or non-git $PRESTO_DIR directory."
+      rm -rf "$PRESTO_DIR"
+    fi
+    echo "[i] Cloning presto repository..."
+    git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
+  fi
+
+  # 3. Check for updates if already a git repo
+  cd "$PRESTO_DIR" || { echo "Failed to cd into $PRESTO_DIR"; exit 1; }
+  echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
+  git fetch
+
+  if git status | grep -q "Your branch is up to date"; then
+    [ -f .outofdate ] && rm .outofdate
+    echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
+  else
+    echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
+    if [ ! -f .outofdate ]; then
+      whiptail --title "Project update" --msgbox "PRESTO update is available (select option 6 to grab update)\nYou will not be reminded again until your next update" 8 78
+      touch .outofdate
+      # If you want to auto-update, call do_update here.
+    fi
   fi
 }
 
