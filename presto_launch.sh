@@ -119,10 +119,18 @@ check_git_and_presto(){
       # Git is installed.
       echo -e "${INFO} git already installed continue..to local repo check"
       # Check if the `$HOME/presto` directory exists.
-    if [[ ! -d $HOME/presto ]]; then
-      # The `$HOME/presto` directory does not exist.
-      # Clone the `piklz/presto.git` repository from GitHub.
-      git clone -b main https://github.com/piklz/presto $HOME/presto
+     	PRESTO_DIR="$HOME/presto"
+	if [[ ! -d "$PRESTO_DIR/.git" ]]; then
+	    # If the directory exists but isn't a git repo, remove it to avoid errors
+	    if [[ -d "$PRESTO_DIR" ]]; then
+	        echo "[i] Removing incomplete or non-git $PRESTO_DIR directory."
+	        rm -rf "$PRESTO_DIR"
+	    fi
+	    echo "[i] Cloning presto repository..."
+	    git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
+	else
+	    echo "[i] presto git repo already present."
+	fi
     else
       # The $HOME/presto directory already exists.
       echo -e "The $HOME/presto directory already exists."
