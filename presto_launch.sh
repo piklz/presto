@@ -104,10 +104,9 @@ do_compose_update() {
 check_git_and_presto(){
   echo -e "${INFO} check and presto starting up>"
 
-  # Ensure PRESTO_DIR is always set to the user's home
   PRESTO_DIR="$HOME/presto"
 
-  # 1. Check if git is installed
+  # Check for git
   if ! command -v git >/dev/null 2>&1; then
     whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
     if [[ $whiptail_return == 0 ]]; then
@@ -119,9 +118,13 @@ check_git_and_presto(){
     fi
   fi
 
-  # 2. Ensure $PRESTO_DIR is a valid git repo
+  # Ensure $PRESTO_DIR is a valid git repo
   if [[ ! -d "$PRESTO_DIR/.git" ]]; then
     if [[ -d "$PRESTO_DIR" ]]; then
+      # If we're currently in (or under) $PRESTO_DIR, move out before deleting
+      if [[ "$PWD" == "$PRESTO_DIR"* ]]; then
+        cd "$HOME" || exit 1
+      fi
       echo "[i] Removing incomplete or non-git $PRESTO_DIR directory."
       rm -rf "$PRESTO_DIR"
     fi
@@ -129,7 +132,6 @@ check_git_and_presto(){
     git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
   fi
 
-  # 3. Check for updates if already a git repo
   cd "$PRESTO_DIR" || { echo "Failed to cd into $PRESTO_DIR"; exit 1; }
   echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
   git fetch
@@ -146,7 +148,6 @@ check_git_and_presto(){
     fi
   fi
 }
-
 #RUN
 check_git_and_presto
 
