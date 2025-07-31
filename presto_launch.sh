@@ -49,9 +49,12 @@ sys_arch=$(uname -m) #eg. returns aarch64
 
 
 
-
 presto_INSTALL_DIR="/home/$USER/presto"
-cd "$presto_INSTALL_DIR" || { echo "Failed to cd to $presto_INSTALL_DIR"; exit 1; }
+if [ ! -d "$presto_INSTALL_DIR" ]; then
+    mkdir -p "$presto_INSTALL_DIR"
+fi
+cd "$presto_INSTALL_DIR" || { echo "Could not enter $presto_INSTALL_DIR"; exit 1; }
+
 
 # todo maybe.. but generally this is to be on raspian/debian  mainly... /home
 # eg. should return /home/pi/ or diff users name as needed
