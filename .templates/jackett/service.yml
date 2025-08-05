@@ -28,4 +28,9 @@
     networks:
       private_network:
         ipv4_address: 172.19.0.22 # internal address of jackett
-    
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'jackett --NoRestart' >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
