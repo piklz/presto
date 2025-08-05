@@ -49,8 +49,12 @@ sys_arch=$(uname -m) #eg. returns aarch64
 
 
 
-
 presto_INSTALL_DIR="/home/$USER/presto"
+if [ ! -d "$presto_INSTALL_DIR" ]; then
+    mkdir -p "$presto_INSTALL_DIR"
+fi
+cd "$presto_INSTALL_DIR" || { echo "Could not enter $presto_INSTALL_DIR"; exit 1; }
+
 
 # todo maybe.. but generally this is to be on raspian/debian  mainly... /home
 # eg. should return /home/pi/ or diff users name as needed
@@ -97,57 +101,57 @@ do_compose_update() {
 }
 
 # check git and clone presto if needed usually on first run on clean rasp os
-check_git_and_presto(){ 
-  echo -e "${INFO} check and presto starting up>"
-  # Check if Git is installed.
-  if [[ ! $(command -v git) ]]; then
-    # Git is not installed.
-    # Show a whiptail splash screen and ask the user if they want to install it.
-    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
 
-    # If the user clicks "Yes", install Git.
+check_git_and_presto() {
+  PRESTO_DIR="$HOME/presto"
+
+  echo -e "${INFO} check and presto starting up>"
+
+  # 1. Ensure git is installed
+  if ! command -v git >/dev/null 2>&1; then
+    whiptail_return=$(whiptail --yesno "Git is not installed. Would you like to install it now?" 20 60 3>&1 1>&2 2>&3; echo $?)
     if [[ $whiptail_return == 0 ]]; then
       echo -e "${INFO} Installing git now via apt"
-      sudo apt install git
-    fi
-
-  else
-      # Git is installed.
-      echo -e "${INFO} git already installed continue..to local repo check"
-      # Check if the `~/presto` directory exists.
-    if [[ ! -d ~/presto ]]; then
-      # The `~/presto` directory does not exist.
-      # Clone the `piklz/presto.git` repository from GitHub.
-      git clone -b main https://github.com/piklz/presto ~/presto
+      sudo apt update && sudo apt install git -y
     else
-      # The ~/presto directory already exists.
-      echo -e "The ~/presto directory already exists."
-
-      echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
-      git fetch
-      
-      if [ $(git status | grep -c "Your branch is up to date") -eq 1 ]; then
-
-        #delete .outofdate if it does exist
-        [ -f .outofdate ] && rm .outofdate      
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
-
-      else
-
-        echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
-
-        if [ ! -f .outofdate ]; then
-            whiptail --title "Project update" --msgbox "PRESTO update is available (select option 6 to grab update)\nYou will not be reminded again until your next update" 8 78
-            touch .outofdate
-            #do_update if want to auto UPDATE UNCOMMENT THIS
-        fi
-
-      fi
-
+      echo -e "${CROSS} Git is required. Exiting."
+      exit 1
     fi
+  fi
 
+  # 2. Ensure $PRESTO_DIR is a valid git repo, otherwise safely re-clone
+  if [[ ! -d "$PRESTO_DIR/.git" ]]; then
+    if [[ -d "$PRESTO_DIR" ]]; then
+      # If the script is currently in (or under) $PRESTO_DIR, cd to $HOME first!
+      if [[ "$PWD" == "$PRESTO_DIR"* ]]; then
+        cd "$HOME" || exit 1
+      fi
+      echo "[i] Removing incomplete or non-git $PRESTO_DIR directory."
+      rm -rf "$PRESTO_DIR"
+    fi
+    echo "[i] Cloning presto repository..."
+    git clone -b main https://github.com/piklz/presto "$PRESTO_DIR"
+  fi
+
+  # 3. Move into the repo and check for updates
+  cd "$PRESTO_DIR" || { echo "Failed to cd into $PRESTO_DIR"; exit 1; }
+  echo -e "${INFO}${COL_LIGHT_GREEN} Checking PRESTO Git updates\n ${clear}"
+  git fetch
+
+  if git status | grep -q "Your branch is up to date"; then
+    [ -f .outofdate ] && rm .outofdate
+    echo -e "${INFO} ${COL_LIGHT_GREEN} Git local/repo is up-to-date${clear}"
+  else
+    echo -e "${INFO} ${COL_LIGHT_GREEN} Update is available${TICK}"
+    if [ ! -f .outofdate ]; then
+      whiptail --title "Project update" --msgbox "PRESTO update is available (select option 6 to grab update)\nYou will not be reminded again until your next update" 8 78
+      touch .outofdate
+      # If you want to auto-update, call do_update here.
+    fi
   fi
 }
+
+
 
 #RUN
 check_git_and_presto
@@ -359,10 +363,12 @@ function yml_builder() {
 
 do_bash_aliases() {
 	touch ~/.bash_aliases
-		if [ $(grep -c 'presto' ~/.bash_aliases) -eq 0 ]; then
-			echo ". ~/presto/.presto_bash_aliases" >>~/.bash_aliases
-			#echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
-      echo -e "${INFO} Created presto aliases \(presto/.presto_bash_aliases\)!"
+	mkdir -p $HOME/presto
+	touch $HOME/presto/.presto_bash_aliases
+	if ! grep -q 'presto/.presto_bash_aliases' ~/.bash_aliases; then
+    	echo ". $HOME/presto/.presto_bash_aliases" >>~/.bash_aliases
+    	echo -e "${INFO} Created presto aliases(presto/.presto_bash_aliases)!"
+	#echo -e "${INFO} Created presto aliases \(presto/.presto_bash_aliases\)!"
 			if [ "$INTERACTIVE" = True ]; then
 				whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,\
         presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,\
@@ -926,12 +932,12 @@ else
 fi 
 
 #lets check if there already / git clone it and run it
-if [ ! -d ~/presto-tools ]; then
+if [ ! -d $HOME/presto-tools ]; then
   echo "GIT cloning the presto-tools now:\n"
-	git clone https://github.com/piklz/presto-tools ~/presto-tools
-	chmod +x ~/presto-tools/scripts/prestotools_install.sh
+	git clone https://github.com/piklz/presto-tools $HOME/presto-tools
+	chmod +x $HOME/presto-tools/scripts/prestotools_install.sh
   echo "running presto-tools install..>:\n"
-	pushd ~/presto-tools/scripts && sudo ./prestotools_install.sh
+	pushd $HOME/presto-tools/scripts && sudo ./prestotools_install.sh
 	popd
 else
 	echo "presto-tools scripts dir already installed - continue"
