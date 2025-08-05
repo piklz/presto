@@ -1,4 +1,4 @@
-#----presto stuff
+#----presto scripts
 alias presto_up="docker compose -f ~/presto/docker-compose.yml up -d"
 alias presto_down="docker compose -f ~/presto/docker-compose.yml down"
 alias presto_start="docker compose -f ~/presto/docker-compose.yml start"
@@ -11,6 +11,16 @@ alias presto_status_usage="docker stats --all "
 alias presto_status_usage2="docker stats --all --format \"table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\""
 alias presto_dusummary="du -h -s -c  *"
 alias presto_engine_update="~/presto-tools/scripts/presto_docker-engine_update.sh"
+alias presto_prune_images="~/presto-tools/scripts/prune_images.sh"
+alias presto_prune_volumes="~/presto-tools/scripts/prune_volumes.sh"
+alias presto_drive_status="sudo ~/presto-tools/scripts/prune_drive_status.sh"
+alias presto_docker_monitor="~/presto-tools/scripts/presto_docker_monitor.sh"
+alias presto_launchmenu="~/presto/presto_launch.sh"
+alias presto_usb_install="sudo ~/presto-tools/scripts/presto_usb_install.sh"
+
+
+
+
 
 #my  rsync cp... replacing cp command + added progress bar!
 alias cpv="rsync -ah --info=progress2"
@@ -61,3 +71,5 @@ alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 ## get top process eating cpu ##
 alias pscpu='ps auxf | sort -nr -k 3'
 alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+
