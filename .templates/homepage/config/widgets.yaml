@@ -1,0 +1,31 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/service-widgets
+
+- resources:
+    cpu: true
+    memory: true
+    disk: /
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- datetime:
+    text_size: xl
+    format:
+      timeStyle: short
+
+- greeting:
+    text_size: xl
+    text: Well Hello !
+
+- logo:
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/I_Love_New_York.svg/1101px-I_Love_New_York.svg.png # optional
+
+- openweathermap:
+    latitude: 51.5085
+    longitude: -0.1257
+    units: metric
+    cache: 5 # Time in minutes to cache API responses, to stay within limits
+    provider: openweathermap
