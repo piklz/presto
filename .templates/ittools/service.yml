@@ -14,6 +14,12 @@
       - ./volumes/it-tools/config:/config
     ports:
       - 8282:80  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
+    labels:
+      - homepage.group=MEDIA
+      - homepage.name=it-tools
+      - homepage.icon=ittools.png
+      - homepage.href=http://rpi4-nas:2342
+      - homepage.description= IT Tools library
     networks:
       private_network:
         ipv4_address: 172.19.0.44 # internal address of ittools

@@ -24,7 +24,7 @@
     labels:
       - homepage.group=MEDIA
       - homepage.name=syncthing
-      - homepage.icon=jellyfin.png
+      - homepage.icon=syncthing.png
       - homepage.href=http://192.168.1.30:8384
       - homepage.description=syncthing backup
     networks:
