@@ -263,12 +263,28 @@ do_compose_update() {
     fi
 }
 
+#timezones() {    # if new one below works deltele this func
+#    env_file=$1
+#    TZ=$(cat /etc/timezone 2>/dev/null || echo "UTC")
+#    log_message "INFO" "Setting timezone in $env_file to $TZ"
+#    [ $(grep -c "TZ=" "$env_file") -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" "$env_file" || echo "TZ=$TZ" >> "$env_file"
+#}
+
 timezones() {
     env_file=$1
     TZ=$(cat /etc/timezone 2>/dev/null || echo "UTC")
     log_message "INFO" "Setting timezone in $env_file to $TZ"
-    [ $(grep -c "TZ=" "$env_file") -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" "$env_file" || echo "TZ=$TZ" >> "$env_file"
+
+    # Check if a TZ variable already exists and replace it
+    if grep -q "^TZ=" "$env_file"; then
+        sed -i "s|^TZ=.*|TZ=$TZ|" "$env_file"
+    else
+        # If it doesn't exist, append it on a new line
+        echo "" >> "$env_file"  # Add a blank line for readability
+        echo "TZ=$TZ" >> "$env_file"
+    fi
 }
+
 
 is_pi() {
     ARCH=$(dpkg --print-architecture)
