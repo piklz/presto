@@ -10,7 +10,10 @@ alias presto_upgrade-pi-sys="sudo apt update -y && sudo apt full-upgrade -y && s
 alias presto_status_usage="docker stats --all "
 alias presto_status_usage2="docker stats --all --format \"table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\""
 alias presto_dusummary="du -h -s -c  *"
+
+#Presto-tools aliases
 alias presto_engine_update="~/presto-tools/scripts/presto_docker-engine_update.sh"
+<<<<<<< HEAD
 alias presto_prune_images="~/presto/scripts/prune-images.sh"
 alias presto_prune_volumes="~/presto/scripts/prune-volumes.sh"
 alias presto_drive_status="sudo ~/presto-tools/scripts/presto_drive_status.sh"
@@ -18,6 +21,19 @@ alias presto_docker_monitor="~/presto-tools/scripts/presto_docker_monitor.sh"
 alias presto_launchmenu="~/presto/presto_launch.sh"
 alias presto_usb_install="sudo ~/presto-tools/scripts/presto_usb_install.sh"
 
+=======
+alias presto_drive_status="sudo ~/presto-tools/scripts/presto_drive_status.sh"
+alias presto_docker_monitor="~/presto-tools/scripts/presto_docker_monitor.sh"
+alias presto_usb_install="sudo ~/presto-tools/scripts/presto_usb_install.sh"
+
+#Presto-tools aliases Conditionally include Presto aliases if presto repository is installed
+if [ -d "$HOME/presto" ]; then
+    alias presto_launchmenu="~/presto/presto_launch.sh"
+    alias presto_prune_images="~/presto/scripts/prune-images.sh"
+    alias presto_prune_volumes="~/presto/scripts/prune-volumes.sh"
+fi
+
+>>>>>>> develop
 
 
 
