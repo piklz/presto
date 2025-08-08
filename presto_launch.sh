@@ -383,7 +383,7 @@ do_bash_aliases() {
                 log_message "INFO" "Created presto bash aliases in $USER_HOME/presto-tools/scripts/.presto_bash_aliases"
                 echo "Setting up bash aliases using presto-tools..."
                 bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh" --setup-bash-aliases --include-presto
-                whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,presto_upgrade-pi-sys,presto_dusummary,presto_status_usage,presto_status_usage2 & more!" 20 80 2
+                whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update, type presto and <TAB> to see more !" 20 80 2
             fi
             
         else
@@ -395,7 +395,7 @@ do_bash_aliases() {
 
     source "$USER_HOME/.bashrc" || log_message "WARNING" "Failed to source .bashrc"
     ASK_TO_REBOOT=1
-    log_message "INFO" "Presto aliases will be ready after a reboot/logout"
+    log_message "INFO" "Presto aliases will be ready after a reboot/logout or source ~/.bashrc"
     if [ "$INTERACTIVE" = True ]; then
         whiptail --msgbox "Presto aliases will be ready after a reboot" 20 60 2
     fi
