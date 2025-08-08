@@ -28,3 +28,4 @@ presto.code-workspace
 presto_bashwelcome.sh
 prestoBackups/
 immich/
+.env.example

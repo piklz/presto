@@ -59,6 +59,8 @@
     ## the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
     ports:
       - "2342:2342"
+    env_file:
+      - ./services/photoprism/photoprism.env
     ## Before you start the service, please check the following config options (and change them as needed):
     ## https://docs.photoprism.app/getting-started/config-options/
     environment:
@@ -121,10 +123,10 @@
       # "/host/folder:/photoprism/folder"                # Example
       #- "~/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       #- "./volumes/photoprism/pictures:/photoprism/originals"
-      - "/media/INSERT_MOUNTED_DRIVE_HERE/PHOTOPRISM_originals:/photoprism/originals"
+      - "${PHOTOPRISM_MEDIA_PATH}/PHOTOPRISM_originals:/photoprism/originals"
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - "/media/INSERT_MOUNTED_DRIVE_HERE/PHOTOPRISM_import:/photoprism/import" 
+      - "${PHOTOPRISM_MEDIA_PATH}/PHOTOPRISM_import:/photoprism/import" 
       - "./volumes/photoprism/photoprism_storage:/photoprism/storage"
       - "./volumes/photoprism/storage:/photoprism/storage" #this is best on ssd moutned or have a big microsd for your volumes as it grows fast!!
       #- "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
