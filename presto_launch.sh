@@ -377,28 +377,33 @@ yml_builder() {
 }
 
 do_bash_aliases() {
-    touch "$USER_HOME/.bash_aliases"
-    mkdir -p "$USER_HOME/presto"
-    touch "$USER_HOME/presto/.presto_bash_aliases"
-    if ! grep -q 'presto/.presto_bash_aliases' "$USER_HOME/.bash_aliases"; then
-        echo ". $USER_HOME/presto/.presto_bash_aliases" >> "$USER_HOME/.bash_aliases"
-        log_message "INFO" "Created presto bash aliases in $USER_HOME/presto/.presto_bash_aliases"
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,presto_upgrade-pi-sys,presto_dusummary,presto_status_usage,presto_status_usage2 & more!" 20 80 2
-        fi
-    else
-        log_message "INFO" "Presto bash aliases already added"
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "Presto bash aliases already created." 20 60 2
-        fi
+
+    if [ -f "$USER_HOME/presto-tools/scripts/presto-tools_install.sh" ]; then
+            if [ "$INTERACTIVE" = True ]; then
+                log_message "INFO" "Created presto bash aliases in $USER_HOME/presto-tools/scripts/.presto_bash_aliases"
+                echo "Setting up bash aliases using presto-tools..."
+                bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh" --setup-bash-aliases --include-presto
+                whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update,presto_build,presto_status,cpv,presto_upgrade-pi-sys,presto_dusummary,presto_status_usage,presto_status_usage2 & more!" 20 80 2
+            fi
+            
+        else
+            log_message "WARN" "Presto-tools not found no aliases added"
+            if [ "$INTERACTIVE" = True ]; then
+            whiptail --msgbox "Presto-tools not found. Please install presto-tools to set up aliases." 8 60
+            fi
     fi
+
     source "$USER_HOME/.bashrc" || log_message "WARNING" "Failed to source .bashrc"
     ASK_TO_REBOOT=1
     log_message "INFO" "Presto aliases will be ready after a reboot/logout"
     if [ "$INTERACTIVE" = True ]; then
         whiptail --msgbox "Presto aliases will be ready after a reboot" 20 60 2
     fi
+
+
 }
+
+
 
 do_start_stack() {
     if [ -f "${presto_INSTALL_DIR}/scripts/start.sh" ]; then
@@ -676,7 +681,7 @@ do_restore_gdrive() {
 
 do_dockercommands_menu() {
     FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto-config)" --menu "Performance Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
-        "P1 Add presto_up and presto_down aliases" "set useful bash cmd aliases" \
+        "P1 Add presto-tools docker aliases" "set useful bash cmd aliases" \
         "P2 Docker Start" "runs Docker start.sh in /scripts" \
         "P3 Docker Stop" "runs Docker stop.sh in /scripts" \
         "P4 Docker Restart" "Restart" \
