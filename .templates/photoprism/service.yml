@@ -86,26 +86,8 @@
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
       - "./volumes/photoprism/database:/var/lib/mysql" # DO NOT REMOVE
-    environment:
-      MARIADB_AUTO_UPGRADE: "1"
-      MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: "photoprism"
-      MARIADB_USER: "photoprism"
-      MARIADB_PASSWORD: "insecure"
-      MARIADB_ROOT_PASSWORD: "insecure"
-
-  ## Watchtower upgrades services automatically (optional)
-  ## see https://docs.photoprism.app/getting-started/updates/#watchtower
-  #
-  # watchtower:
-  #   restart: unless-stopped
-  #   image: containrrr/watchtower
-  #   environment:
-  #     WATCHTOWER_CLEANUP: "true"
-  #     WATCHTOWER_POLL_INTERVAL: 7200 # checks for updates every two hours
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock"
-  #     - "~/.docker/config.json:/config.json" # optional, for authentication if you have a Docker Hub account
+    env_file:
+      - ./services/photoprism/photoprism.env
 
     networks:
       private_network:
