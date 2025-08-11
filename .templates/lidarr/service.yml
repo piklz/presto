@@ -28,7 +28,7 @@
       - homepage.group=MEDIA
       - homepage.name=lidarr
       - homepage.icon=lidarr.png
-      - homepage.href=http://192.168.1.30:8686
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8686
       - homepage.description=song manager  
     networks:
       private_network:

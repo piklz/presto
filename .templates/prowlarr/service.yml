@@ -24,7 +24,7 @@
       - homepage.group=MEDIA
       - homepage.name=prowlarr
       - homepage.icon=prowlarr.png
-      - homepage.href=http://192.168.1.30:9696
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:9696
       - homepage.description= T indexer
       networks:
         private_network:

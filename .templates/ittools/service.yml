@@ -23,8 +23,8 @@
     labels:
       - homepage.group=MEDIA
       - homepage.name=it-tools
-      - homepage.icon=ittools.png
-      - homepage.href=http://rpi4-nas:2342
+      - homepage.icon=it-tools.png
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8282
       - homepage.description= IT Tools library
     networks:
       private_network:

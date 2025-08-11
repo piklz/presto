@@ -28,7 +28,7 @@
       - homepage.group=MEDIA
       - homepage.name=Radarr
       - homepage.icon=radarr.png
-      - homepage.href=http://192.168.1.30:7878
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:7878
       - homepage.description=movie radarr    
     networks:
       private_network:

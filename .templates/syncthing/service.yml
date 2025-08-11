@@ -31,7 +31,7 @@
       - homepage.group=MEDIA
       - homepage.name=syncthing
       - homepage.icon=syncthing.png
-      - homepage.href=http://rpi4-nas:8384
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8384
       - homepage.description=syncthing backup
     networks:
       private_network:

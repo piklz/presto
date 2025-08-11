@@ -31,7 +31,7 @@
       - homepage.group=MEDIA
       - homepage.name=qbittorrent
       - homepage.icon=qbittorrent.png
-      - homepage.href=http://192.168.1.30:15080
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:15080
       - homepage.description= Torrent Downloader
     networks:
       private_network:

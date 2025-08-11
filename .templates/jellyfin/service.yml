@@ -11,7 +11,7 @@
       - PGID=1000
       - TZ=UTC
       - UMASK_SET=<022> #optional
-      - JELLYFIN_PublishedServerUrl=http://192.168.1.30 #optional
+      - JELLYFIN_PublishedServerUrl=http://${RASPBERRYPI_HOST_IP} #optional
     volumes:
       - ./volumes/jellyfin/config:/config
       - /media/YOUR-USB-DRIVE-PATH/TV:/data/tvshows
@@ -33,7 +33,7 @@
       - homepage.group=MEDIA
       - homepage.name=jellyfin
       - homepage.icon=jellyfin.png
-      - homepage.href=http://192.168.1.30:8096
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8096
       - homepage.description=media server/player
     networks:
       private_network:

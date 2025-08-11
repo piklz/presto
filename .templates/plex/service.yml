@@ -15,7 +15,7 @@
       - UMASK_SET=022 #optional
       - TZ='Europe/London'
       #- PLEX_CLAIM= optional to claim a new server add here claim-++++++++++++
-      - ADVERTISE_IP=http://192.168.1.30:32400/
+      - ADVERTISE_IP=http://${RASPBERRYPI_HOST_IP}:32400/
       
     ports:
       - '32400:32400'
@@ -50,7 +50,7 @@
       - homepage.group=MEDIA
       - homepage.name=plex
       - homepage.icon=plex.png
-      - homepage.href=http://192.168.1.30:32400
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:32400
       - homepage.description=media server/player
     networks:
       private_network:
