@@ -94,7 +94,12 @@
       - "./volumes/photoprism/database:/var/lib/mysql" # DO NOT REMOVE
     env_file:
       - ./services/photoprism/photoprism.env
-
+    healthcheck:
+        test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+        interval: 10s
+        timeout: 5s
+        retries: 3
+        start_period: 60s
     networks:
       private_network:
         ipv4_address: 172.19.0.36 # internal address of photoprism(mariadb)
