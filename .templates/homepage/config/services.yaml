@@ -44,10 +44,10 @@
 
     - Jellyfin:
         icon: jellyfin.svg
-        href: http://192.168.1.100 or rpi4 :8096
+        href: http://rpi4-nas:8096
         widget:
           type: jellyfin
-          url: http://192.168.1.100 or rpi4 :8096
+          url: http://rpi4-nas:8096
           key: #apikey here look to respective app settings for it
           enableBlocks: true # optional, defaults to false
           enableNowPlaying: true # optional, defaults to true
@@ -102,10 +102,10 @@
 
     - Uptimekuma:
         icon: uptime-kuma.svg
-        href: http://192.168.1.100 or rpi4 :3001
+        href: http://rpi4-nas:3001
         widget:
           type: uptimekuma
-          url: http://192.168.1.100 or rpi4 :3001
+          url: http://rpi4-nas:3001
           slug: dash
 
     - Motioneye:
@@ -175,7 +175,7 @@
 
     - Glances:
         icon: glances.png
-        href: http://192.168.1.100 or rpi4 :61208
+        href: http://rpi4-nas:61208
         description: Top5 Procs
         widget:
           type: glances
