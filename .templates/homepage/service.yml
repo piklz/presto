@@ -20,7 +20,7 @@
       - /var/run/docker.sock:/var/run/docker.sock # optional, for docker integrations runs as root so PUID and PGID not needed if you want to see runing containers
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:3000"]
+      test: ["CMD-SHELL", "wget --quiet --spider http://0.0.0.0:3000 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
