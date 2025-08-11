@@ -10,6 +10,12 @@
     ports:
       - 9000:9000
       - 9443:9443
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/portainer/data:/data

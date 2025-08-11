@@ -13,6 +13,11 @@
       - "53:53/udp"
       #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "80:80/tcp"
+    healthcheck:
+      test: ["CMD", "/usr/bin/pihole-healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3  
     # Volumes store your data between container upgrades or use env file
     env_file:
       - ./services/pihole/pihole.env

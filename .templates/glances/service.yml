@@ -27,6 +27,12 @@
       - homepage.icon=glances.png
       - homepage.href=http://192.168.1.30:61208  
       - homepage.description=system info top hub
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:61208"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     networks:
       private_network:
         ipv4_address: 172.19.0.39 # internal address of glances

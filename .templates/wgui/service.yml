@@ -38,7 +38,12 @@
       driver: json-file
       options:
         max-size: 50m
-
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     restart: unless-stopped
     labels:
       - homepage.group=NETWORK

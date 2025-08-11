@@ -28,6 +28,12 @@
       - TZ='Europe/London'
     ports:
       - 8123:8123
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8123"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 120s     
     labels:
       - homepage.group=NETWORK
       - homepage.name=home-assistant

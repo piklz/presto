@@ -11,6 +11,12 @@
       - ./volumes/uptime-kuma:/app/data
     ports:
       - "3001:3001"  # <Host Port>:<Container Port>
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s      
     restart: always
     networks:
       private_network:

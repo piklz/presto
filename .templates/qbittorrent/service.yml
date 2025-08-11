@@ -20,6 +20,12 @@
       - 6881:6881/udp
       - 15080:15080
       - 1080:1080
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:1080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s     
     restart: unless-stopped
     labels:
       - homepage.group=MEDIA
@@ -30,9 +36,3 @@
     networks:
       private_network:
         ipv4_address: 172.19.0.29 # internal address of qbittorrent
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:15080"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 60s

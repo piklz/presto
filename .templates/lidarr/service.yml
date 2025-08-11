@@ -18,6 +18,12 @@
       - /media/USB_PLEX_14TB/DOWNLOADS:/downloads
     ports:
       - 8686:8686
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8686/UI/Dashboard"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s  
     labels:
       - homepage.group=MEDIA
       - homepage.name=lidarr

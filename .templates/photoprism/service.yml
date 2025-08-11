@@ -51,6 +51,12 @@
       - apparmor:unconfined
     ports:
       - "2342:2342"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:2342/api/v1/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s  
     env_file:
       - ./services/photoprism/photoprism.env
     working_dir: "/photoprism"
