@@ -1,0 +1,32 @@
+  
+#---------------------------------------------------------------------#
+#    motioneye - A simple,security camera server.                     #
+#---------------------------------------------------------------------#
+  
+  motioneye:
+    #image: "ccrisan/motioneye:master-armhf" old ver for old pi's
+    image: "ghcr.io/motioneye-project/motioneye:edge" #64bit pi's
+    container_name: "motioneye"
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='Europe/London'
+    ports:
+      - 8765:8765 
+      - 8081:8081
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8765"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s      
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./volumes/motioneye/etc_motioneye:/etc/motioneye
+      - ./volumes/motioneye/var/lib/motioneye:/var/lib/motioneye
+    devices:
+      - "/dev/video0:/dev/video0"
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.38 # internal address of motioneye
