@@ -6,7 +6,8 @@
 # Stats refresh rate (default is a minimum of 2 seconds)
 # Can be overwrite by the -t <sec> option
 # It is also possible to overwrite it in each plugin sections
-refresh=2
+#refresh=2
+refresh= ${GLOBAL_REFRESH}
 # Does Glances should check if a newer version is available on PyPI ?
 check_update=False
 # History size (maximum number of values)
