@@ -13,4 +13,5 @@ if [ ! -s "$FINAL_CONFIG_FILE" ]; then
     envsubst < "$TEMPLATE_FILE" > "$FINAL_CONFIG_FILE"
 fi
 
+# This command starts Glances and is crucial.
 exec glances -C "$FINAL_CONFIG_FILE" -w
