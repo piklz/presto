@@ -1,12 +1,2 @@
 *.sh text eol=lf
 * text=auto eol=lf
-# Tell Git to recognize the executable bit on all shell scripts.
-*.sh text diff
-*.sh text merge
-*.sh text crlf
-*.sh -text
-*.sh diff=bash
-*.sh merge=bash
-*.sh crlf=false
-*.sh eol=lf
-*.sh working-tree-encoding=UTF-8
