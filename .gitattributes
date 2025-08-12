@@ -1,4 +1,5 @@
 *.sh text eol=lf
+* text=auto eol=lf
 # Tell Git to recognize the executable bit on all shell scripts.
 *.sh text diff
 *.sh text merge
