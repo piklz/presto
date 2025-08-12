@@ -14,7 +14,7 @@
       #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "80:80/tcp"
     healthcheck:
-      test: ["CMD", "/usr/bin/pihole-healthcheck"]
+      test: ["CMD", "wget", "-q", "-T", "15", "-O", "/dev/null", "http://localhost:80/admin/"]
       interval: 30s
       timeout: 10s
       retries: 3  

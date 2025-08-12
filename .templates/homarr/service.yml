@@ -20,7 +20,7 @@
       - homepage.href=http://${RASPBERRYPI_HOST_IP}:7575
       - homepage.description=Server Dashboard
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:7575"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7575 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

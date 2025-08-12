@@ -21,7 +21,7 @@
       - 15080:15080
       - 1080:1080
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:1080"]
+      test: ["CMD-SHELL", "curl -f -s --max-time 15 http://localhost:15080/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
