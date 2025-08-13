@@ -6,10 +6,8 @@
   it-tools:
     image: 'corentinth/it-tools:latest'
     container_name: it-tools
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+    env_file:
+      - ./services/it-tools/it-tools.env  
     volumes:
       - ./volumes/it-tools/config:/config
     ports:

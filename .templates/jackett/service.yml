@@ -5,13 +5,9 @@
   
   jackett:
     image: linuxserver/jackett
-    container_name: jackett
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-      - AUTO_UPDATE=true #optional
-      # - RUN_OPTS=<run options here> #optional
+    container_name: jackett    
+    env_file:
+      - ./services/jackett/jackett.env    
     volumes:
       - ./volumes/jackett/config:/config
       - /media/USB_PLEX_14TB/DOWNLOADS:/downloads
