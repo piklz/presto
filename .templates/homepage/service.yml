@@ -6,6 +6,8 @@
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
+    env_file:
+      - ./services/homepage/homepage.env  
     environment:
       # - PUID=1000
       # - PGID=1000
