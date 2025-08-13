@@ -6,10 +6,8 @@
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
     container_name: heimdall
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+    env_file:
+      - ./services/heimdall/heimdall.env
     volumes:
       - ./volumes/heimdall/config:/config
     ports:
