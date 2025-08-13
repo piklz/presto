@@ -14,8 +14,8 @@
       #- /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro #RHEL?
       - ./volumes/glances/glances.conf:/glances/conf/glances.conf    
       # Mount the entrypoint script and template from the presto root directory.
-      - ./.templates/glances/entrypoint.sh:/entrypoint.sh
-      - ./.templates/glances/glances.conf.template:/app/glances.conf.template
+      - ./services/glances/entrypoint.sh:/entrypoint.sh
+      - ./services/glances/glances.conf.template:/app/glances.conf.template
     entrypoint: ["/entrypoint.sh"]  
     environment:      
       - TZ=Europe/London
