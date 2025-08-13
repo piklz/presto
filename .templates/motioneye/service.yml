@@ -8,10 +8,8 @@
     image: "ghcr.io/motioneye-project/motioneye:edge" #64bit pi's
     container_name: "motioneye"
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ='Europe/London'
+    env_file:
+      - ./services/motioneye/motioneye.env    
     ports:
       - 8765:8765 
       - 8081:8081

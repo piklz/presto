@@ -6,11 +6,8 @@
   lidarr:
     image: linuxserver/lidarr
     container_name: lidarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./services/lidarr/lidarr.env    
     volumes:
       - ./volumes/lidarr/config:/config
       #modify below paths to your setups folders choices in portainer + pi/linux mounted drives in 'fstab
