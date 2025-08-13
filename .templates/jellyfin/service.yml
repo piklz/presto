@@ -6,12 +6,8 @@
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-      - UMASK_SET=<022> #optional
-      - JELLYFIN_PublishedServerUrl=http://${RASPBERRYPI_HOST_IP} #optional
+    env_file:
+      - ./services/jellyfin/jellyfin.env  
     volumes:
       - ./volumes/jellyfin/config:/config
       - /media/YOUR-USB-DRIVE-PATH/TV:/data/tvshows
