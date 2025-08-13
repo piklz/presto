@@ -22,10 +22,8 @@
       - ./volumes/homeassistant/addons:/homeassistant/addons
       - ./volumes/homeassistant/conf:/homeassistant/conf
       - ./volumes/homeassistant/userdata:/homeassistant/userdata
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ='Europe/London'
+    env_file:
+      - ./services/homeassistant/homeassistant.env  
     ports:
       - 8123:8123
     healthcheck:
