@@ -199,7 +199,7 @@
         description: INFO
         widget:
           type: glances
-          url: http://192.168.1.100:61208
+          url: http://rpi4-nas:61208
           version: 4
           metric: info
           refreshInterval: 5000
