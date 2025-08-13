@@ -6,11 +6,8 @@
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./services/sonarr/sonarr.env 
     volumes:
       - ./volumes/sonarr/data:/config
         #modify below paths to your setups folders choices in portainer + pi/linux or mounted drives in 'fstab

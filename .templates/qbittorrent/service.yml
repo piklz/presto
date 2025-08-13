@@ -6,11 +6,8 @@
   qbittorrent:
     image: linuxserver/qbittorrent
     container_name: qbittorrent
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK_SET=022
-      - WEBUI_PORT=15080
+    env_file:
+      - ./services/qbittorrent/qbittorrent.env    
     volumes:
       - ./volumes/qbittorrent/config:/config
       #modify below paths to your setups folders choices in portainer + pi/linux mounted drives in 'fstab

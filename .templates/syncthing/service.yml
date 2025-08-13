@@ -7,10 +7,8 @@
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
     hostname: syncthing #optional
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+    env_file:
+      - ./services/syncthing/syncthing.env
     volumes:
       - ./volumes/syncthing/config:/config
       - /media/32GUSB/data1:/data1

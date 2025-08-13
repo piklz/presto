@@ -6,10 +6,8 @@
   prowlarr:
       image: lscr.io/linuxserver/prowlarr:latest
       container_name: prowlarr
-      environment:
-        - PUID=1000
-        - PGID=1000
-        - TZ=Europe/London
+      env_file:
+      - ./services/prowlarr/prowlarr.env  
       volumes:
         - ./volumes/prowlarr/data:/config
       ports:

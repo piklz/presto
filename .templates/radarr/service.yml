@@ -6,11 +6,8 @@
   radarr:
     image: linuxserver/radarr:latest
     container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - UMASK=022 #optional
+    env_file:
+      - ./services/radarr/radarr.env 
     volumes:
       - ./volumes/radarr/config:/config
       #modify below paths to your setups folders choices in portainer + pi/linux mounted drives in 'fstab

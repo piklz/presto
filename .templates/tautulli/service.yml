@@ -9,10 +9,8 @@
     restart: unless-stopped
     volumes:
       - ./volumes/tautulli/config:/config
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
+    env_file:
+      - ./services/tautulli/tautulli.env
     ports:
       - 8181:8181
     healthcheck:
