@@ -10,20 +10,24 @@
 <tr>
 <td style="width: 50%;">&nbsp;</td>
 <td style="width: 50%;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://img.shields.io/github/followers/piklz?style=social" /></td>
+<td style="width: 50%;"><strong>support the author and buy the app !</strong></td>
 </tr>
 </tbody>
 </table>
 
-# !! CURRENTLY TESTING am adding code for pi5 tests in future and you have to tweak your mount paths in your pi ill have some details tuts o nthis too in this readme soon        
-also refactoring since its been while since I looked and the code. making it more robust 
-## Requirements
+## What's New in Presto & Presto-Tools
 
-We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
-- All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
+We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and versatile, and enhanced features for Raspberry Pi users using docker apps. Here’s what’s new:
+
+- **Enhanced Bash Welcome Login**: A more robust login script with `--arg` flags to enable/disable features like `smarthealth` drive warnings and Docker disk space monitoring and weather info too!.
+- **USB Mount Script**: Simplifies mounting USB drives for seamless storage management.
+- **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
+- **UPS-C Hat & Geekworm Hat Support**: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+- **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
+- **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` now supports RetroPie with dedicated arguments for gaming setups!
 
 
-<details>
-<summary>View all services</summary>
+<summary> Current services added </summary>
 
 | Service | Ports | Description |
 |---|---|---|
@@ -52,15 +56,25 @@ We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is
 | [WireGuard-UI](https://github.com/ngoduykhanh/wireguard-ui) | 5000 | Web UI for managing WireGuard connections |
 | [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
 
-</details>
+!UPDATE on Services: -  may replace wireguard-ui at some point as its not being updated for over a year 
+                 ( even though its wokring for now fine ) to mayeb wgeasy or somthing simlar?
+
+
+
+
+## Requirements
+
+We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
+- All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
+
 
 due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
 
 ## Features
 - __minimal easeofuse:__ small footprint only use the apps you want and make a stack to launch them easily
-- __event backend:__ runs very well and fast on a rpi4 and has alias cmds to do what portainer ui does so great for ssh headless-pi users!
-- __small frontend:__ docker runs all the complex stuff and portainer lets you manage it easily and beautifully (but you can also run simple nongui  terminal commands to run preset actions to manage your install and running of presto docker system)
+- __event backend:__ runs very well and fast on a rpizero/3/4/5 and has lots of alias shorcut cmds for ssh headless-pi users!
+- __small frontend:__ docker runs all the complex stuff and  presto lets you manage it easily via terminal (but you can also run a fnacy GUI portainer too) run preset actions to manage your install and running of presto docker system)
 
 
 ## Table of Contents
