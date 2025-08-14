@@ -21,28 +21,38 @@ also refactoring since its been while since I looked and the code. making it mor
 We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
 - All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
 
-| Service | Ports | Description | |
-|---|---|---|---|
-| [Portainer](https://gitlab.com/portainer/portainer) | 9000 | GUI Docker Manager 
-| [Sonarr](https://github.com/sonarr/sonarr)          | 8989 | TV show downloader and organizer 
-| [Radarr](https://github.com/Radarr/Radarr) | 7878 | Movie downloader and organizer 
-| [Lidarr](https://github.com/lidarr/lidarr) | 8686 | Music downloader and organizer 
-| [Jackett](https://github.com/Jackett/Jackett) | 9117 | Torrent indexer
-| [qBittorrent](https://github.com/qbittorrent/qbittorrent) | 15080 | Torrent client
-| [JellyFin](https://github.com/jellyfin/jellyfin) | 8096 | Media server 
-| [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server 
-| [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Plex stats grapher 
-| [Overseerr](https://github.com/sct/overseerr) | 5055 | Plex movie/TV requester
-| [Heimdall](https://github.com/linuxserver/heimdall) | 82 | Nice frontend dashboard for all your *arr apps 
-| [Home Assistant](https://github.com/home-assistant/core) | 8123 | Home automation platform 
-| [MotionEye](https://github.com/ccrisan/motioneye) | 8765 | Free security cam 
-| [rpi-monitor](https://github.com/pi-hole/rpi-monitor) | 8888 | Python script to display Raspberry Pi system statistics 
-| [Homarr](https://github.com/linuxserver/homarr) | 7575 | Dashboard for Docker apps 
-| [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Secure VPN tunnel
-| [WireGuard UI](https://github.com/WireGuard/wireguard-tools/tree/master/wireguard-ui) | 5000 | Web UI for managing WireGuard connections
-| [Pi-hole](https://github.com/pi-hole/pi-hole) | 80 | Ad blocker and network-wide DNS protection 
-| [UptimeKuma](https://github.com/louislam/uptime-kuma) | 3001 | Monitors the uptime and performance of your websites and services 
-| [it-tools](https://github.com/CorentinTh/it-tools) | 8282 | useful scriptlets and tools for the web tech wizards 
+
+<details>
+<summary>View all services</summary>
+
+| Service | Ports | Description |
+|---|---|---|
+| [Glances](https://github.com/nicolargo/glances) | 61208 | System monitoring tool |
+| [Heimdall](https://github.com/linuxserver/heimdall) | 80, 443 | Dashboard for *arr apps and services |
+| [Homarr](https://github.com/ajnart/homarr) | 7575 | Customizable dashboard for Docker apps |
+| [Home Assistant](https://github.com/home-assistant/core) | 8123 | Open-source home automation platform |
+| [Homepage](https://github.com/gethomepage/homepage) | 3000 | Customizable personal dashboard |
+| [IT-Tools](https://github.com/CorentinTh/it-tools) | 8080 | Collection of web tech tools |
+| [Jackett](https://github.com/Jackett/Jackett) | 9117 | Torrent indexer for *arr apps |
+| [Jellyfin](https://github.com/jellyfin/jellyfin) | 8096 | Open-source media server |
+| [Lidarr](https://github.com/Lidarr/Lidarr) | 8686 | Music downloader and organizer |
+| [MotionEye](https://github.com/motioneye-project/motioneye) | 8765 | Security camera management interface |
+| [Overseerr](https://github.com/sct/overseerr) | 5055 | Request management for Plex |
+| [PhotoPrism](https://github.com/photoprism/photoprism) | 2342 | AI-powered photo management |
+| [Pi-hole](https://github.com/pi-hole/pi-hole) | 80, 53 | Network-wide ad blocker and DNS sinkhole |
+| [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server for streaming content |
+| [Portainer](https://github.com/portainer/portainer) | 9000 | GUI Docker container management |
+| [Prowlarr](https://github.com/Prowlarr/Prowlarr) | 9696 | Indexer manager for *arr apps |
+| [qBittorrent](https://github.com/qbittorrent/qBittorrent) | 8080 | Torrent client with web UI |
+| [Radarr](https://github.com/Radarr/Radarr) | 7878 | Movie downloader and organizer |
+| [Sonarr](https://github.com/Sonarr/Sonarr) | 8989 | TV show downloader and organizer |
+| [Syncthing](https://github.com/syncthing/syncthing) | 8384, 22000 | Continuous file synchronization |
+| [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Monitoring and stats for Plex |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | 3001 | Website and service uptime monitoring |
+| [WireGuard-UI](https://github.com/ngoduykhanh/wireguard-ui) | 5000 | Web UI for managing WireGuard connections |
+| [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
+
+</details>
 
 due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
