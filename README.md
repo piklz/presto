@@ -24,7 +24,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 - **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
 - **UPS-C Hat & Geekworm Hat Support**: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
 - **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
-- **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` now supports RetroPie with dedicated arguments for gaming setups!
+- **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` .
 
 
 <summary> Current services added </summary>
@@ -55,11 +55,10 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 | [Uptime Kuma](https://github.com/louislam/uptime-kuma) | 3001 | Website and service uptime monitoring |
 | [WireGuard-UI](https://github.com/ngoduykhanh/wireguard-ui) | 5000 | Web UI for managing WireGuard connections |
 | [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
-
-!UPDATE on Services: -  may replace wireguard-ui at some point as its not being updated for over a year 
-                 ( even though its wokring for now fine ) to mayeb wgeasy or somthing simlar?
-
-
+| SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
+| SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
+| SOON:[immich](https://immich.app/) | NA | photo gallery like googlephotos/photoprism|
+| UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
 
 
 ## Requirements
