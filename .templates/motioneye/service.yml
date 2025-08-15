@@ -5,6 +5,7 @@
   
   motioneye:
     #image: "ccrisan/motioneye:master-armhf" old ver for old pi's
+    #if on a pi and no motion is recorded > TRY codec on h264(mp4)(once a camera is added)
     image: "ghcr.io/motioneye-project/motioneye:edge" #64bit pi's
     container_name: "motioneye"
     restart: unless-stopped
