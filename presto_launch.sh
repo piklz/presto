@@ -117,7 +117,7 @@ print_help() {
     echo "  --help            Display this help message and exit."
     echo "  --verbose         Enable verbose output for debugging."
     echo "  --interactive     Force interactive mode, which uses the graphical menus."
-    echo "  --non-interactive Run the script without any user interaction, using default values."
+    #echo "  --non-interactive Run the script without any user interaction, using default values."
     echo ""
     echo "Journal Tips for Debugging:"
     echo "  To view all logs for this script:"
@@ -136,7 +136,7 @@ while [[ "$#" -gt 0 ]]; do
     case "$1" in
         --verbose) VERBOSE_MODE=1 ;;
         --interactive) INTERACTIVE=True ;;
-        --non-interactive) INTERACTIVE=False ;;
+        #--non-interactive) INTERACTIVE=False ;;
         --help) print_help ;;
         *) log_message "ERROR" "Unknown option: $1"; exit 1 ;;
     esac
