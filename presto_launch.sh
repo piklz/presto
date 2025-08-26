@@ -398,7 +398,7 @@ do_bash_aliases() {
             if [ "$INTERACTIVE" = True ]; then
                 log_message "INFO" "Created presto bash aliases in $USER_HOME/presto-tools/scripts/.presto_bash_aliases"
                 echo "Setting up bash aliases using presto-tools..."
-                bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh" --setup-bash-aliases --include-presto
+                bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh"
                 whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update, type presto and <TAB> to see more !" 20 80 2
             fi
             
