@@ -10,47 +10,70 @@
 <tr>
 <td style="width: 50%;">&nbsp;</td>
 <td style="width: 50%;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://img.shields.io/github/followers/piklz?style=social" /></td>
+<td style="width: 50%;"><strong>support the author and buy the app !</strong></td>
 </tr>
 </tbody>
 </table>
 
-# !! CURRENTLY TESTING am adding code for pi5 tests in future and you have to tweak your mount paths in your pi ill have some details tuts o nthis too in this readme soon        
-also refactoring since its been while since I looked and the code. making it more robust 
+## What's New in Presto & Presto-Tools
+
+We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and versatile, and enhanced features for Raspberry Pi users using docker apps. Here’s what’s new:
+
+- **Enhanced Bash Welcome Login**: A more robust login script with `--arg` flags to enable/disable features like `smarthealth` drive warnings and Docker disk space monitoring and weather info too!.
+- **USB Mount Script**: Simplifies mounting USB drives for seamless storage management.
+- **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
+- **UPS-C Hat & Geekworm Hat Support**: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+- **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
+- **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` .
+
+
+<summary> Current services added </summary>
+
+| Service | Ports | Description |
+|---|---|---|
+| [Glances](https://github.com/nicolargo/glances) | 61208 | System monitoring tool |
+| [Heimdall](https://github.com/linuxserver/heimdall) | 80, 443 | Dashboard for *arr apps and services |
+| [Homarr](https://github.com/ajnart/homarr) | 7575 | Customizable dashboard for Docker apps |
+| [Home Assistant](https://github.com/home-assistant/core) | 8123 | Open-source home automation platform |
+| [Homepage](https://github.com/gethomepage/homepage) | 3000 | Customizable personal dashboard |
+| [IT-Tools](https://github.com/CorentinTh/it-tools) | 8080 | Collection of web tech tools |
+| [Jackett](https://github.com/Jackett/Jackett) | 9117 | Torrent indexer for *arr apps |
+| [Jellyfin](https://github.com/jellyfin/jellyfin) | 8096 | Open-source media server |
+| [Lidarr](https://github.com/Lidarr/Lidarr) | 8686 | Music downloader and organizer |
+| [MotionEye](https://github.com/motioneye-project/motioneye) | 8765 | Security camera management interface |
+| [Overseerr](https://github.com/sct/overseerr) | 5055 | Request management for Plex |
+| [PhotoPrism](https://github.com/photoprism/photoprism) | 2342 | AI-powered photo management |
+| [Pi-hole](https://github.com/pi-hole/pi-hole) | 80, 53 | Network-wide ad blocker and DNS sinkhole |
+| [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server for streaming content |
+| [Portainer](https://github.com/portainer/portainer) | 9000 | GUI Docker container management |
+| [Prowlarr](https://github.com/Prowlarr/Prowlarr) | 9696 | Indexer manager for *arr apps |
+| [qBittorrent](https://github.com/qbittorrent/qBittorrent) | 8080 | Torrent client with web UI |
+| [Radarr](https://github.com/Radarr/Radarr) | 7878 | Movie downloader and organizer |
+| [Sonarr](https://github.com/Sonarr/Sonarr) | 8989 | TV show downloader and organizer |
+| [Syncthing](https://github.com/syncthing/syncthing) | 8384, 22000 | Continuous file synchronization |
+| [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Monitoring and stats for Plex |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | 3001 | Website and service uptime monitoring |
+| [WireGuard-UI](https://github.com/ngoduykhanh/wireguard-ui) | 5000 | Web UI for managing WireGuard connections |
+| [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
+| SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
+| SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
+| SOON:[immich](https://immich.app/) | NA | photo gallery like googlephotos/photoprism|
+| UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
+
+
 ## Requirements
 
 We want that 64bit armv8/AArch64 architecture goodness ] (besides armhf-32bit is kinda doomed now)
 - All the rpi4's will do (even works on pi3 just depends on how many apps you run at once ) 
 
-| Service | Ports | Description | |
-|---|---|---|---|
-| [Portainer](https://gitlab.com/portainer/portainer) | 9000 | GUI Docker Manager 
-| [Sonarr](https://github.com/sonarr/sonarr)          | 8989 | TV show downloader and organizer 
-| [Radarr](https://github.com/Radarr/Radarr) | 7878 | Movie downloader and organizer 
-| [Lidarr](https://github.com/lidarr/lidarr) | 8686 | Music downloader and organizer 
-| [Jackett](https://github.com/Jackett/Jackett) | 9117 | Torrent indexer
-| [qBittorrent](https://github.com/qbittorrent/qbittorrent) | 15080 | Torrent client
-| [JellyFin](https://github.com/jellyfin/jellyfin) | 8096 | Media server 
-| [Plex](https://github.com/plexinc/plex-media-server) | 32400 | Media server 
-| [Tautulli](https://github.com/Tautulli/Tautulli) | 8181 | Plex stats grapher 
-| [Overseerr](https://github.com/sct/overseerr) | 5055 | Plex movie/TV requester
-| [Heimdall](https://github.com/linuxserver/heimdall) | 82 | Nice frontend dashboard for all your *arr apps 
-| [Home Assistant](https://github.com/home-assistant/core) | 8123 | Home automation platform 
-| [MotionEye](https://github.com/ccrisan/motioneye) | 8765 | Free security cam 
-| [rpi-monitor](https://github.com/pi-hole/rpi-monitor) | 8888 | Python script to display Raspberry Pi system statistics 
-| [Homarr](https://github.com/linuxserver/homarr) | 7575 | Dashboard for Docker apps 
-| [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Secure VPN tunnel
-| [WireGuard UI](https://github.com/WireGuard/wireguard-tools/tree/master/wireguard-ui) | 5000 | Web UI for managing WireGuard connections
-| [Pi-hole](https://github.com/pi-hole/pi-hole) | 80 | Ad blocker and network-wide DNS protection 
-| [UptimeKuma](https://github.com/louislam/uptime-kuma) | 3001 | Monitors the uptime and performance of your websites and services 
-| [it-tools](https://github.com/CorentinTh/it-tools) | 8282 | useful scriptlets and tools for the web tech wizards 
 
 due to many 80 port (web) conflicts, you can change containers ports on future additional apps that clash
 
 
 ## Features
 - __minimal easeofuse:__ small footprint only use the apps you want and make a stack to launch them easily
-- __event backend:__ runs very well and fast on a rpi4 and has alias cmds to do what portainer ui does so great for ssh headless-pi users!
-- __small frontend:__ docker runs all the complex stuff and portainer lets you manage it easily and beautifully (but you can also run simple nongui  terminal commands to run preset actions to manage your install and running of presto docker system)
+- __event backend:__ runs very well and fast on a rpizero/3/4/5 and has lots of alias shorcut cmds for ssh headless-pi users!
+- __small frontend:__ docker runs all the complex stuff and  presto lets you manage it easily via terminal (but you can also run a fnacy GUI portainer too) run preset actions to manage your install and running of presto docker system)
 
 
 ## Table of Contents
