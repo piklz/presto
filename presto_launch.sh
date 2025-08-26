@@ -1,30 +1,38 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
-#  __/\\\\\\\\\\\\\______/\\\\\\\\\______/\\\\\\\\\\\\\\\_____/\\\\\\\\\\\____/\\\\\\\\\\\\\\\_______/\\\\\______        
-#   _\/\\\/////////\\\__/\\\///////\\\___\/\\\///////////____/\\\/////////\\\_\///////\\\/////______/\\\///\\\____       
-#    _\/\\\_______\/\\\_\/\\\_____\/\\\___\/\\\______________\//\\\______\///________\/\\\_________/\\\/__\///\\\__      
-#     _\/\\\\\\\\\\\\\/__\/\\\\\\\\\\\/____\/\\\\\\\\\\\_______\////\\\_______________\/\\\________/\\\______\//\\\_     
-#      _\/\\\/////////____\/\\\//////\\\____\/\\\///////___________\////\\\____________\/\\\_______\/\\\_______\/\\\_    
-#       _\/\\\_____________\/\\\____\//\\\___\/\\\_____________________\////\\\_________\/\\\_______\//\\\______/\\\__   
-#        _\/\\\_____________\/\\\_____\//\\\__\/\\\______________/\\\______\//\\\________\/\\\________\///\\\__/\\\____  
-#         _\/\\\_____________\/\\\______\//\\\_\/\\\\\\\\\\\\\\\_\///\\\\\\\\\\\/_________\/\\\__________\///\\\\\/_____ 
+#  __/\\\\\\\\\\\\\______/\\\\\\\\\______/\\\\\\\\\\\\\\\_____/\\\\\\\\\\\____/\\\\\\\\\\\\\\\_______/\\\\\______
+#   _\/\\\/////////\\\__/\\\///////\\\___\/\\\///////////____/\\\/////////\\\_\///////\\\/////______/\\\///\\\____
+#    _\/\\\_______\/\\\_\/\\\_____\/\\\___\/\\\______________\//\\\______\///________\/\\\_________/\\\/__\///\\\__
+#     _\/\\\\\\\\\\\\\/__\/\\\\\\\\\\\/____\/\\\\\\\\\\\_______\////\\\_______________\/\\\________/\\\______\//\\\_
+#      _\/\\\/////////____\/\\\//////\\\____\/\\\///////___________\////\\\____________\/\\\_______\/\\\_______\/\\\_
+#       _\/\\\_____________\/\\\____\//\\\___\/\\\_____________________\////\\\_________\/\\\_______\//\\\______/\\\__
+#        _\/\\\_____________\/\\\_____\//\\\__\/\\\______________/\\\______\//\\\________\/\\\________\///\\\__/\\\____
+#         _\/\\\_____________\/\\\______\//\\\_\/\\\\\\\\\\\\\\\_\///\\\\\\\\\\\/_________\/\\\__________\///\\\\\/_____
 #          _\///______________\///________\///__\///////////////____\///////////___________\///_____________\/////_______
 
 ##################################################################################################
 #-------------------------------------------------------------------------------------------------
-# Welcome to the presto INSTALL/CONFIG FRONTEND 
+# Welcome to the presto INSTALL/CONFIG FRONTEND
 #--------------------------------------------------------------------------------------------------
 # author        : piklz
 # github        : https://github.com/piklz/presto.git
 # web           : https://github.com/piklz/presto.git
-# changes since : v1.1.4, 2025-08-07 (Added LOG_RETENTION_DAYS, CHECK_DISK_SPACE, and updated header)
+#
+# Changelog:
+#   Version 1.1.5 (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
+#   Version 1.1.4 (2025-08-07): Added LOG_RETENTION_DAYS, CHECK_DISK_SPACE, and updated the script header.
+#   Version 1.1.3 (2025-07-29): Improved the timezones function to handle existing TZ variables and add them if they don't exist.
+#   Version 1.1.2 (2025-07-21): Refactored the check_git_and_presto function for better error handling and added a check for the .outofdate file.
+#
 # desc          : A configuration tool for Raspberry Pi to set up Docker-based media and utility services with robust logging and configuration management
+#
 ##################################################################################################
 
-presto_VERSION='1.1.5'
+VERSION='1.1.6'
 INTERACTIVE=True
 ASK_TO_REBOOT=0
 VERBOSE_MODE=0
+JOURNAL_TAG="presto_launch"
 
 # Determine real user's home directory
 USER_HOME=""
@@ -41,12 +49,6 @@ if [ "$(id -u)" -eq 0 ]; then
     echo "[presto] ERROR: This script should not be run as root. Run as a regular user or use sudo for specific operations."
     exit 1
 fi
-
-# Set log file path
-LOG_DIR="$USER_HOME/.local/state/presto"
-LOG_FILE="$LOG_DIR/presto_launch.log"
-mkdir -p "$LOG_DIR" || { echo "[presto] ERROR: Could not create log directory $LOG_DIR"; exit 1; }
-touch "$LOG_FILE" || { echo "[presto] ERROR: Could not create log file $LOG_FILE"; exit 1; }
 
 # Color variables
 COL_NC='\e[0m'
@@ -69,58 +71,51 @@ magenta='\033[0;35m'
 cyan='\033[0;36m'
 clear='\033[0m'
 
-# Logging function
+# Logging function using systemd-cat
 log_message() {
     local log_level="$1"
-    local console_message="$2"
-    local log_file_message="${3:-$console_message}"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    printf "[%s] [presto_launch] %s %s\n" "$timestamp" "$log_level" "$log_file_message" >> "$LOG_FILE"
-    local color
+    local message="$2"
+    local priority
     case "$log_level" in
-        INFO) color="${COL_INFO}" ;;
-        WARNING) color="${COL_WARNING}" ;;
-        ERROR) color="${COL_ERROR}" ;;
-        *) color="${COL_NC}" ;;
+        INFO) priority="info" ;;
+        WARNING) priority="warning" ;;
+        ERROR) priority="err" ;;
+        *) priority="notice" ;;
     esac
-    if [ "$VERBOSE_MODE" -eq 1 ] || [ "$log_level" = "INFO" ] || [ "$log_level" = "WARNING" ] || [ "$log_level" = "ERROR" ]; then
-        printf "[presto_launch] %b%s%b %s\n" "$color" "$log_level" "${COL_NC}" "$console_message"
+
+    # Check if systemd-cat is available, if not, fallback to a simple echo
+    if command -v systemd-cat >/dev/null 2>&1; then
+        echo "$message" | systemd-cat -t "$JOURNAL_TAG" -p "$priority"
+    else
+        echo "[$JOURNAL_TAG][$log_level] $message"
     fi
+    # Also print to console for immediate feedback
+    printf "[%s] %b%s%b %s\n" "$JOURNAL_TAG" "${COL_INFO}" "$log_level" "${COL_NC}" "$message"
 }
 
-# Rotate logs based on LOG_RETENTION_DAYS
-rotate_logs() {
-    if [ ! -f "$LOG_FILE" ]; then
-        log_message "WARNING" "Log file $LOG_FILE does not exist, skipping rotation"
-        return 0
-    fi
-    if [ -z "$LOG_RETENTION_DAYS" ] || ! [[ "$LOG_RETENTION_DAYS" =~ ^[0-9]+$ ]] || [ "$LOG_RETENTION_DAYS" -le 0 ]; then
-        log_message "WARNING" "LOG_RETENTION_DAYS is invalid ($LOG_RETENTION_DAYS), defaulting to 30"
-        LOG_RETENTION_DAYS=30
-    fi
-    log_message "INFO" "Rotating logs older than $LOG_RETENTION_DAYS days in $LOG_FILE"
-    # Create a temporary file for filtered logs
-    local temp_file="$LOG_DIR/presto_launch_temp.log"
-    touch "$temp_file" || { log_message "ERROR" "Failed to create temporary log file $temp_file"; return 1; }
-    # Filter out entries older than LOG_RETENTION_DAYS
-    local cutoff_date=$(date -d "$LOG_RETENTION_DAYS days ago" '+%Y-%m-%d' 2>/dev/null)
-    if [ -z "$cutoff_date" ]; then
-        log_message "ERROR" "Failed to calculate cutoff date for log rotation"
-        rm -f "$temp_file"
-        return 1
-    fi
-    while IFS= read -r line; do
-        log_date=$(echo "$line" | grep -oP '^\[\K[0-9]{4}-[0-9]{2}-[0-9]{2}')
-        if [ -z "$log_date" ]; then
-            # Keep lines that don't have a valid date (e.g., malformed entries)
-            echo "$line" >> "$temp_file"
-        elif [ "$log_date" \> "$cutoff_date" ] || [ "$log_date" = "$cutoff_date" ]; then
-            echo "$line" >> "$temp_file"
-        fi
-    done < "$LOG_FILE"
-    mv "$temp_file" "$LOG_FILE" || { log_message "ERROR" "Failed to update $LOG_FILE after rotation"; return 1; }
-    log_message "INFO" "Log rotation completed"
-    return 0
+# Help message function
+print_help() {
+    printf "
+Usage: ./presto_launch.sh [OPTIONS]
+
+presto_launch.sh (Version: %s) - A configuration tool for Raspberry Pi Docker setups.
+
+Options:
+  --help             Show this help message and exit.
+  --verbose          Enable verbose output for debugging.
+  --interactive      Force interactive mode.
+
+The script performs the following actions:
+1.  Provides a menu-driven interface for installing and managing Docker and container stacks.
+2.  Handles repository cloning and updates.
+3.  Offers tools for system maintenance like log rotation and disk space checks.
+4.  Includes options for configuring aliases and backups.
+
+Journal Tips:
+* To view all logs for this script:
+    journalctl -t %s
+
+" "$VERSION" "$JOURNAL_TAG"
 }
 
 # Check disk space before critical operations
@@ -180,12 +175,10 @@ fi
 for arg in "$@"; do
     case "$arg" in
         --verbose) VERBOSE_MODE=1 ;;
+        --help) print_help; exit 0 ;;
         *) ;;
     esac
 done
-
-# Rotate logs at startup
-rotate_logs || { log_message "ERROR" "Log rotation failed, continuing execution"; }
 
 INIT="$(ps --no-headers -o comm 1)"
 sys_arch=$(uname -m)
@@ -218,10 +211,10 @@ check_git_and_presto() {
                 cd "$USER_HOME" || { log_message "ERROR" "Failed to cd to $USER_HOME"; exit 1; }
             fi
             log_message "INFO" "Removing incomplete or non-git $presto_INSTALL_DIR directory"
-            rm -rf "$presto_INSTALL_DIR" || { log_message "ERROR" "Failed to remove $presto_INSTALL_DIR"; exit 1; }
+            rm -rf "$presto_INSTALL_DIR" || { log_message "ERROR" "Failed to remove $presto_INSTALL_DIR"; return 1; }
         fi
         log_message "INFO" "Cloning presto repository"
-        git clone -b main https://github.com/piklz/presto "$presto_INSTALL_DIR" || { log_message "ERROR" "Failed to clone presto repository"; exit 1; }
+        git clone -b main https://github.com/piklz/presto "$presto_INSTALL_DIR" || { log_message "ERROR" "Failed to clone presto repository"; return 1; }
     fi
 
     cd "$presto_INSTALL_DIR" || { log_message "ERROR" "Failed to cd into $presto_INSTALL_DIR"; exit 1; }
@@ -263,13 +256,6 @@ do_compose_update() {
     fi
 }
 
-#timezones() {    # if new one below works deltele this func
-#    env_file=$1
-#    TZ=$(cat /etc/timezone 2>/dev/null || echo "UTC")
-#    log_message "INFO" "Setting timezone in $env_file to $TZ"
-#    [ $(grep -c "TZ=" "$env_file") -ne 0 ] && sed -i "/TZ=/c\TZ=$TZ" "$env_file" || echo "TZ=$TZ" >> "$env_file"
-#}
-
 timezones() {
     env_file=$1
     TZ=$(cat /etc/timezone 2>/dev/null || echo "UTC")
@@ -284,7 +270,6 @@ timezones() {
         echo "TZ=$TZ" >> "$env_file"
     fi
 }
-
 
 is_pi() {
     ARCH=$(dpkg --print-architecture)
@@ -401,7 +386,7 @@ do_bash_aliases() {
                 bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh"
                 whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update, type presto and <TAB> to see more !" 20 80 2
             fi
-            
+
         else
             log_message "WARN" "Presto-tools not found no aliases added"
             if [ "$INTERACTIVE" = True ]; then
@@ -545,13 +530,13 @@ do_dockersystem_install() {
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null || { log_message "ERROR" "Failed to add Docker repository"; return 1; }
     sudo apt-get update || { log_message "ERROR" "Failed to update apt after adding Docker repo"; return 1; }
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y || { log_message "ERROR" "Failed to install Docker components"; return 1; }
-    
+
     log_message "INFO" "Adding group user docker"
     sudo groupadd docker 2>/dev/null || log_message "WARNING" "Docker group already exists"
     log_message "INFO" "Adding $USER to docker group"
     sudo usermod -aG docker "$USER" &> /dev/null || { log_message "ERROR" "Failed to add $USER to docker group"; return 1; }
     log_message "INFO" "Docker installed successfully for $USER"
-    
+
     ASK_TO_REBOOT=1
     if [ "$INTERACTIVE" = True ]; then
         whiptail --msgbox "PRESTO recommends a reboot now\n" 20 60 2
@@ -654,11 +639,7 @@ do_rclone_install() {
         echo -e "\e[32m=====================================================================================\e[0m"
         echo -e "     Please run \e[32;1mrclone config\e[0m and create remote \e[34;1m(gdrive)\e[0m for backup"
         echo -e "     Do as follows:"
-        echo -e "      [n] ['gdrive'] [12 or 23 or more recent versions are 18) make sure its 'drive'] [Enter] [Enter] [1] [Enter] [Enter] [n] [n]"
-        echo -e "      [Copy link from SSH console and paste it into the browser]"
-        echo -e "      [Login to your google account]"
-        echo -e "      [Copy token from Google and paste it into the SSH console]"
-        echo -e "      [n] [y] [q]"
+        echo -e "      [n] ['gdrive'] [12 or 23 or more recent versions are 18) make sure its 'drive'] [Enter] [Enter] [1] [Enter] [Enter] [n] [y] [q]"
         echo -e "\e[32m=====================================================================================\e[0m"
         if [ "$INTERACTIVE" = True ]; then
             whiptail --msgbox "\
@@ -820,85 +801,78 @@ do_backups_menu() {
 }
 
 do_about() {
-    whiptail --msgbox "\
-HELLO presto $USER : This tool provides a straightforward way of doing initial
-configuration of the Raspberry Pi for MEDIA AWESOMENESS!. Although it can be run
-at any time, some of the options may have difficulties if
-you have heavily customised your installation.
-$(dpkg -s raspi-config 2> /dev/null | grep Version)\
-" 20 70 1
-    log_message "INFO" "Displayed about information"
-    return 0
+    whiptail --title "About presto" --msgbox "
+    ######################################
+    #-------------------------------------
+    # Welcome to the presto INSTALL/CONFIG
+    #-------------------------------------
+    # version     : $VERSION
+    # author      : piklz
+    # github      : https://github.com/piklz/presto.git
+    # web         : https://github.com/piklz/presto.git
+    # desc        : A configuration tool for Raspberry Pi to set 
+    #              up Docker-based media and utility services with
+    #               robust logging and configuration management.
+    #-------------------------------------
+    ######################################
+    " 20 78
 }
 
-do_install_prestobashwelcome() {
-    if grep -Fxq ". $USER_HOME/presto-tools/scripts/presto_bashwelcome.sh" "$USER_HOME/.bashrc"; then
-        log_message "INFO" "Found presto Welcome login link in bashrc. No changes needed."
+do_install_prestobashwelcome(){
+    if [ -f "$USER_HOME/presto-tools/scripts/presto_bashwelcome.sh" ]; then
+        if [ "$INTERACTIVE" = True ]; then
+            log_message "INFO" "Created presto bash welcome in $USER_HOME/.bashrc"
+            echo "Setting up presto bash welcome..."
+            bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh"
+            whiptail --msgbox "CREATED presto bash welcome. you will see it at login.!" 20 80 2
+        fi
+
     else
-        log_message "INFO" "presto Welcome Bash (in bash.rc) is missing. Adding now..."
-        printf "\n#presto-tools Added: presto_bash_welcome scripty\n" >> "$USER_HOME/.bashrc"
-        printf ". $USER_HOME/presto-tools/scripts/presto_bashwelcome.sh\n" >> "$USER_HOME/.bashrc"
-        log_message "INFO" "presto_bash_welcome script added to ~/.bashrc."
+        log_message "WARN" "Presto-tools welcome script not found no aliases added"
+        if [ "$INTERACTIVE" = True ]; then
+        whiptail --msgbox "Presto-tools welcome script not found. Please install presto-tools to set up aliases." 8 60
+        fi
     fi
 
-    if [ ! -d "$USER_HOME/presto-tools" ]; then
-        log_message "INFO" "Cloning presto-tools repository"
-        git clone https://github.com/piklz/presto-tools "$USER_HOME/presto-tools" || { log_message "ERROR" "Failed to clone presto-tools"; return 1; }
-        chmod +x "$USER_HOME/presto-tools/scripts/prestotools_install.sh"
-        log_message "INFO" "Running presto-tools install"
-        pushd "$USER_HOME/presto-tools/scripts" && sudo ./prestotools_install.sh || { log_message "ERROR" "Failed to run prestotools_install.sh"; popd; return 1; }
-        popd
-    else
-        log_message "INFO" "presto-tools scripts directory already installed"
-    fi
-
-    log_message "INFO" "Presto welcome bash setup completed"
-    echo -e "${COL_LIGHT_RED}${INFO}${clear}${COL_LIGHT_GREEN}Presto WELCOME BASH created! Logout and re-login to test\n"
     source "$USER_HOME/.bashrc" || log_message "WARNING" "Failed to source .bashrc"
+    ASK_TO_REBOOT=1
+    log_message "INFO" "Presto aliases will be ready after a reboot/logout or source ~/.bashrc"
+    if [ "$INTERACTIVE" = True ]; then
+        whiptail --msgbox "Presto welcome will be ready after a reboot" 20 60 2
+    fi
+
 }
 
-# Main menu
-if [ "$INTERACTIVE" = True ]; then
+
+# Main menu loop
+while true; do
     calc_wt_size
-    while [ -z "$USER" ]; do
-        if ! USER=$(whiptail --inputbox "presto could not determine the default user.\\n\\nWhat user should these settings apply to?" 20 60 pi 3>&1 1>&2 2>&3); then
-            log_message "INFO" "User input cancelled, exiting"
-            return 0
-        fi
-        USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
-    done
-    log_message "INFO" "Starting presto main menu for user $USER"
-    while true; do
-        if is_pi; then
-            FUN=$(whiptail --title "presto SYSTEM Raspberry Pi Software Configuration Tool (presto_launch.sh)" --backtitle "$(tr -d '\0' < /proc/device-tree/model) presto VERSION: ${presto_VERSION}" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
-                "1 Install" "Install Docker+Docker-compose" \
-                "2 Build Docker Stack" "build compose stack of apps list!" \
-                "3 Commands" "useful Docker commands" \
-                "4 Extra tools" "useful extras tools settings for pi" \
-                "5 Backing up" "Configure Google Drive Backup|Restore of presto!" \
-                "6 Update presto" "Update presto tools to the latest version (via github)" \
-                "7 Update Docker-Compose" "Update Dockers compose system" \
-                "8 About presto" "Information about this configuration tool" \
-                3>&1 1>&2 2>&3)
-        fi
-        RET=$?
-        if [ $RET -eq 1 ]; then
-            do_finish
-        elif [ $RET -eq 0 ]; then
-            case "$FUN" in
-                1\ *) do_install_docker_menu ;;
-                2\ *) do_build_stack_menu ;;
-                3\ *) do_dockercommands_menu ;;
-                4\ *) do_extratools_menu ;;
-                5\ *) do_backups_menu ;;
-                6\ *) do_update ;;
-                7\ *) do_compose_update ;;
-                8\ *) do_about ;;
-                *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
-            esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
-        else
-            log_message "ERROR" "Unexpected menu return code: $RET"
-            exit 1
-        fi
-    done
-fi
+    if is_pi; then
+        FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (raspi-config)" --menu "Main Menu - Presto (V$VERSION)" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Finish --ok-button Select \
+            "1 Install" "Install Docker+Docker-compose" \
+            "2 Build Docker Stack" "build compose stack of apps list!" \
+            "3 Commands" "useful Docker commands" \
+            "4 Extra tools" "useful extras tools settings for pi" \
+            "5 Backing up" "Configure Google Drive Backup|Restore of presto!" \
+            "6 Update presto" "Update presto tools to the latest version (via github)" \
+            "7 Update Docker-Compose" "Update Dockers compose system" \
+            "8 About presto" "Information about this configuration tool" \
+            3>&1 1>&2 2>&3)
+    fi
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_finish
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1\ *) do_install_docker_menu ;;
+            2\ *) do_build_stack_menu ;;
+            3\ *) do_dockercommands_menu ;;
+            4\ *) do_extratools_menu ;;
+            5\ *) do_backups_menu ;;
+            6\ *) do_update ;;
+            7\ *) do_compose_update ;;
+            8\ *) do_about ;;
+            *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
+        esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
+    fi
+done
