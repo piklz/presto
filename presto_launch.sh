@@ -125,7 +125,7 @@ rotate_logs() {
 
 # Check disk space before critical operations
 check_disk_space() {
-    local required_space_mb=1000  # Require 1GB free space
+    local required_space_mb=100  # Require 100MB free space
     if [ "$CHECK_DISK_SPACE" -ne 1 ]; then
         log_message "INFO" "Disk space check disabled (CHECK_DISK_SPACE=$CHECK_DISK_SPACE)"
         return 0
