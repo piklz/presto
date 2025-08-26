@@ -132,8 +132,7 @@ while [[ "$#" -gt 0 ]]; do
         *) log_message "ERROR" "Unknown option: $1"; exit 1 ;;
     esac
     shift
-done}
-
+done
 
 # Check disk space before critical operations
 check_disk_space() {
