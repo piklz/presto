@@ -121,7 +121,7 @@ Options:
   --interactive   Force interactive mode, which uses the graphical menus.
   --non-interactive Run the script without any user interaction, using default values.
 %s
-" "$VERSION" "$journal_tips" "$JOURNAL_TAG" "$JOURNAL_TAG" "$JOURNAL_TAG"
+" "$VERSION" "$journal_tips" "$JOURNAL_TAG" 
 }
 
 # Parse command-line arguments and set flags
