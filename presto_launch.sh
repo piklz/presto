@@ -94,29 +94,47 @@ log_message() {
 }
 
 # Help message function
+# Help message function
 print_help() {
+    local journal_tips="
+Journal Tips for Debugging:
+* To view all logs for this script:
+    journalctl -t %s
+
+* To follow the logs in real-time as the script runs:
+    journalctl -t %s -f
+
+* To view logs from the last 10 minutes:
+    journalctl -t %s --since \"10 minutes ago\"
+"
     printf "
 Usage: ./presto_launch.sh [OPTIONS]
 
 presto_launch.sh (Version: %s) - A configuration tool for Raspberry Pi Docker setups.
 
+Description:
+The script provides a menu-driven interface for installing and managing Docker and container stacks. It handles repository cloning and updates, offers tools for system maintenance like log rotation and disk space checks, and includes options for configuring aliases and backups.
+
 Options:
-  --help             Show this help message and exit.
-  --verbose          Enable verbose output for debugging.
-  --interactive      Force interactive mode.
-
-The script performs the following actions:
-1.  Provides a menu-driven interface for installing and managing Docker and container stacks.
-2.  Handles repository cloning and updates.
-3.  Offers tools for system maintenance like log rotation and disk space checks.
-4.  Includes options for configuring aliases and backups.
-
-Journal Tips:
-* To view all logs for this script:
-    journalctl -t %s
-
-" "$VERSION" "$JOURNAL_TAG"
+  --help          Show this help message and exit.
+  --verbose       Enable verbose output for debugging. You can view all log messages (INFO, WARNING, ERROR) by using this flag.
+  --interactive   Force interactive mode, which uses the graphical menus.
+  --non-interactive Run the script without any user interaction, using default values.
+%s
+" "$VERSION" "$journal_tips" "$JOURNAL_TAG" "$JOURNAL_TAG" "$JOURNAL_TAG"
 }
+
+# Parse command-line arguments and set flags
+while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+        --verbose) VERBOSE_MODE=1 ;;
+        --interactive) INTERACTIVE=True ;;
+        --non-interactive) INTERACTIVE=False ;;
+        --help) print_help; exit 0 ;;
+        *) log_message "ERROR" "Unknown option: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 # Check disk space before critical operations
 check_disk_space() {
