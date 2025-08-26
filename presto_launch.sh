@@ -93,6 +93,15 @@ log_message() {
     printf "[%s] %b%s%b %s\n" "$JOURNAL_TAG" "${COL_INFO}" "$log_level" "${COL_NC}" "$message"
 }
 
+
+# Check if the script is running with a tty or if --interactive is used
+# INTERACTIVE=True is default, but --non-interactive can override.
+if [[ -t 0 ]]; then
+    INTERACTIVE=True
+else
+    INTERACTIVE=False
+fi
+
 # Help message function
 
 print_help() {
