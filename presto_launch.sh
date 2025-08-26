@@ -94,34 +94,32 @@ log_message() {
 }
 
 # Help message function
-# Help message function
+
 print_help() {
-    local journal_tips="
-Journal Tips for Debugging:
-* To view all logs for this script:
-    journalctl -t %s
-
-* To follow the logs in real-time as the script runs:
-    journalctl -t %s -f
-
-* To view logs from the last 10 minutes:
-    journalctl -t %s --since \"10 minutes ago\"
-"
-    printf "
-Usage: ./presto_launch.sh [OPTIONS]
-
-presto_launch.sh (Version: %s) - A configuration tool for Raspberry Pi Docker setups.
-
-Description:
-The script provides a menu-driven interface for installing and managing Docker and container stacks. It handles repository cloning and updates, offers tools for system maintenance like log rotation and disk space checks, and includes options for configuring aliases and backups.
-
-Options:
-  --help          Show this help message and exit.
-  --verbose       Enable verbose output for debugging. You can view all log messages (INFO, WARNING, ERROR) by using this flag.
-  --interactive   Force interactive mode, which uses the graphical menus.
-  --non-interactive Run the script without any user interaction, using default values.
-%s
-" "$VERSION" "$journal_tips" "$JOURNAL_TAG" 
+    echo "presto_launch.sh (Version: $VERSION)"
+    echo ""
+    echo "Description:"
+    echo "  This script provides a menu-driven interface for installing and managing Docker and container stacks."
+    echo "  It handles repository cloning, updates, and includes options for system maintenance and backups."
+    echo ""
+    echo "Usage: ./presto_launch.sh [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --help            Display this help message and exit."
+    echo "  --verbose         Enable verbose output for debugging."
+    echo "  --interactive     Force interactive mode, which uses the graphical menus."
+    echo "  --non-interactive Run the script without any user interaction, using default values."
+    echo ""
+    echo "Journal Tips for Debugging:"
+    echo "  To view all logs for this script:"
+    echo "    journalctl -t $JOURNAL_TAG"
+    echo ""
+    echo "  To follow the logs in real-time as the script runs:"
+    echo "    journalctl -t $JOURNAL_TAG -f"
+    echo ""
+    echo "  For the last 10 minutes of logs:"
+    echo "    journalctl -t $JOURNAL_TAG --since \"10 minutes ago\""
+    exit 0
 }
 
 # Parse command-line arguments and set flags
@@ -130,11 +128,12 @@ while [[ "$#" -gt 0 ]]; do
         --verbose) VERBOSE_MODE=1 ;;
         --interactive) INTERACTIVE=True ;;
         --non-interactive) INTERACTIVE=False ;;
-        --help) print_help; exit 0 ;;
+        --help) print_help ;;
         *) log_message "ERROR" "Unknown option: $1"; exit 1 ;;
     esac
     shift
-done
+done}
+
 
 # Check disk space before critical operations
 check_disk_space() {
