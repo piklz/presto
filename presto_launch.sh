@@ -413,13 +413,7 @@ do_install_docker_menu() {
 
 do_dockersystem_install() {
     log_message "INFO" "Installing Docker and Docker Compose (requires sudo)"
-    if [ ! -n "$SUDO_USER" ]; then
-        log_message "WARNING" "Docker installation requires sudo. Please run with sudo for this operation."
-        if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "Docker installation requires sudo. Please run 'sudo ./presto_launch.sh' for this option." 20 60 2
-        fi
-        return 1
-    fi
+    # Removed the sudo check as the function already uses sudo for operations
     sudo apt-get update -y || { log_message "ERROR" "Failed to update apt"; return 1; }
     sudo apt-get install ca-certificates curl gnupg -y || { log_message "ERROR" "Failed to install prerequisites"; return 1; }
     sudo install -m 0755 -d /etc/apt/keyrings
