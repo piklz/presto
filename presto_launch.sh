@@ -19,16 +19,16 @@
 # web           : https://github.com/piklz/presto.git
 #
 # Changelog:
-#   Version 1.1.5 (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
-#   Version 1.1.4 (2025-08-07): Added LOG_RETENTION_DAYS, CHECK_DISK_SPACE, and updated the script header.
-#   Version 1.1.3 (2025-07-29): Improved the timezones function to handle existing TZ variables and add them if they don't exist.
-#   Version 1.1.2 (2025-07-21): Refactored the check_git_and_presto function for better error handling and added a check for the .outofdate file.
+#   Version 1.1.8 (2025-09-02): Removed config file creation/loading to avoid conflicts with presto-tools setup.
+#   Version 1.1.7 (2025-09-02): Consolidated bash aliases and welcome into a single menu entry to run presto-tools_install.sh via curl.
+#   Version 1.1.6 (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
+#   Version 1.1.5 (2025-08-07): Added LOG_RETENTION_DAYS, CHECK_DISK_SPACE, and updated the script header.
 #
 # desc          : A configuration tool for Raspberry Pi to set up Docker-based media and utility services with robust logging and configuration management
 #
 ##################################################################################################
 
-VERSION='1.1.6'
+VERSION='1.1.8'
 INTERACTIVE=True
 ASK_TO_REBOOT=0
 VERBOSE_MODE=0
@@ -93,9 +93,7 @@ log_message() {
     printf "[%s] %b%s%b %s\n" "$JOURNAL_TAG" "${COL_INFO}" "$log_level" "${COL_NC}" "$message"
 }
 
-
 # Check if the script is running with a tty or if --interactive is used
-# INTERACTIVE=True is default, but --non-interactive can override.
 if [[ -t 0 ]]; then
     INTERACTIVE=True
 else
@@ -103,7 +101,6 @@ else
 fi
 
 # Help message function
-
 print_help() {
     echo "presto_launch.sh (Version: $VERSION)"
     echo ""
@@ -117,7 +114,6 @@ print_help() {
     echo "  --help            Display this help message and exit."
     echo "  --verbose         Enable verbose output for debugging."
     echo "  --interactive     Force interactive mode, which uses the graphical menus."
-    #echo "  --non-interactive Run the script without any user interaction, using default values."
     echo ""
     echo "Journal Tips for Debugging:"
     echo "  To view all logs for this script:"
@@ -136,7 +132,6 @@ while [[ "$#" -gt 0 ]]; do
     case "$1" in
         --verbose) VERBOSE_MODE=1 ;;
         --interactive) INTERACTIVE=True ;;
-        #--non-interactive) INTERACTIVE=False ;;
         --help) print_help ;;
         *) log_message "ERROR" "Unknown option: $1"; exit 1 ;;
     esac
@@ -146,8 +141,9 @@ done
 # Check disk space before critical operations
 check_disk_space() {
     local required_space_mb=100  # Require 100MB free space
-    if [ "$CHECK_DISK_SPACE" -ne 1 ]; then
-        log_message "INFO" "Disk space check disabled (CHECK_DISK_SPACE=$CHECK_DISK_SPACE)"
+    local check_disk_space=1  # Hardcoded default since config file is removed
+    if [ "$check_disk_space" -ne 1 ]; then
+        log_message "INFO" "Disk space check disabled"
         return 0
     fi
     local available_space_mb
@@ -169,41 +165,6 @@ check_disk_space() {
     log_message "INFO" "Disk space check passed: $available_space_mb MB available"
     return 0
 }
-
-# Load default configuration
-DEFAULT_CONFIG="$USER_HOME/presto-tools/scripts/presto_config.defaults"
-if [ ! -f "$DEFAULT_CONFIG" ]; then
-    log_message "INFO" "Creating default configuration file $DEFAULT_CONFIG"
-    mkdir -p "$USER_HOME/presto-tools/scripts" || { log_message "ERROR" "Failed to create directory for $DEFAULT_CONFIG"; exit 1; }
-    cat << EOF > "$DEFAULT_CONFIG"
-# Presto default configuration
-show_docker_info=1
-VERBOSE_MODE=0
-log_level="INFO"
-LOG_RETENTION_DAYS=30
-CHECK_DISK_SPACE=1
-EOF
-fi
-log_message "INFO" "Loading default configuration from $DEFAULT_CONFIG"
-source "$DEFAULT_CONFIG"
-
-# Load user configuration to override defaults
-CONFIG_FILE="$USER_HOME/presto-tools/scripts/presto_config.local"
-if [ -f "$CONFIG_FILE" ]; then
-    log_message "INFO" "Overriding defaults with user configuration from $CONFIG_FILE"
-    source "$CONFIG_FILE"
-else
-    log_message "WARNING" "User configuration file $CONFIG_FILE not found, using defaults"
-fi
-
-# Parse command-line arguments (override config file)
-for arg in "$@"; do
-    case "$arg" in
-        --verbose) VERBOSE_MODE=1 ;;
-        --help) print_help; exit 0 ;;
-        *) ;;
-    esac
-done
 
 INIT="$(ps --no-headers -o comm 1)"
 sys_arch=$(uname -m)
@@ -326,110 +287,23 @@ do_finish() {
     exit 0
 }
 
-# Container array and keys unchanged
-declare -A cont_array=(
-    [portainer]="Portainer > GUI Docker Manager"
-    [sonarr]="Sonarr > for your Tv "
-    [radarr]="Radarr > for your film "
-    [lidarr]="Lidarr > for your music "
-    [jackett]="Jackett > indexer of torrents for radarr/sonar/*arr etc"
-    [qbittorrent]="qBittorrent > Torrent Client"
-    [jellyfin]="JellyFin > Media manager/player like plex but freee"
-    [plex]="Plex > Media manager/player nice UI not free"
-    [tautulli]="tautulli > plex stats grapher"
-    [overseerr]="overseerr > plex movie/tv requester nice ui"
-    [heimdall]="heimdall > Nice frontend dashboard for all your *arr apps "
-    [homeassistant]="Home-Assistant > automate home devices ,hue,lifx,google"
-    [motioneye]="motioneye > free security cam"
-    [homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
-    [wireguard]="Wireguard > your own fast free vpn"
-    [pihole]="pi-hole > adblocker!"
-    [wgui]="Wireguard-UI > web portal for wireguard vpn config"
-    [uptimekuma]="uptime-kuma all your base system health monitor"
-    [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "
-    [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "
-    [glances]="Glances > An eye on your system"
-    [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
-    [homepage]="Homepage > customizable application dashboard"
-    [ittools]="it-tools > nice IT. tools in one place "
-)
-
-declare -a aarch64_keys=(
-    "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "overseerr"
-    "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools"
-)
-
-yml_builder() {
-    service="services/$1/service.yml"
-    [ -d ./services/ ] || mkdir ./services/ || { log_message "ERROR" "Failed to create services directory"; return 1; }
-
-    if [ -d "./services/$1" ]; then
-        if [ "$INTERACTIVE" = True ]; then
-            service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
-                "$1 was already created before, use [SPACEBAR] to select redeployment configuration" 20 78 12 \
-                "none" "Use recent config" "ON" \
-                "env" "Preserve Environment and Config files" "OFF" \
-                "full" "Pull config from template" "OFF" \
-                3>&1 1>&2 2>&3)
-        else
-            service_overwrite="none"
-        fi
-
-        case $service_overwrite in
-            "full")
-                log_message "INFO" "Pulling full $1 from template"
-                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' || { log_message "ERROR" "Failed to rsync full template for $1"; return 1; }
-                ;;
-            "env")
-                log_message "INFO" "Pulling $1 from template excluding env/conf files"
-                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
-                ;;
-            "none")
-                log_message "INFO" "$1 service files not overwritten"
-                ;;
-        esac
-    else
-        mkdir ./services/$1 || { log_message "ERROR" "Failed to create service directory for $1"; return 1; }
-        log_message "INFO" "Pulled full $1 from template directory"
-        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
-    fi
-
-    [ -f "./services/$1/$1.env" ] && timezones "./services/$1/$1.env"
-    echo "" >> docker-compose.yml
-    if ! grep -q "services:$1:" docker-compose.yml && [[ "${containers[@]}" =~ "$1" ]]; then
-        cat "$service" >> docker-compose.yml || { log_message "ERROR" "Failed to append $service to docker-compose.yml"; return 1; }
-    fi
-}
-
-do_bash_aliases() {
-
-    if [ -f "$USER_HOME/presto-tools/scripts/presto-tools_install.sh" ]; then
-            if [ "$INTERACTIVE" = True ]; then
-                log_message "INFO" "Created presto bash aliases in $USER_HOME/presto-tools/scripts/.presto_bash_aliases"
-                echo "Setting up bash aliases using presto-tools..."
-                bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh"
-                whiptail --msgbox "CREATED presto bash_aliases. presto_up,presto_down,presto_start,presto_stop,presto_update, type presto and <TAB> to see more !" 20 80 2
-            fi
-
-        else
-            log_message "WARN" "Presto-tools not found no aliases added"
-            if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "Presto-tools not found. Please install presto-tools to set up aliases." 8 60
-            fi
-    fi
-
+do_presto_tools_install() {
+    log_message "INFO" "Installing presto-tools aliases and welcome script"
+    
+    # Run the installer via curl
+    log_message "INFO" "Running presto-tools installer via curl"
+    curl -sSL https://raw.githubusercontent.com/piklz/presto-tools/main/scripts/presto-tools_install.sh | bash || { 
+        log_message "ERROR" "Failed to execute presto-tools_install.sh via curl"
+        return 1
+    }
+    
+    log_message "INFO" "presto-tools installation completed"
     source "$USER_HOME/.bashrc" || log_message "WARNING" "Failed to source .bashrc"
     ASK_TO_REBOOT=1
-    log_message "INFO" "Presto aliases will be ready after a reboot/logout or source ~/.bashrc"
     if [ "$INTERACTIVE" = True ]; then
-        whiptail --msgbox "Presto aliases will be ready after a reboot" 20 60 2
+        whiptail --msgbox "Presto-tools installed. Aliases and welcome screen will be ready after a reboot or source ~/.bashrc" 20 60 2
     fi
-
-
 }
-
-
 
 do_start_stack() {
     if [ -f "${presto_INSTALL_DIR}/scripts/start.sh" ]; then
@@ -521,7 +395,7 @@ do_install_docker_menu() {
         FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (raspi-config)" --menu "System Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
             "S1 Install DOCKER|COMPOSE(REQUIRED)" "Installs main base system: Docker + Docker Compose" \
             "S2 Build Stack" "Use the [SPACEBAR] to select which containers you would like to use" \
-            "S3 Install presto Bash Welcome" "creates link to bash script added info for '$USER' user" \
+            "S3 Install presto-tools" "Installs bash aliases and welcome screen for '$USER' user" \
             3>&1 1>&2 2>&3)
     fi
     RET=$?
@@ -531,7 +405,7 @@ do_install_docker_menu() {
         case "$FUN" in
             S1\ *) do_dockersystem_install ;;
             S2\ *) do_build_stack_menu ;;
-            S3\ *) do_install_prestobashwelcome ;;
+            S3\ *) do_presto_tools_install ;;
             *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
         esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
     fi
@@ -703,24 +577,22 @@ do_restore_gdrive() {
 
 do_dockercommands_menu() {
     FUN=$(whiptail --title "Raspberry Pi Software Configuration Tool (presto-config)" --menu "Performance Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
-        "P1 Add presto-tools docker aliases" "set useful bash cmd aliases" \
-        "P2 Docker Start" "runs Docker start.sh in /scripts" \
-        "P3 Docker Stop" "runs Docker stop.sh in /scripts" \
-        "P4 Docker Restart" "Restart" \
-        "P5 Docker Prune volumes" "prune volumes that are stale unattached([safe])" \
-        "P6 Docker Prune images" "prune images that are stale or unattached([safe],saving lots of space!)" \
+        "P1 Docker Start" "runs Docker start.sh in /scripts" \
+        "P2 Docker Stop" "runs Docker stop.sh in /scripts" \
+        "P3 Docker Restart" "Restart" \
+        "P4 Docker Prune volumes" "prune volumes that are stale unattached([safe])" \
+        "P5 Docker Prune images" "prune images that are stale or unattached([safe],saving lots of space!)" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         return 0
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            P1\ *) do_bash_aliases ;;
-            P2\ *) do_start_stack ;;
-            P3\ *) do_stop_stack ;;
-            P4\ *) do_restart_stack ;;
-            P5\ *) do_prune_volumes_stack ;;
-            P6\ *) do_prune_images_stack ;;
+            P1\ *) do_start_stack ;;
+            P2\ *) do_stop_stack ;;
+            P3\ *) do_restart_stack ;;
+            P4\ *) do_prune_volumes_stack ;;
+            P5\ *) do_prune_images_stack ;;
             *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
         esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
     fi
@@ -843,31 +715,81 @@ do_about() {
     " 20 78
 }
 
-do_install_prestobashwelcome(){
-    if [ -f "$USER_HOME/presto-tools/scripts/presto_bashwelcome.sh" ]; then
+# Container array and keys unchanged
+declare -A cont_array=(
+    [portainer]="Portainer > GUI Docker Manager"
+    [sonarr]="Sonarr > for your Tv "
+    [radarr]="Radarr > for your film "
+    [lidarr]="Lidarr > for your music "
+    [jackett]="Jackett > indexer of torrents for radarr/sonar/*arr etc"
+    [qbittorrent]="qBittorrent > Torrent Client"
+    [jellyfin]="JellyFin > Media manager/player like plex but freee"
+    [plex]="Plex > Media manager/player nice UI not free"
+    [tautulli]="tautulli > plex stats grapher"
+    [overseerr]="overseerr > plex movie/tv requester nice ui"
+    [heimdall]="heimdall > Nice frontend dashboard for all your *arr apps "
+    [homeassistant]="Home-Assistant > automate home devices ,hue,lifx,google"
+    [motioneye]="motioneye > free security cam"
+    [homarr]="Homarr > like heimdall-Nice frontend dashboard !try this first?"
+    [wireguard]="Wireguard > your own fast free vpn"
+    [pihole]="pi-hole > adblocker!"
+    [wgui]="Wireguard-UI > web portal for wireguard vpn config"
+    [uptimekuma]="uptime-kuma all your base system health monitor"
+    [syncthing]="Syncthing > the sync tools you always wanted webui easy to use "
+    [photoprism]="Photoprism > your own google photos ! with ai-tensor for tagging "
+    [glances]="Glances > An eye on your system"
+    [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
+    [homepage]="Homepage > customizable application dashboard"
+    [ittools]="it-tools > nice IT. tools in one place "
+)
+
+declare -a aarch64_keys=(
+    "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "overseerr"
+    "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools"
+)
+
+yml_builder() {
+    service="services/$1/service.yml"
+    [ -d ./services/ ] || mkdir ./services/ || { log_message "ERROR" "Failed to create services directory"; return 1; }
+
+    if [ -d "./services/$1" ]; then
         if [ "$INTERACTIVE" = True ]; then
-            log_message "INFO" "Created presto bash welcome in $USER_HOME/.bashrc"
-            echo "Setting up presto bash welcome..."
-            bash "$USER_HOME/presto-tools/scripts/presto-tools_install.sh"
-            whiptail --msgbox "CREATED presto bash welcome. you will see it at login.!" 20 80 2
+            service_overwrite=$(whiptail --radiolist --title "Deployment Option" --notags \
+                "$1 was already created before, use [SPACEBAR] to select redeployment configuration" 20 78 12 \
+                "none" "Use recent config" "ON" \
+                "env" "Preserve Environment and Config files" "OFF" \
+                "full" "Pull config from template" "OFF" \
+                3>&1 1>&2 2>&3)
+        else
+            service_overwrite="none"
         fi
 
+        case $service_overwrite in
+            "full")
+                log_message "INFO" "Pulling full $1 from template"
+                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' || { log_message "ERROR" "Failed to rsync full template for $1"; return 1; }
+                ;;
+            "env")
+                log_message "INFO" "Pulling $1 from template excluding env/conf files"
+                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
+                ;;
+            "none")
+                log_message "INFO" "$1 service files not overwritten"
+                ;;
+        esac
     else
-        log_message "WARN" "Presto-tools welcome script not found no aliases added"
-        if [ "$INTERACTIVE" = True ]; then
-        whiptail --msgbox "Presto-tools welcome script not found. Please install presto-tools to set up aliases." 8 60
-        fi
+        mkdir ./services/$1 || { log_message "ERROR" "Failed to create service directory for $1"; return 1; }
+        log_message "INFO" "Pulled full $1 from template directory"
+        rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
     fi
 
-    source "$USER_HOME/.bashrc" || log_message "WARNING" "Failed to source .bashrc"
-    ASK_TO_REBOOT=1
-    log_message "INFO" "Presto aliases will be ready after a reboot/logout or source ~/.bashrc"
-    if [ "$INTERACTIVE" = True ]; then
-        whiptail --msgbox "Presto welcome will be ready after a reboot" 20 60 2
+    [ -f "./services/$1/$1.env" ] && timezones "./services/$1/$1.env"
+    echo "" >> docker-compose.yml
+    if ! grep -q "services:$1:" docker-compose.yml && [[ "${containers[@]}" =~ "$1" ]]; then
+        cat "$service" >> docker-compose.yml || { log_message "ERROR" "Failed to append $service to docker-compose.yml"; return 1; }
     fi
-
 }
-
 
 # Main menu loop
 while true; do
@@ -897,7 +819,7 @@ while true; do
             6\ *) do_update ;;
             7\ *) do_compose_update ;;
             8\ *) do_about ;;
-            *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
+            *) whiptail --msgbox "Programer error: unrecognized option" 20 60 1 ;;
         esac || whiptail --msgbox "There was an error running option $FUN" 20 60 1
     fi
 done
