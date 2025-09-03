@@ -68,9 +68,9 @@
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
-  networks:
-      private_network:
-        ipv4_address: 172.19.0.47 # internal address of immich  redis
+    networks:
+        private_network:
+          ipv4_address: 172.19.0.47 # internal address of immich  redis
 
   database:
     container_name: immich_postgres
@@ -87,6 +87,6 @@
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
-  networks:
-      private_network:
-        ipv4_address: 172.19.0.48 # internal address of immich  database
+    networks:
+        private_network:
+          ipv4_address: 172.19.0.48 # internal address of immich  database
