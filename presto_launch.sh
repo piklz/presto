@@ -735,12 +735,13 @@ declare -A cont_array=(
     [prowlarr]="Prowlarr > Prowlarr supports both Torrent Trackers and Usenet Indexers."
     [homepage]="Homepage > customizable application dashboard"
     [ittools]="it-tools > nice IT. tools in one place "
+    [immich]="Immich > your own google photos+ai tagging (need more ram 4gb+ recommended)"
 )
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "overseerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich"
 )
 
 yml_builder() {
