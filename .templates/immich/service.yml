@@ -12,9 +12,7 @@
 #
 # The compose file on main may not be compatible with the latest release.
 
-name: immich
 
-services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
@@ -49,7 +47,7 @@ services:
     #   file: hwaccel.ml.yml
     #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
     volumes:
-      - model-cache:/cache
+      - ./volumes/immich/model-cache:/cache
     env_file:
       - ./services/immich/immich.env 
     restart: always
@@ -84,34 +82,3 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
-
-
-
-
-
-
-  it-tools:
-    image: 'corentinth/it-tools:latest'
-    container_name: it-tools
-    env_file:
-      - ./services/ittools/it-tools.env  
-    volumes:
-      - ./volumes/it-tools/config:/config
-    ports:
-      - 8282:80  # <Host Port>:<Container Port> incase of pihole or anything else web clash on port 80
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s  
-    labels:
-      - homepage.group=MEDIA
-      - homepage.name=it-tools
-      - homepage.icon=it-tools.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8282
-      - homepage.description= IT Tools library
-    networks:
-      private_network:
-        ipv4_address: 172.19.0.44 # internal address of ittools
-    restart: unless-stopped
