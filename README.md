@@ -1,22 +1,66 @@
 ## Perfectly Rationalized  Engine for Superior Tidiness and Organization 
-<p><a><img title="presto" src="https://github.com/piklz/presto/assets/2213075/bb569470-1db2-4243-82d1-9ce4c3e420c3" alt="presto logo" height="260" align="left" /> </a></p>
-<p><img title="presto" src="https://media.tenor.com/bCAFrsFLh1sAAAAC/dnd-dnd-cartoon.gif" alt="presto" height="250" align="right"/></p>
-<table style="border-collapse: collapse; width: 100%;" border="0">
-<tbody>
-<tr>
-<td style="width: 50%;"><strong>The best Usenet/Torrent manager on Android SABnzb, NZBget, Torrents, Sonarr, Radarr, and more. Manage all from one app that focuses on amazing UI/UX. That's nzb360.</strong></td>
-<td style="width: 50%;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="nzb360 google play image" width="150" height="78" /></td>
-</tr>
-<tr>
-<td style="width: 50%;">&nbsp;</td>
-<td style="width: 50%;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://img.shields.io/github/followers/piklz?style=social" /></td>
-<td style="width: 50%;"><strong>support the author and buy the app !</strong></td>
-</tr>
-</tbody>
-</table>
+<figure class="table" style="width:68.49%;">
+    <table class="ck-table-resized" style="border-style:ridge;">
+        <colgroup><col style="width:50.19%;"><col style="width:49.81%;"></colgroup>
+        <tbody>
+            <tr>
+                <td>
+                    <a><img class="image_resized" style="width:99.74%;" src="https://github.com/piklz/presto/assets/2213075/bb569470-1db2-4243-82d1-9ce4c3e420c3" alt="presto logo" height="260" title="presto" align="left"></a>
+                </td>
+                <td>
+                    <p>
+                        &nbsp;
+                    </p>
+                    <p>
+                        <img class="image_resized" style="width:100%;" src="https://media.tenor.com/bCAFrsFLh1sAAAAC/dnd-dnd-cartoon.gif" alt="presto" height="250" title="presto" align="right">
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <figure class="image image_resized" style="width:62.15%;">
+                        <img class="w-64 lg:w-96 mx-auto lg:ml-auto" style="aspect-ratio:384/710;" src="https://nzb360.com/assets/img/screenshot1.png" alt="hero" width="384" height="710">
+                    </figure>
+                    <p>
+                        &nbsp;
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <img class="image_resized" style="aspect-ratio:55/55;width:27.78%;" src="https://nzb360.com/assets/img/logo.svg" alt="logo" width="55" height="55">The best Usenet/Torrent manager on Android - SABnzb, NZBget, Torrents, Sonarr, Radarr, and more. Manage all from one app that focuses on amazing UI/UX. That's nzb360.
+                    </p>
+                    <figure class="image">
+                        <a href="https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
+                    </figure>
+                    <p>
+                        support the author and buy the app !
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</figure>
 
 
-## What's New in Presto & Presto-Tools
+## What's New in Presto & Presto-Tools <figure class="image"><img style="aspect-ratio:100/20;display:block;margin-left:auto;margin-right:auto;" src="https://img.shields.io/github/followers/piklz?style=social" width="100" height="20"> </figure>
 
 We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and versatile, and enhanced features for Raspberry Pi users using docker apps. Here’s what’s new:
 
@@ -58,7 +102,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 | [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
 | SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
 | SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
-| [immich](https://immich.app/) | NA | photo gallery like googlephotos/photoprism. Grab Android app here  <figure class="image"><a href="https://play.google.com/store/apps/details?id=app.alextran.immich&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
+| [immich](https://immich.app/) | 2283 | photo gallery like googlephotos/photoprism. Grab Android app here  <figure class="image"><a href="https://play.google.com/store/apps/details?id=app.alextran.immich&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
 </figure>|
 
 | UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
