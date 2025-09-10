@@ -15,6 +15,7 @@
 </tbody>
 </table>
 
+
 ## What's New in Presto & Presto-Tools
 
 We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and versatile, and enhanced features for Raspberry Pi users using docker apps. Here’s what’s new:
@@ -57,7 +58,9 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 | [WireGuard](https://github.com/WireGuard/wireguard-go) | 51820 | Fast and secure VPN tunnel |
 | SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
 | SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
-| SOON:[immich](https://immich.app/) | NA | photo gallery like googlephotos/photoprism|
+| [immich](https://immich.app/) | NA | photo gallery like googlephotos/photoprism. Grab Android app here  <figure class="image"><a href="https://play.google.com/store/apps/details?id=app.alextran.immich&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
+</figure>|
+
 | UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
 
 
