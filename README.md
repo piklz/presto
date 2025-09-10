@@ -1,7 +1,7 @@
 ## Perfectly Rationalized  Engine for Superior Tidiness and Organization 
-<figure class="table" style="width:68.49%;">
+<figure class="table" style="width:50.49%;">
     <table class="ck-table-resized" style="border-style:ridge;">
-        <colgroup><col style="width:50.19%;"><col style="width:49.81%;"></colgroup>
+        <colgroup><col style="width:50.19%;"><col style="width:50.81%;"></colgroup>
         <tbody>
             <tr>
                 <td>
@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>
-                    <figure class="image image_resized" style="width:62.15%;">
+                    <figure class="image image_resized" style="width:50.15%;">
                         <img class="w-64 lg:w-96 mx-auto lg:ml-auto" style="aspect-ratio:384/710;" src="https://nzb360.com/assets/img/screenshot1.png" alt="hero" width="384" height="710">
                     </figure>
                     <p>
@@ -67,7 +67,9 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 - **Enhanced Bash Welcome Login**: A more robust login script with `--arg` flags to enable/disable features like `smarthealth` drive warnings and Docker disk space monitoring and weather info too!.
 - **USB Mount Script**: Simplifies mounting USB drives for seamless storage management.
 - **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
-- **UPS-C Hat & Geekworm Hat Support**: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+- <p>
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/piklz/pi_ups_monitors/">UPS-C Hat &amp; Geekworm Hat Support</a>: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+</p>
 - **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
 - **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` .
 
