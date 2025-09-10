@@ -1,18 +1,40 @@
 ## Perfectly Rationalized  Engine for Superior Tidiness and Organization 
-<figure class="table" style="width:50.49%;">
+<figure class="table" style="width:42.49%;">
     <table class="ck-table-resized" style="border-style:ridge;">
-        <colgroup><col style="width:50.19%;"><col style="width:50.81%;"></colgroup>
+        <colgroup><col style="width:7.6%;"><col style="width:84.91%;"><col style="width:7.49%;"></colgroup>
         <tbody>
             <tr>
                 <td>
-                    <a><img class="image_resized" style="width:99.74%;" src="https://github.com/piklz/presto/assets/2213075/bb569470-1db2-4243-82d1-9ce4c3e420c3" alt="presto logo" height="260" title="presto" align="left"></a>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <p>
+                        <a><img class="image_resized" style="width:110.0%;" src="https://media.tenor.com/bCAFrsFLh1sAAAAC/dnd-dnd-cartoon.gif" alt="presto" height="250" title="presto" align="right"><img class="image_resized" style="width:49.7%;" src="https://github.com/piklz/presto/assets/2213075/bb569470-1db2-4243-82d1-9ce4c3e420c3" alt="presto logo" height="260" title="presto" align="left"></a>
+                    </p>
+                    <p>
+                        &nbsp;
+                    </p>
                 </td>
                 <td>
                     <p>
                         &nbsp;
                     </p>
                     <p>
-                        <img class="image_resized" style="width:100%;" src="https://media.tenor.com/bCAFrsFLh1sAAAAC/dnd-dnd-cartoon.gif" alt="presto" height="250" title="presto" align="right">
+                        &nbsp;
+                    </p>
+                    <p>
+                        &nbsp;
                     </p>
                     <p>
                         &nbsp;
@@ -27,8 +49,20 @@
             </tr>
             <tr>
                 <td>
-                    <figure class="image image_resized" style="width:50.15%;">
+                    &nbsp;
+                </td>
+                <td>
+                    <figure class="image image_resized" style="width:27.78%;">
+                        <img style="aspect-ratio:55/55;" src="https://nzb360.com/assets/img/logo.svg" alt="logo" width="55" height="55">
+                    </figure>
+                    <p style="text-align:center;">
+                        The best Usenet/Torrent manager on Android - SABnzb, NZBget, Torrents, Sonarr, Radarr, and more. Manage all from one app that focuses on amazing UI/UX. That's nzb360.
+                    </p>
+                    <figure class="image image_resized" style="width:50%;">
                         <img class="w-64 lg:w-96 mx-auto lg:ml-auto" style="aspect-ratio:384/710;" src="https://nzb360.com/assets/img/screenshot1.png" alt="hero" width="384" height="710">
+                    </figure>
+                    <figure class="image">
+                        <a href="https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
                     </figure>
                     <p>
                         &nbsp;
@@ -39,13 +73,7 @@
                 </td>
                 <td>
                     <p>
-                        <img class="image_resized" style="aspect-ratio:55/55;width:27.78%;" src="https://nzb360.com/assets/img/logo.svg" alt="logo" width="55" height="55">The best Usenet/Torrent manager on Android - SABnzb, NZBget, Torrents, Sonarr, Radarr, and more. Manage all from one app that focuses on amazing UI/UX. That's nzb360.
-                    </p>
-                    <figure class="image">
-                        <a href="https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
-                    </figure>
-                    <p>
-                        support the author and buy the app !
+                        &nbsp;
                     </p>
                     <p>
                         &nbsp;
@@ -58,7 +86,6 @@
         </tbody>
     </table>
 </figure>
-
 
 ## What's New in Presto & Presto-Tools <figure class="image"><img style="aspect-ratio:100/20;display:block;margin-left:auto;margin-right:auto;" src="https://img.shields.io/github/followers/piklz?style=social" width="100" height="20"> </figure>
 
