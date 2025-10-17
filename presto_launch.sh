@@ -737,13 +737,13 @@ declare -A cont_array=(
     [homepage]="Homepage > customizable application dashboard"
     [ittools]="it-tools > nice IT. tools in one place "
     [immich]="Immich > your own google photos+ai tagging (need more ram 4gb+ recommended)"
-    [prestox728]="presto-x728 > presto's UPS Hat monitor(geekworms-x728_v1.2) *to be used with hardware only"
+    [prestox728]="presto-x728 > presto's UPS Hat monitor(geekworms-x728_v1.2) *hardware only"
 )
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "overseerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728"
 )
 
 yml_builder() {
