@@ -737,6 +737,7 @@ declare -A cont_array=(
     [homepage]="Homepage > customizable application dashboard"
     [ittools]="it-tools > nice IT. tools in one place "
     [immich]="Immich > your own google photos+ai tagging (need more ram 4gb+ recommended)"
+    [prestox728]="presto-x728 > presto's UPS Hat monitor(geekworms-x728_v1.2) *to be used with hardware only"
 )
 
 declare -a aarch64_keys=(
