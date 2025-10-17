@@ -187,7 +187,7 @@ check_git_and_presto() {
             fi
         else
             log_message "ERROR" "Git is required but not installed. Exiting."
-            log_message "INFO" "run cmd: sudo apt update && sudo apt install git first "
+            log_message "INFO" "run :   sudo apt update && sudo apt install git   "
             exit 1
         fi
     fi
