@@ -95,7 +95,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 - **USB Mount Script**: Simplifies mounting USB drives for seamless storage management.
 - **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
 - <p>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/piklz/pi_ups_monitors/">UPS-C Hat &amp; Geekworm Hat Support</a>: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/piklz/pi_ups_monitors/">Waveshares UPS-C Hat &amp; Geekworm Hat Support</a>: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm x728 Hat), fully tested with `ntfy` notifications for reliable alerts.
 </p>
 - **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
 - **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` .
