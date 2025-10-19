@@ -132,6 +132,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 | SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
 | SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
 | [immich](https://immich.app/) | 2283 | photo gallery like googlephotos/photoprism. Grab Android app here  <figure class="image"><a href="https://play.google.com/store/apps/details?id=app.alextran.immich&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
+| [prestox728](https://github.com/piklz/pi_ups_monitors) | 7728 |prestos own x728(geekworm) **U**ninteruptable**P**ower**S**upply Hat  Monitor app|
 </figure>|
 
 | UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
