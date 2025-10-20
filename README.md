@@ -95,7 +95,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 - **USB Mount Script**: Simplifies mounting USB drives for seamless storage management.
 - **Improved Docker Monitoring**: Added advanced monitoring capabilities for Docker containers to keep your services running smoothly.
 - <p>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/piklz/pi_ups_monitors/">UPS-C Hat &amp; Geekworm Hat Support</a>: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm Hat), fully tested with `ntfy` notifications for reliable alerts.
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/piklz/pi_ups_monitors/">Waveshares UPS-C Hat &amp; Geekworm Hat Support</a>: Scripts for redundant battery power management on Pi Zero (UPS-C Hat) or Pi 3/4/5 (Geekworm x728 Hat), fully tested with `ntfy` notifications for reliable alerts.
 </p>
 - **New Alias Shortcuts**: A collection of terminal aliases to streamline your workflow and save time.
 - **Run Anywhere**: Execute `presto` or `presto-tools` scripts from any directory on your Pi OS, whether via web interface or local commands. Plus, `presto-tools` .
@@ -132,6 +132,7 @@ We've refactored **Presto** and **Presto-Tools** to be more robust, modular, and
 | SOON:[Tailscale](https://github.com/tailscale-dev) | NA | Fast and secure VPN tunnel udp+tcp (works behind cgnats)|
 | SOON:[mealie](https://mealie.io/) | NA |store your fav foody recipes|
 | [immich](https://immich.app/) | 2283 | photo gallery like googlephotos/photoprism. Grab Android app here  <figure class="image"><a href="https://play.google.com/store/apps/details?id=app.alextran.immich&amp;hl=en_GB" target="_blank" rel="noopener noreferrer"><img style="aspect-ratio:100/78;display:block;margin-left:auto;margin-right:auto;" src="https://nzb360.com/assets/img/en_badge_web_generic.svg" alt="google play image" width="100" height="78"></a>
+| [prestox728](https://github.com/piklz/pi_ups_monitors) | 7728 |prestos own x728(geekworm) **U**ninteruptable**P**ower**S**upply Hat  Monitor app|
 </figure>|
 
 | UPDATE on Services: may replace wireguard-ui at some point as its not being updated for over a year 
