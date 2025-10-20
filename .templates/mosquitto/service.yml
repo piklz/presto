@@ -18,11 +18,11 @@
       healthcheck:
       # Test command attempts to connect to the broker (localhost:1883) and publish a single, 
       # empty message to a system topic. If successful, it exits 0 (Healthy).
-      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-p", "1883", "-t", "$$SYS/test/health", "-m", "1", "-i", "healthcheck", "-r"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s # Reduced start period since Mosquitto starts fast
+        test: ["CMD", "mosquitto_pub", "-h", "localhost", "-p", "1883", "-t", "$$SYS/test/health", "-m", "1", "-i", "healthcheck", "-r"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+        start_period: 5s # Reduced start period since Mosquitto starts fast
 
       labels:
       - homepage.group=NETWORK
