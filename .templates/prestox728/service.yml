@@ -6,6 +6,8 @@
   presto_x728:
     image: piklz/presto_x728
     container_name: presto_x728
+    env_file:
+      - ./services/prestox728/prestox728.env  
     ports:
       - "5000:5000"
     privileged: true
