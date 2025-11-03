@@ -18,6 +18,7 @@
       # You might want to limit this with something like Docker Networks, reverse proxies, or firewall rules,
       # however be aware that using UFW is known to not work with default Docker installations, see:
       # https://docs.docker.com/engine/network/packet-filtering-firewalls/#docker-and-ufw
+      # in this set of apps i need others ot be on port 80 so i changed it in 3 places to 8111 you can also do the same if it conflicts with your own apps
       - '8111:8080'
     volumes:
       # Unless TRILIUM_DATA_DIR is set, the data will be stored in the "trilium-data" directory in the home directory.
@@ -25,6 +26,18 @@
       - ./volumes/trilium-data:/home/node/trilium-data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -S http://localhost:8111/api/health-check || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s  
+    labels:
+      - homepage.group=OFFICE
+      - homepage.name=trilium
+      - homepage.icon=trilium.png
+      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8111
+      - homepage.description=notes manager    
     networks:
       private_network:
         ipv4_address: 172.19.0.50 # internal address of trilium
