@@ -6,6 +6,9 @@
   presto_x728:
     image: piklz/presto_x728
     container_name: presto_x728
+    #depends_on:
+    #  mosquitto:
+    #    condition: service_healthy
     env_file:
       - ./services/prestox728/prestox728.env  
     ports:
@@ -38,4 +41,4 @@
       - homepage.description= Prestos x728 UPS hat monitor 
     networks:
       private_network:
-        ipv4_address: 172.19.0.46 # 
+        ipv4_address: 172.19.0.49 # 
