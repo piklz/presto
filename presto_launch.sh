@@ -19,6 +19,7 @@
 # web           : https://github.com/piklz/presto.git
 #
 # Changelog:
+#   Version 1.1.9 (2024-06-10): Added Trilium note-taking application to the container selection list.tweaked is_pi function for Raspberry Pi detection .
 #   Version 1.1.8 (2025-09-02): Removed config file creation/loading to avoid conflicts with presto-tools setup.
 #   Version 1.1.7 (2025-09-02): Consolidated bash aliases and welcome into a single menu entry to run presto-tools_install.sh via curl.
 #   Version 1.1.6 (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
@@ -28,7 +29,7 @@
 #
 ##################################################################################################
 
-VERSION='1.1.8'
+VERSION='1.1.9'
 INTERACTIVE=True
 ASK_TO_REBOOT=0
 VERBOSE_MODE=0
@@ -258,15 +259,13 @@ timezones() {
     fi
 }
 
-is_pi() {
-    ARCH=$(dpkg --print-architecture)
-    if [ "$ARCH" = "armhf" ] || [ "$ARCH" = "arm64" ]; then
-        return 0
-    else
-        log_message "WARNING" "Non-Raspberry Pi architecture detected: $ARCH"
-        return 1
-    fi
-}
+if grep -q "raspberrypi" /proc/device-tree/compatible 2>/dev/null; then
+    # This is a Raspberry Pi
+    return 0
+else
+    # Not a Raspberry Pi
+    return 1
+fi
 
 calc_wt_size() {
     WT_HEIGHT=18
