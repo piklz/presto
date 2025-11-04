@@ -259,13 +259,16 @@ timezones() {
     fi
 }
 
-if grep -q "raspberrypi" /proc/device-tree/compatible 2>/dev/null; then
-    # This is a Raspberry Pi
-    return 0
-else
-    # Not a Raspberry Pi
-    return 1
-fi
+is_pi() {
+    # Check if the device tree contains the 'raspberrypi' identifier
+    if grep -q "raspberrypi" /proc/device-tree/compatible 2>/dev/null; then
+        return 0  # Success: It is a Raspberry Pi
+    else
+        # Optional: Add logging for non-Pi systems
+        log_message "WARNING" "Non-Raspberry Pi detected." 
+        return 1  # Failure: It is not a Raspberry Pi
+    fi
+}
 
 calc_wt_size() {
     WT_HEIGHT=18
