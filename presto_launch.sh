@@ -19,17 +19,16 @@
 # web           : https://github.com/piklz/presto.git
 #
 # Changelog:
-#   Version 1.1.9 (2024-06-10): Added Trilium note-taking application to the container selection list.tweaked is_pi function for Raspberry Pi detection .
-#   Version 1.1.8 (2025-09-02): Removed config file creation/loading to avoid conflicts with presto-tools setup.
-#   Version 1.1.7 (2025-09-02): Consolidated bash aliases and welcome into a single menu entry to run presto-tools_install.sh via curl.
-#   Version 1.1.6 (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
-#   Version 1.1.5 (2025-08-07): Added LOG_RETENTION_DAYS, CHECK_DISK_SPACE, and updated the script header.
-#
+#   Version 1.1.10 (2026-01-15): Added/modified overseerr to Seerr version  (previously overseerr.was renamed ,2 devs workin as one now called SEER!) 
+#   Version 1.1.9  (2024-06-10): Added Trilium note-taking application to the container selection list.tweaked is_pi function for Raspberry Pi detection .
+#   Version 1.1.8  (2025-09-02): Removed config file creation/loading to avoid conflicts with presto-tools setup.
+#   Version 1.1.7  (2025-09-02): Consolidated bash aliases and welcome into a single menu entry to run presto-tools_install.sh via curl.
+#   Version 1.1.6  (2025-08-26): Switched to systemd-cat for logging. Added a dedicated print_help function that shows the script name, version, and journal tips.
 # desc          : A configuration tool for Raspberry Pi to set up Docker-based media and utility services with robust logging and configuration management
 #
 ##################################################################################################
 
-VERSION='1.1.9'
+VERSION='1.1.10'
 INTERACTIVE=True
 ASK_TO_REBOOT=0
 VERBOSE_MODE=0
@@ -723,7 +722,7 @@ declare -A cont_array=(
     [jellyfin]="JellyFin > Media manager/player like plex but freee"
     [plex]="Plex > Media manager/player nice UI not free"
     [tautulli]="tautulli > plex stats grapher"
-    [overseerr]="overseerr > plex movie/tv requester nice ui"
+    [seerr]="seerr > plex movie/tv grabber for arrs nice ui"
     [heimdall]="heimdall > Nice frontend dashboard for all your *arr apps "
     [homeassistant]="Home-Assistant > automate home devices ,hue,lifx,google"
     [motioneye]="motioneye > free security cam"
@@ -745,7 +744,7 @@ declare -A cont_array=(
 )
 
 declare -a aarch64_keys=(
-    "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "overseerr"
+    "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "seerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
     "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium"
 )
