@@ -68,7 +68,7 @@
       - homepage.group=MEDIA
       - homepage.name=photoprism
       - homepage.icon=photoprism.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:2342
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:2342
       - homepage.description= Photo library
     networks:
       private_network:

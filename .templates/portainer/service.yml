@@ -23,7 +23,7 @@
       - homepage.group=NETWORK
       - homepage.name=portainer
       - homepage.icon=portainer.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:9000
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:9000
       - homepage.description=docker manager
     networks:
       private_network:

@@ -33,7 +33,7 @@
       - homepage.group=NETWORK
       - homepage.name=pi-hole
       - homepage.icon=pi-hole.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:80/admin
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:80/admin
       - homepage.description=ad blocker
     networks:
       private_network:

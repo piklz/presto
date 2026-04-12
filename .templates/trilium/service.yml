@@ -36,7 +36,7 @@
       - homepage.group=OFFICE
       - homepage.name=trilium
       - homepage.icon=trilium.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:8111
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:8111
       - homepage.description=notes manager    
     networks:
       private_network:

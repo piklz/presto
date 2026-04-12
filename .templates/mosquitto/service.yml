@@ -28,7 +28,7 @@
       - homepage.group=NETWORK
       - homepage.name=mosquitto
       - homepage.icon=mosquitto.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:1883
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:1883
       - homepage.description= MQTT Broker
       networks:
         private_network:

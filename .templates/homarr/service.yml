@@ -19,7 +19,7 @@
       - homepage.group=NETWORK
       - homepage.name=homarr
       - homepage.icon=homarr.png
-      - homepage.href=http://${RASPBERRYPI_HOST_IP}:7575
+      - homepage.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:7575
       - homepage.description=Server Dashboard
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:7575 || exit 1"]
