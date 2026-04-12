@@ -741,12 +741,12 @@ declare -A cont_array=(
     [prestox728]="presto-x728 > presto's UPS Hat monitor(geekworms-x728_v1.2) *hardware only"
     [mosquitto]="Mosquitto > lightweight MQTT broker for IoT messaging for prestox728"
     [trilium]="Trilium > hierarchical note taking application with focus on building large personal knowledge bases"
-)
+    [homebox]="HomeBox > all in one home inventory and dashboard system with qr code support for items")
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "seerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox"
 )
 
 yml_builder() {
