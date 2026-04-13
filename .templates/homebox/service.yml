@@ -15,6 +15,12 @@
       #caddy/TSmagicdns takes care of this now  on 443 and leaves this  unencrypted 
       #backdoor 3100 out of the picture!but if you like it local as well leave it open 
       #otherwise comment out the port section and use the caddy/TSmagicdns domain name to access it securely from outside your network
+    labels:
+      - homebox.group=OFFICE
+      - homebox.name=homebox
+      - homebox.icon=homebox.png
+      - homebox.href=http://${SYSTEM_HOSTNAME:-rpi4-red}.local:8111
+      - homebox.description=inventory manager      
     networks:
       private_network:
         ipv4_address: 172.19.0.53 # internal address
