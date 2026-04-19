@@ -744,12 +744,13 @@ declare -A cont_array=(
     [homebox]="HomeBox > all in one home inventory and dashboard system with qr code support for items"
     [caddy]="Caddy > web server for reverse proxy and more"
     [vaultwarden]="Vaultwarden > self hosted password manager (bitwarden compatible) "
+    [flaresolverr]="Flaresolverr > solves Cloudflare protection for web scraping"
     )
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "seerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden" "flaresolverr"
 )
 
 yml_builder() {

@@ -152,7 +152,7 @@
 - Presto System:
     - PiHole:
         icon: pi-hole.svg # icons found here https://github.com/walkxcode/dashboard-icons
-        href: http://rpi4-nas:80/admin
+        href: http://rpi4-red:80/admin
         description: Server 1
         widget:
           type: pihole
