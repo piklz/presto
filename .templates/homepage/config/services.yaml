@@ -21,16 +21,16 @@
         href: http://rpi4-nas:8989
         widget:
           type: sonarr
-          url: http://rpi4-nas:8989
-          key: #apikey here look to respective app settings for it 
+          url: http://{{HOMEPAGE_VAR_SONARR_IP}}:8989
+          key: {{HOMEPAGE_VAR_SONARR_KEY}}
           enableQueue: true # optional, defaults to false
     - Radarr:
         icon: radarr.svg
         href: http://rpi4-nas:7878
         widget:
           type: radarr
-          url: http://rpi4-nas:7878
-          key: #apikey here look to respective app settings for it
+          url: http://{{HOMEPAGE_VAR_RADARR_IP}}:7878
+          key: {{HOMEPAGE_VAR_RADARR_KEY}}
           enableQueue: true # optional, defaults to false
           
 
@@ -39,16 +39,16 @@
         href: http://rpi4-nas:8686
         widget:
           type: lidarr
-          url: http://rpi4-nas:8686
-          key: #apikey here look to respective app settings for it
+          url: http://{{HOMEPAGE_VAR_LIDARR_IP}}:8686
+          key: {{HOMEPAGE_VAR_LIDARR_KEY}}
 
     - Jellyfin:
         icon: jellyfin.svg
         href: http://rpi4-nas:8096
         widget:
           type: jellyfin
-          url: http://rpi4-nas:8096
-          key: #apikey here look to respective app settings for it
+          url: http://{{HOMEPAGE_VAR_JELLYFIN_IP}}:8096
+          key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
           enableBlocks: true # optional, defaults to false
           enableNowPlaying: true # optional, defaults to true
           enableUser: true # optional, defaults to false
@@ -61,17 +61,17 @@
         description: Torrent downloader
         widget:
           type: qbittorrent
-          url: http://rpi4-nas:15080
-          username: admin
-          password: adminadmin
+          url: http://{{HOMEPAGE_VAR_QBITTORRENT_IP}}:15080
+          username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+          password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
 
     - Tautulli:
         icon: tautulli.svg
         href: http://rpi4-nas:8181
         widget:
           type: tautulli
-          url: http://rpi4-nas:8181
-          key: #apikey here look to respective app settings for it
+          url: http://{{HOMEPAGE_VAR_TAUTULLI_IP}}:8181
+          key: {{HOMEPAGE_VAR_TAUTULLI_KEY}}
           enableUser: true # optional, defaults to false
           showEpisodeNumber: true # optional, defaults to false
           expandOneStreamToTwoRows: false # optional, defaults to true

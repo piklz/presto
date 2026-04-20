@@ -503,8 +503,17 @@ EOF
 
         log_message "INFO" "docker-compose.yml successfully created"
         echo -e "run \e[104;1mdocker-compose up -d or 'presto_up'\e[0m to start the stack"
+
+        # Remind user to fill in their .env files before starting
+        env_files_found=$(find ./services -name "*.env" -not -name "*.env.example" 2>/dev/null | sort)
+        if [ -n "$env_files_found" ]; then
+            log_message "INFO" "Reminder: edit your .env files before starting the stack"
+            echo -e "\e[1;33m[presto] Edit your .env files before starting:\e[0m"
+            echo "$env_files_found"
+        fi
+
         if [ "$INTERACTIVE" = True ]; then
-            whiptail --msgbox "[presto] Build Stack FINISHED !RUN 'docker-compose up -d' or 'presto_up' to start the stack in terminal" 20 60 2
+            whiptail --msgbox "[presto] Build Stack FINISHED!\n\nBefore starting, edit the .env files in services/ with your real values.\n\nThen run: 'docker-compose up -d' or 'presto_up'" 20 70 2
         fi
     else
         log_message "INFO" "Build cancelled"
@@ -776,7 +785,7 @@ yml_builder() {
                 ;;
             "env")
                 log_message "INFO" "Pulling $1 from template excluding env/conf files"
-                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude '$1.env' --exclude '*.conf' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
+                rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' --exclude "$1.env" --exclude '*.conf' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
                 ;;
             "none")
                 log_message "INFO" "$1 service files not overwritten"
@@ -786,6 +795,11 @@ yml_builder() {
         mkdir ./services/$1 || { log_message "ERROR" "Failed to create service directory for $1"; return 1; }
         log_message "INFO" "Pulled full $1 from template directory"
         rsync -a -q .templates/$1/ services/$1/ --exclude 'build.sh' || { log_message "ERROR" "Failed to rsync template for $1"; return 1; }
+        # Copy .env.example -> .env on first deploy only (never overwrite real values)
+        if [ -f "./services/$1/$1.env.example" ] && [ ! -f "./services/$1/$1.env" ]; then
+            cp "./services/$1/$1.env.example" "./services/$1/$1.env" || { log_message "ERROR" "Failed to create $1.env from example"; return 1; }
+            log_message "INFO" "Created $1.env from $1.env.example — edit it with your real values"
+        fi
     fi
 
     [ -f "./services/$1/$1.env" ] && timezones "./services/$1/$1.env"

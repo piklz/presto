@@ -28,3 +28,6 @@ presto.code-workspace
 presto_bashwelcome.sh
 prestoBackups/
 
+# Ignore all actual environment files but keep examples
+*.env
+!*.env.example
