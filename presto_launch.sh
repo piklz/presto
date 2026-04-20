@@ -225,10 +225,45 @@ check_git_and_presto
 do_update() {
     log_message "INFO" "Updating presto from GitHub"
     check_disk_space || { log_message "ERROR" "Disk space check failed, aborting update"; return 1; }
-    git pull origin main || { log_message "ERROR" "Failed to pull latest changes from GitHub"; return 1; }
-    find scripts/ -name '*.sh' -type f -exec chmod +x {} + || { log_message "ERROR" "Failed to set execute permissions on scripts"; return 1; }
+
+    # Stash any accidental local changes to tracked files before pulling
+    stash_output=$(git stash 2>&1)
+    stash_created=0
+    if echo "$stash_output" | grep -q "Saved working directory"; then
+        stash_created=1
+        log_message "WARNING" "Local tracked changes were stashed before update: $stash_output"
+    fi
+
+    git pull origin main || {
+        log_message "ERROR" "Failed to pull latest changes from GitHub"
+        # Restore stash if pull failed so user doesnt lose anything
+        [ $stash_created -eq 1 ] && git stash pop
+        return 1
+    }
+
+    # Restore stash after successful pull
+    if [ $stash_created -eq 1 ]; then
+        git stash pop || log_message "WARNING" "Stash pop had conflicts - check git status"
+        log_message "INFO" "Local changes restored after update"
+    fi
+
+    # Update any .env.example files in templates without touching real .env files
+    for example in .templates/*/*.env.example; do
+        service=$(basename "$(dirname "$example")")
+        dest="services/$service/$(basename "$example")"
+        if [ -f "$dest" ]; then
+            cp "$example" "$dest" || log_message "WARNING" "Failed to update $dest"
+            log_message "INFO" "Updated $dest from latest template"
+        fi
+    done
+
+    find scripts/ -name '*.sh' -type f -exec chmod +x {} +
     [ -f .outofdate ] && rm .outofdate
     log_message "INFO" "Successfully updated presto"
+
+    if [ "$INTERACTIVE" = True ]; then
+        whiptail --msgbox "[presto] Update complete.\n\nNote: .env.example files have been refreshed.\nCheck your .env files if any new settings were added." 20 70 2
+    fi
     return 0
 }
 
