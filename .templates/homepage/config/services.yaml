@@ -18,36 +18,36 @@
 - Presto Media:
     - Sonarr:
         icon: sonarr.svg
-        href: http://rpi4-nas:8989
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8989
         widget:
           type: sonarr
-          url: http://{{HOMEPAGE_VAR_SONARR_IP}}:8989
+          url: {{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8989
           key: {{HOMEPAGE_VAR_SONARR_KEY}}
           enableQueue: true # optional, defaults to false
     - Radarr:
         icon: radarr.svg
-        href: http://rpi4-nas:7878
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:7878
         widget:
           type: radarr
-          url: http://{{HOMEPAGE_VAR_RADARR_IP}}:7878
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:7878
           key: {{HOMEPAGE_VAR_RADARR_KEY}}
           enableQueue: true # optional, defaults to false
-          
+
 
     - Lidarr:
         icon: lidarr.svg
-        href: http://rpi4-nas:8686
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8686
         widget:
           type: lidarr
-          url: http://{{HOMEPAGE_VAR_LIDARR_IP}}:8686
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8686
           key: {{HOMEPAGE_VAR_LIDARR_KEY}}
 
     - Jellyfin:
         icon: jellyfin.svg
-        href: http://rpi4-nas:8096
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8096
         widget:
           type: jellyfin
-          url: http://{{HOMEPAGE_VAR_JELLYFIN_IP}}:8096
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8096
           key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
           enableBlocks: true # optional, defaults to false
           enableNowPlaying: true # optional, defaults to true
@@ -57,24 +57,24 @@
 
     - Qbittorrent:
         icon: qbittorrent.svg
-        href: http://rpi4-nas:15080
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:15080
         description: Torrent downloader
         widget:
           type: qbittorrent
-          url: http://{{HOMEPAGE_VAR_QBITTORRENT_IP}}:15080
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:15080
           username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
           password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
 
     - Tautulli:
         icon: tautulli.svg
-        href: http://rpi4-nas:8181
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8181
         widget:
           type: tautulli
-          url: http://{{HOMEPAGE_VAR_TAUTULLI_IP}}:8181
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8181
           key: {{HOMEPAGE_VAR_TAUTULLI_KEY}}
           enableUser: true # optional, defaults to false
           showEpisodeNumber: true # optional, defaults to false
-          expandOneStreamToTwoRows: false # optional, defaults to true
+          expandOneStreamToTwoRows: true # optional, defaults to true
 
     #- plex:
     #    icon: plex.svg
@@ -94,26 +94,28 @@
 
     - Jackett:
         icon: jackett.svg
-        href: http://rpi4-nas:9117
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:9117
         widget:
           type: jackett
-          url: http://rpi4-nas:9117
-
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:9117
+          password: {{HOMEPAGE_VAR_JACKETT_KEY}}
 
     - Uptimekuma:
         icon: uptime-kuma.svg
-        href: http://rpi4-nas:3001
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:3001
         widget:
           type: uptimekuma
-          url: http://rpi4-nas:3001
-          slug: dash
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_IP}}:3001
+          slug: home
+          username: {{HOMEPAGE_VAR_UPTIMEKUMA_USERNAME}}
+          password: {{HOMEPAGE_VAR_UPTIMEKUMA_KEY}}
 
     - Motioneye:
         icon: motioneye.svg
-        href: http://rpi4-nas:8765
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8765
         #widget:
           #type: motioneye
-          #url: http://rpi4-nas:8765
+          #url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:8765
 
 
 - Media Calendar:
@@ -152,19 +154,19 @@
 - Presto System:
     - PiHole:
         icon: pi-hole.svg # icons found here https://github.com/walkxcode/dashboard-icons
-        href: http://rpi4-red:80/admin
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:80/admin
         description: Server 1
         widget:
           type: pihole
-          url: http://rpi4-nas:80
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:80
           key: "#apikey here look to respective app settings for it" #
     - Glances:
         icon: glances.svg
-        href: http://rpi4-nas:61208
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
         description: CPU
         widget:
           type: glances
-          url: http://rpi4-nas:61208
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
           #username: user # optional if auth enabled in Glances
           #password: pass # optional if auth enabled in Glances
           version: 4 # required only if running glances v4 or higher, defaults to 3
@@ -175,41 +177,41 @@
 
     - Glances:
         icon: glances.png
-        href: http://rpi4-nas:61208
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
         description: Top5 Procs
         widget:
           type: glances
-          url: http://rpi4-nas:61208
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
           version: 4
           metric: process
           refreshInterval: 5000
     - Glances:
         icon: glances.png
-        href: http://rpi4-nas:61208
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
         description: cpu temp
         widget:
           type: glances
-          url: http//:rpi4-nas:61208
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
           version: 4
           metric: sensor:cpu_thermal 0
           refreshInterval: 5000
     - Glances:
         icon: glances.png
-        href: http://rpi4-nas:61208
+        href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
         description: INFO
         widget:
           type: glances
-          url: http://rpi4-nas:61208
+          url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
           version: 4
           metric: info
           refreshInterval: 5000
     #- Glances:
     #    icon: glances.png
-    #    href: http://rpi4-nas:61208
+    #    href: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
     #    description: NVME
     #    widget:
     #      type: glances
-    #      url: http//:rpi4-nas:61208
+    #      url: http://{{HOMEPAGE_VAR_APP_REMOTE_HOSTNAME}}:61208
     #      version: 4
     #      metric: disk:nvme0n1
     #      refreshInterval: 5000
