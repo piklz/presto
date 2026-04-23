@@ -6,6 +6,7 @@
   power-tools:
     container_name: immich_power_tools
     image: ghcr.io/immich-power-tools/immich-power-tools:latest
+    user: "1000:1000"
     volumes:
       - ./volumes/immich-power-tools/immich-power-tools-data:/app/data
     ports:
