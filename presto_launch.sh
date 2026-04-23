@@ -789,12 +789,13 @@ declare -A cont_array=(
     [caddy]="Caddy > web server for reverse proxy and more"
     [vaultwarden]="Vaultwarden > self hosted password manager (bitwarden compatible) "
     [flaresolverr]="Flaresolverr > solves Cloudflare protection for web scraping"
+    [immich-power-tools]="Immich Power Tools > Additional tools for managing Immich"
     )
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "seerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden" "flaresolverr"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden" "flaresolverr" "immich-power-tools"
 )
 
 yml_builder() {
