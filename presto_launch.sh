@@ -791,12 +791,13 @@ declare -A cont_array=(
     [flaresolverr]="Flaresolverr > solves Cloudflare protection for web scraping"
     [immich-power-tools]="Immich Power Tools > Additional tools for managing Immich"
     [omni-tools]="Omni-Tools > Additional tools for managing pdfs and more"
+    [docksentry]="DockSentry > monitor docker containers and send alerts on status changes"
     )
 
 declare -a aarch64_keys=(
     "portainer" "sonarr" "radarr" "lidarr" "jackett" "qbittorrent" "jellyfin" "plex" "tautulli" "seerr"
     "heimdall" "homeassistant" "motioneye" "homarr" "wireguard" "pihole" "wgui" "uptimekuma" "syncthing"
-    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden" "flaresolverr" "immich-power-tools" "omni-tools"
+    "photoprism" "glances" "prowlarr" "homepage" "ittools" "immich" "prestox728" "mosquitto" "trilium" "homebox" "caddy" "vaultwarden" "flaresolverr" "immich-power-tools" "omni-tools" "docksentry"
 )
 
 yml_builder() {
