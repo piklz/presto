@@ -6,7 +6,6 @@
   docksentry:
     image: amayer1983/docksentry:latest
     container_name: docksentry
-    restart: unless-stopped
     env_file:
       - ./services/docksentry/docksentry.env.example     
     volumes:
