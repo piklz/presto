@@ -1,0 +1,20 @@
+  
+#---------------------------------------------------------------------#
+#     DOCKSENTRY                                                     #
+#---------------------------------------------------------------------#  
+  
+  docksentry:
+    image: amayer1983/docksentry:latest
+    container_name: docksentry
+    restart: unless-stopped
+    env_file:
+      - ./services/docksentry/docksentry.env.example     
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/docksentry/docksentry_data:/data
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      private_network:
+        ipv4_address: 172.19.0.57 # internal address of docksentry
+    restart: unless-stopped
