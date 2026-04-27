@@ -7,7 +7,7 @@
     image: amayer1983/docksentry:latest
     container_name: docksentry
     env_file:
-      - ./services/docksentry/docksentry.env.example     
+      - ./services/docksentry/docksentry.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/docksentry/docksentry_data:/data
